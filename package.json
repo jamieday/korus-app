@@ -1,7 +1,7 @@
 {
-  "name": "react-native-starter",
-  "version": "2.1.0",
-  "private": false,
+  "name": "chorus-app",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
     "start": "react-native start",
     "test": "jest",
