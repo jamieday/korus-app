@@ -13,17 +13,35 @@ import { colors, fonts } from '../../styles';
 
 import { RadioGroup, GridRow } from '../../components';
 
-export default class GridsScreen extends React.Component {
+export default class DiscoverScreen extends React.Component {
+  componentWillMount() {
+    (async () => {
+      const response = await fetch(
+        'http://chorus.media/api/recommendation/list',
+      );
+      const json = await response.json();
+      const songs = json.map(song => ({
+        id: song.id,
+        brand: 'Test',
+        title: song.name,
+        subtitle: song.artist,
+        badge: 'NEW',
+        price: song.recommendedBy.name,
+        badgeColor: '#3cd39f',
+        image: song.recommendedBy.image,
+      }));
+
+      this.props.setData(songs);
+    })();
+  }
+
   _getRenderItemFunction = () =>
     [this.renderRowOne, this.renderRowTwo, this.renderRowThree][
       this.props.tabIndex
     ];
 
   _openArticle = article => {
-    this.props.navigation.navigate({
-      routeName: 'Article',
-      params: { ...article },
-    });
+    this.props.navigation.navigate({ routeName: 'AvailableInFullVersion' });
   };
 
   renderRowOne = rowData => {
@@ -65,11 +83,14 @@ export default class GridsScreen extends React.Component {
       onPress={() => this._openArticle(item)}
     >
       <View style={styles.itemTwoContent}>
-        <Image style={styles.itemTwoImage} source={{ uri: item.image }} />
+        <Image
+          style={styles.itemTwoImage}
+          source={{ uri: 'http://chorus.media' + item.image }}
+        />
         <View style={styles.itemTwoOverlay} />
         <Text style={styles.itemTwoTitle}>{item.title}</Text>
-        <Text style={styles.itemTwoSubTitle}>{item.subtitle}</Text>
-        <Text style={styles.itemTwoPrice}>{item.price}</Text>
+        <Text style={styles.itemTwoSubTitle}>by {item.subtitle}</Text>
+        <Text style={styles.itemTwoPrice}>Play now</Text>
       </View>
     </TouchableOpacity>
   );
@@ -122,14 +143,14 @@ export default class GridsScreen extends React.Component {
 
     return (
       <View style={styles.container}>
-        <View style={{ height: 50 }}>
+        {/* <View style={{ height: 50 }}>
           <RadioGroup
             selectedIndex={this.props.tabIndex}
             items={this.props.tabs}
             onChange={this.props.setTabIndex}
             underline
           />
-        </View>
+        </View> */}
         <FlatList
           keyExtractor={item =>
             item.id
@@ -192,7 +213,7 @@ const styles = StyleSheet.create({
   itemTwoContainer: {
     paddingBottom: 10,
     backgroundColor: 'white',
-    marginVertical: 5,
+    marginVertical: 0,
   },
   itemTwoContent: {
     padding: 20,
@@ -237,7 +258,7 @@ const styles = StyleSheet.create({
   },
   itemThreeSubContainer: {
     flexDirection: 'row',
-    paddingVertical: 10,
+    paddingVertical: 0,
   },
   itemThreeImage: {
     height: 100,

@@ -12,7 +12,6 @@ import { fonts, colors } from '../../styles';
 import { Button } from '../../components';
 
 export default function AvailableInFullVersionScreen(props) {
-  const rnsUrl = 'https://reactnativestarter.com';
   const handleClick = () => {
     Linking.canOpenURL(rnsUrl).then(supported => {
       if (supported) {
@@ -34,27 +33,19 @@ export default function AvailableInFullVersionScreen(props) {
       />
 
       <View style={styles.textContainer}>
+        <Text style={styles.availableText}>Not</Text>
         <Text style={styles.availableText}>Available</Text>
-        <Text style={styles.availableText}>in</Text>
-        <Text style={styles.availableText}>Full Version</Text>
+        <Text style={styles.availableText}>Yet</Text>
+        <Text style={styles.descriptorText}>We're working on it!</Text>
       </View>
 
       <View style={styles.buttonsContainer}>
         <Button
           large
-          secondary
-          rounded
-          style={styles.button}
-          caption="Purchase Now"
-          onPress={() => handleClick()}
-        />
-
-        <Button
-          large
           bordered
           rounded
           style={styles.button}
-          caption="Later"
+          caption="Go Back"
           onPress={() => props.navigation.goBack()}
         />
       </View>
@@ -78,6 +69,13 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontFamily: fonts.primaryRegular,
     fontSize: 40,
+    marginVertical: 3,
+  },
+  descriptorText: {
+    marginTop: 50,
+    color: colors.white,
+    fontFamily: fonts.primaryLight,
+    fontSize: 18,
     marginVertical: 3,
   },
   textContainer: {

@@ -9,7 +9,7 @@ import {
 import { fonts, colors } from '../../styles';
 import { Text } from '../../components/StyledText';
 
-export default function HomeScreen({ isExtended, setIsExtended }) {
+export default function HomeScreen({ isExtended, setIsExtended, navigation }) {
   // const rnsUrl = 'https://reactnativestarter.com';
   // const handleClick = () => {
   //   Linking.canOpenURL(rnsUrl).then(supported => {
@@ -35,37 +35,35 @@ export default function HomeScreen({ isExtended, setIsExtended }) {
         </View>
         <View style={styles.section}>
           <Text color="#19e7f7" size={15}>
-            The smartest Way to build your mobile app
+            The only way to discover quality music
           </Text>
           <Text size={30} bold white style={styles.title}>
-            React Native Starter
+            ... Andrew's Music
           </Text>
         </View>
         <View style={[styles.section, styles.sectionLarge]}>
           <Text color="#19e7f7" hCenter size={15} style={styles.description}>
             {' '}
-            A powerful starter project that bootstraps development of your
-            mobile application and saves you $20 000*
+            This is a temporary page that will be removed at some point! :)
           </Text>
-          <View style={styles.priceContainer}>
-            <View style={{ flexDirection: 'row' }}>
-              <Text white bold size={50} style={styles.price}>
-                {isExtended ? '$199.95' : '$49.95'}
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate({
+                routeName: 'Discover',
+              })
+            }
+          >
+            <View style={styles.priceContainer}>
+              <View style={{ flexDirection: 'row' }}>
+                <Text white bold size={50} style={styles.price}>
+                  {isExtended ? 'Or later' : 'Start now'}
+                </Text>
+              </View>
+              <Text white size={14}>
+                {isExtended ? 'Hi Andrew' : 'Or else :)'}
               </Text>
             </View>
-            <TouchableOpacity
-              style={styles.priceLink}
-              onPress={() =>
-                isExtended ? setIsExtended(false) : setIsExtended(true)
-              }
-            >
-              <Text white size={14}>
-                {isExtended
-                  ? 'Multiple Applications License'
-                  : 'Single Application License'}
-              </Text>
-            </TouchableOpacity>
-          </View>
+          </TouchableOpacity>
         </View>
       </ImageBackground>
     </View>

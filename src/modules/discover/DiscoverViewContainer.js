@@ -1,6 +1,6 @@
 import { compose, withState } from 'recompose';
 
-import GridView from './GridsView';
+import GridView from './DiscoverView';
 
 const listData = [
   {
@@ -127,7 +127,7 @@ const listData = [
 ];
 
 export default compose(
-  withState('tabIndex', 'setTabIndex', 0),
+  withState('tabIndex', 'setTabIndex', 1),
   withState('tabs', 'setTabs', ['Grid', 'List 1', 'List 2']),
   withState('data', 'setData', listData),
 )(GridView);

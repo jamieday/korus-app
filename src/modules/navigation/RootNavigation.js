@@ -26,7 +26,7 @@ const stackNavigator = createStackNavigator(
     Main: {
       screen: MainTabNavigator,
       navigationOptions: () => ({
-        title: 'React Native Starter',
+        title: 'Welcome to Chorus',
         headerLeft: null,
         headerBackground: (
           <Image

@@ -60,7 +60,9 @@ export default function PagesScreen(props) {
           <Text style={styles.itemText}>Chats</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => props.navigation.navigate({ routeName: 'Calendar' })}
+          onPress={() =>
+            props.navigation.navigate({ routeName: 'AvailableInFullVersion' })
+          }
           style={styles.item}
         >
           <Image
