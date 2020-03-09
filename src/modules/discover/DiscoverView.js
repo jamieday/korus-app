@@ -13,8 +13,10 @@ import { colors, fonts } from '../../styles';
 
 import { RadioGroup, GridRow } from '../../components';
 
+import { AppleMusicApi } from '../../react-native-apple-music/io/appleMusicApi';
+
 export default class DiscoverScreen extends React.Component {
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     (async () => {
       const response = await fetch(
         'http://chorus.media/api/recommendation/list',
@@ -32,6 +34,16 @@ export default class DiscoverScreen extends React.Component {
       }));
 
       this.props.setData(songs);
+
+      const appleMusicApi = new AppleMusicApi({
+        developerToken:
+          'eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlBMNDZSUjk2SEcifQ.eyJpYXQiOjE1ODM4MDg3MTgsImV4cCI6MTU5OTM2MDcxOCwiaXNzIjoiWDk5Q1hKVUdESCJ9.IUt00CNvZYiEDRV27FNpdI79n6FhH6qyDzsTXaxeFPcQ_GDWaergg2ARs8tHGUbLuCCPLqpAB32iGcCVPr-prQ',
+      });
+      const appleMusicPermission = await appleMusicApi.requestPermission();
+      if (appleMusicPermission !== 'ok') {
+        // nope cannot recommend or play music ? what can do ?
+        console.error("Wasn't given apple music permission!");
+      }
     })();
   }
 
