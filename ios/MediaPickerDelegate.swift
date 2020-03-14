@@ -1,16 +1,28 @@
 import MediaPlayer
 
 class MediaPickerDelegate: NSObject, MPMediaPickerControllerDelegate {
-  var didPickMediaItems:(MPMediaItemCollection)->()
-  
-  func mediaPicker(_: MPMediaPickerController, didPickMediaItems: MPMediaItemCollection) {
-    self.didPickMediaItems(didPickMediaItems)
+  var onMediaItemsSelected:(MPMediaItemCollection)->()
+  var onDismiss:()->()
+
+  func mediaPickerDidCancel(_ mediaPicker: MPMediaPickerController) {
+    print("Oh canceled.")
+//    self.onDismiss()
+  }
+
+  func mediaPicker(
+    _ mediaPicker: MPMediaPickerController,
+    didPickMediaItems mediaItemCollection: MPMediaItemCollection) {
+      print("OK!")
+//      self.onMediaItemsSelected(mediaItemCollection)
+      print("you picked: \(mediaItemCollection)")
   }
   
   init(
-    didPickMediaItems:@escaping (MPMediaItemCollection)->()
+    onMediaItemsSelected:@escaping (MPMediaItemCollection)->(),
+    onDismiss:@escaping ()->()
     ) {
-    self.didPickMediaItems = didPickMediaItems
+    self.onMediaItemsSelected = onMediaItemsSelected;
+    self.onDismiss = onDismiss;
   }
 }
 

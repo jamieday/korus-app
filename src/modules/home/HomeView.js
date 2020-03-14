@@ -7,7 +7,10 @@ import {
 } from 'react-native';
 
 import { fonts, colors } from '../../styles';
+import { Button } from '../../components';
 import { Text } from '../../components/StyledText';
+
+import { appleMusicApi } from '../../react-native-apple-music/io/appleMusicApi';
 
 export default function HomeScreen({ isExtended, setIsExtended, navigation }) {
   // const rnsUrl = 'https://reactnativestarter.com';
@@ -20,6 +23,9 @@ export default function HomeScreen({ isExtended, setIsExtended, navigation }) {
   //     }
   //   });
   // };
+
+  const defaultText = "... Andrew's Music";
+  const [mainText, setMainText] = React.useState(defaultText);
 
   return (
     <View style={styles.container}>
@@ -38,32 +44,49 @@ export default function HomeScreen({ isExtended, setIsExtended, navigation }) {
             The only way to discover quality music
           </Text>
           <Text size={30} bold white style={styles.title}>
-            ... Andrew's Music
+            {mainText}
           </Text>
         </View>
-        <View style={[styles.section, styles.sectionLarge]}>
-          <Text color="#19e7f7" hCenter size={15} style={styles.description}>
-            {' '}
-            This is a temporary page that will be removed at some point! :)
+        <View style={[styles.section, { marginTop: 50 }]}>
+          <Text color="#19e7f7" size={18}>
+            Pick your poison
           </Text>
-          <TouchableOpacity
+          <Button
+            style={[{ height: 50, margin: 20 }]}
+            primary
+            rounded
+            caption="Recommend"
+            onPress={() => {
+              (async () => {
+                console.log('Speak to me now.');
+                const song = await appleMusicApi.selectSong();
+                console.log('Song below:');
+                console.log(JSON.stringify(song));
+                setMainText(
+                  'Thanks! Your song has been uploaded. Check the discover tab.',
+                );
+                setTimeout(() => setMainText(defaultText), 1250);
+              })();
+            }}
+          />
+
+          <Button
+            style={{ height: 50 }}
+            primary
+            rounded
+            caption="Discover"
             onPress={() =>
               navigation.navigate({
                 routeName: 'Discover',
               })
             }
-          >
-            <View style={styles.priceContainer}>
-              <View style={{ flexDirection: 'row' }}>
-                <Text white bold size={50} style={styles.price}>
-                  {isExtended ? 'Or later' : 'Start now'}
-                </Text>
-              </View>
-              <Text white size={14}>
-                {isExtended ? 'Hi Andrew' : 'Or else :)'}
-              </Text>
-            </View>
-          </TouchableOpacity>
+          />
+        </View>
+        <View style={[styles.section, styles.sectionLarge]}>
+          <Text color="#19e7f700" hCenter size={15} style={styles.description}>
+            {' '}
+            This is a temporary page that will be removed at some point! :)
+          </Text>
         </View>
       </ImageBackground>
     </View>

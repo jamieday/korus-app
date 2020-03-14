@@ -48,13 +48,7 @@ export default class DiscoverScreen extends React.Component {
       this.props.tabIndex
     ];
 
-  _openArticle = article => {
-    console.log('Selecting a song...');
-    (async () => {
-      const songSelected = await appleMusicApi.selectSong();
-      console.log(JSON.stringify(songSelected));
-    })();
-  };
+  _openArticle = article => {};
 
   renderRowOne = rowData => {
     const cellViews = rowData.item.map(item => (

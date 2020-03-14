@@ -8,7 +8,7 @@ import MediaPlayer
 
 @available(iOS 9.3, *)
 @objc(AppleMusic)
-class AppleMusic: NSObject {
+class AppleMusic: NSObject, MPMediaPickerControllerDelegate {
   
   @objc static func requiresMainQueueSetup() -> Bool {
     return true
@@ -50,18 +50,43 @@ class AppleMusic: NSObject {
     }
   }
   
+
+
+  var resolver: RCTPromiseResolveBlock? = nil;
+  
+  func mediaPicker(
+    _ mediaPicker: MPMediaPickerController,
+    didPickMediaItems mediaItemCollection: MPMediaItemCollection) {
+    print("OK!")
+//      self.onMediaItemsSelected(mediaItemCollection)
+    print("you picked: \(mediaItemCollection)")
+    let selectedItem = mediaItemCollection.representativeItem!
+//    if (selectedItem = nil) {
+//      self.
+    var itemJson: Dictionary<String, String> = [:]
+    itemJson = [
+      "title":           selectedItem.title!,
+      "artist":          selectedItem.artist!,
+      "assetURL":        selectedItem.assetURL!.absoluteString,
+    ]
+    print(itemJson)
+    self.resolver?(itemJson)
+    mediaPicker.dismiss(animated: true, completion: nil)
+  }
+  
+  @available(iOS 10.3, *)
   @objc func selectSong(_ resolve: @escaping RCTPromiseResolveBlock,
                         rejecter reject: @escaping RCTPromiseRejectBlock) {
     let controller = MPMediaPickerController(mediaTypes: .music)
     controller.allowsPickingMultipleItems = false
-    //    controller.popoverPresentationController?.sourceView = rootViewController
-    let mediaPickerDelegate = MediaPickerDelegate(didPickMediaItems: { response in
-        resolve(response)
-    })
-    controller.delegate = mediaPickerDelegate
+    controller.prompt = "Promote a song"
+    print("I just printed something")
+    
+    self.resolver = resolve;
+    controller.delegate = self//mediaPickerDelegate
     
     let rootViewController = RCTPresentedViewController()
-    rootViewController!.present(controller, animated: true)
+    rootViewController!.present(controller, animated: true, completion: nil)
   }
   
   @available(iOS 10.3, *)
