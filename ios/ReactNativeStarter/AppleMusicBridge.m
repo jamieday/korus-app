@@ -10,6 +10,9 @@ RCT_EXTERN_METHOD(requestUserToken:(String)developerToken
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 
+RCT_EXTERN_METHOD(selectSong:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
+
 RCT_EXTERN_METHOD(playMusic:[String]ids)
 
 @end

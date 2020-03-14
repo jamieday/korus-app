@@ -1,6 +1,11 @@
 import StoreKit
 import MediaPlayer
 
+//import RCTConvert
+//import RCTImageStoreManager
+//import RCTRootView
+//import RCTUtils
+
 @available(iOS 9.3, *)
 @objc(AppleMusic)
 class AppleMusic: NSObject {
@@ -43,6 +48,20 @@ class AppleMusic: NSObject {
         forClientToken: developerToken,
         withCompletionHandler: completionHandler)
     }
+  }
+  
+  @objc func selectSong(_ resolve: @escaping RCTPromiseResolveBlock,
+                        rejecter reject: @escaping RCTPromiseRejectBlock) {
+    let controller = MPMediaPickerController(mediaTypes: .music)
+    controller.allowsPickingMultipleItems = false
+    //    controller.popoverPresentationController?.sourceView = rootViewController
+    let mediaPickerDelegate = MediaPickerDelegate(didPickMediaItems: { response in
+        resolve(response)
+    })
+    controller.delegate = mediaPickerDelegate
+    
+    let rootViewController = RCTPresentedViewController()
+    rootViewController!.present(controller, animated: true)
   }
   
   @available(iOS 10.3, *)

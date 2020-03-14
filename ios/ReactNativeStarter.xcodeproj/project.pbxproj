@@ -22,6 +22,7 @@
 		391527F89E1C4B79A705DE04 /* Lato-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9BFC30A51FB94B4A881576AE /* Lato-Medium.ttf */; };
 		597692039F7D4A87B63BD89C /* Lato-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 071D280AF6A542A8985DB20E /* Lato-LightItalic.ttf */; };
 		73C6642C0CE94D698AECB6A2 /* libRNVectorIcons-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAAA3F1906574E769036A7F7 /* libRNVectorIcons-tvOS.a */; };
+		7D9A02AA241D636600E0F9E6 /* MediaPickerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9A02A9241D636600E0F9E6 /* MediaPickerDelegate.swift */; };
 		7DDBF77C2415DB0A006EDBE7 /* AppleMusic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DDBF77A2415DB0A006EDBE7 /* AppleMusic.swift */; };
 		7DDBF77D2415DB0A006EDBE7 /* AppleMusicBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DDBF77B2415DB0A006EDBE7 /* AppleMusicBridge.m */; };
 		81A3FBA6A124402DA58CA7D0 /* libRNLocalize-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65C4209D7DE64233A6905E8B /* libRNLocalize-tvOS.a */; };
@@ -81,6 +82,7 @@
 		5C83D8577C1E4845AACD13FC /* libRNGestureHandler.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNGestureHandler.a; sourceTree = "<group>"; };
 		65C4209D7DE64233A6905E8B /* libRNLocalize-tvOS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = "libRNLocalize-tvOS.a"; sourceTree = "<group>"; };
 		77256A02D70CA211C5EE661E /* Pods-ReactNativeStarter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactNativeStarter.release.xcconfig"; path = "Target Support Files/Pods-ReactNativeStarter/Pods-ReactNativeStarter.release.xcconfig"; sourceTree = "<group>"; };
+		7D9A02A9241D636600E0F9E6 /* MediaPickerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPickerDelegate.swift; sourceTree = "<group>"; };
 		7DDBF7792415DB09006EDBE7 /* ReactNativeStarter-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ReactNativeStarter-Bridging-Header.h"; sourceTree = "<group>"; };
 		7DDBF77A2415DB0A006EDBE7 /* AppleMusic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppleMusic.swift; path = ReactNativeStarter/AppleMusic.swift; sourceTree = "<group>"; };
 		7DDBF77B2415DB0A006EDBE7 /* AppleMusicBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppleMusicBridge.m; path = ReactNativeStarter/AppleMusicBridge.m; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 			children = (
 				7DDBF77A2415DB0A006EDBE7 /* AppleMusic.swift */,
 				7DDBF77B2415DB0A006EDBE7 /* AppleMusicBridge.m */,
+				7D9A02A9241D636600E0F9E6 /* MediaPickerDelegate.swift */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -630,6 +633,7 @@
 				7DDBF77C2415DB0A006EDBE7 /* AppleMusic.swift in Sources */,
 				7DDBF77D2415DB0A006EDBE7 /* AppleMusicBridge.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				7D9A02AA241D636600E0F9E6 /* MediaPickerDelegate.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
