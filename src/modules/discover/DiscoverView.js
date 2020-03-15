@@ -16,31 +16,34 @@ import { RadioGroup, GridRow } from '../../components';
 import { appleMusicApi } from '../../react-native-apple-music/io/appleMusicApi';
 
 export default class DiscoverScreen extends React.Component {
+  async updateList() {
+    const response = await fetch('http://chorus.media/api/recommendation/list');
+    const json = await response.json();
+    const songs = json.map(song => ({
+      id: song.id,
+      brand: 'Test',
+      title: song.name,
+      subtitle: song.artist,
+      badge: 'NEW',
+      price: song.recommendedBy.name,
+      badgeColor: '#3cd39f',
+      image: song.recommendedBy.image,
+    }));
+
+    this.props.setData(songs);
+
+    const appleMusicPermission = await appleMusicApi.requestPermission();
+    if (appleMusicPermission !== 'ok') {
+      // nope cannot recommend or play music ? what can do ?
+      console.error("Wasn't given apple music permission!");
+    }
+  }
+
   UNSAFE_componentWillMount() {
-    (async () => {
-      const response = await fetch(
-        'http://chorus.media/api/recommendation/list',
-      );
-      const json = await response.json();
-      const songs = json.map(song => ({
-        id: song.id,
-        brand: 'Test',
-        title: song.name,
-        subtitle: song.artist,
-        badge: 'NEW',
-        price: song.recommendedBy.name,
-        badgeColor: '#3cd39f',
-        image: song.recommendedBy.image,
-      }));
-
-      this.props.setData(songs);
-
-      const appleMusicPermission = await appleMusicApi.requestPermission();
-      if (appleMusicPermission !== 'ok') {
-        // nope cannot recommend or play music ? what can do ?
-        console.error("Wasn't given apple music permission!");
-      }
-    })();
+    this.updateList();
+    setInterval(() => {
+      this.updateList();
+    }, 1000);
   }
 
   _getRenderItemFunction = () =>
