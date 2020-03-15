@@ -62,10 +62,17 @@ export default function HomeScreen({ isExtended, setIsExtended, navigation }) {
                 const song = await appleMusicApi.selectSong();
                 console.log('Song below:');
                 console.log(JSON.stringify(song));
-                setMainText(
-                  'Thanks! Your song has been uploaded. Check the discover tab.',
-                );
-                setTimeout(() => setMainText(defaultText), 1250);
+                await fetch('http://chorus.media/', {
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    'song-name': song.title,
+                    'artist-name': song.artist,
+                  }),
+                  method: 'POST',
+                });
+                setMainText(`You recommended ${song.title}.`);
+
+                setTimeout(() => setMainText(defaultText), 5000);
               })();
             }}
           />
