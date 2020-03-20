@@ -24,6 +24,7 @@ export default class DiscoverScreen extends React.Component {
       brand: 'Test',
       title: song.name,
       subtitle: song.artist,
+      playbackStoreId: song.appleMusic.playbackStoreId,
       badge: 'NEW',
       price: song.recommendedBy.name,
       badgeColor: '#3cd39f',
@@ -51,11 +52,16 @@ export default class DiscoverScreen extends React.Component {
       this.props.tabIndex
     ];
 
-  _openArticle = article => {};
+  _playSong = song => {
+    appleMusicApi.playMusic(song.playbackStoreId);
+    console.log('Playing a song!!!');
+    console.log('Love this one, ' + `${song.title} by ${song.subtitle}`);
+    console.log(song.playbackStoreId);
+  };
 
   renderRowOne = rowData => {
     const cellViews = rowData.item.map(item => (
-      <TouchableOpacity key={item.id} onPress={() => this._openArticle(item)}>
+      <TouchableOpacity key={item.id} onPress={() => this._playSong(item)}>
         <View style={styles.itemOneContainer}>
           <View style={styles.itemOneImageContainer}>
             <Image style={styles.itemOneImage} source={{ uri: item.image }} />
@@ -89,7 +95,7 @@ export default class DiscoverScreen extends React.Component {
     <TouchableOpacity
       key={item.id}
       style={styles.itemTwoContainer}
-      onPress={() => this._openArticle(item)}
+      onPress={() => this._playSong(item)}
     >
       <View style={styles.itemTwoContent}>
         <Image
@@ -108,7 +114,7 @@ export default class DiscoverScreen extends React.Component {
     <TouchableOpacity
       key={item.id}
       style={styles.itemThreeContainer}
-      onPress={() => this._openArticle(item)}
+      onPress={() => this._playSong(item)}
     >
       <View style={styles.itemThreeSubContainer}>
         <Image source={{ uri: item.image }} style={styles.itemThreeImage} />

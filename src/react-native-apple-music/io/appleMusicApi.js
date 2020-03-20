@@ -23,11 +23,13 @@ const {
 
 export class AppleMusicApi {
   // appleMusicWebApi: AppleMusicWebApi;
+  config;
 
   constructor(config) {
     // this.appleMusicWebApi = new AppleMusicWebApi(
     // config.developerToken
     // );
+    this.config = config;
   }
 
   requestPermission = requestPermission;

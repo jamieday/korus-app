@@ -67,6 +67,7 @@ export default function HomeScreen({ isExtended, setIsExtended, navigation }) {
                   body: JSON.stringify({
                     'song-name': song.title,
                     'artist-name': song.artist,
+                    'playback-store-id': song.playbackStoreId,
                   }),
                   method: 'POST',
                 });
