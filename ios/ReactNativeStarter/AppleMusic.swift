@@ -96,16 +96,7 @@ class AppleMusic: NSObject, MPMediaPickerControllerDelegate {
     // Instantiate a new music player
     let myMediaPlayer = MPMusicPlayerApplicationController.systemMusicPlayer
     myMediaPlayer.repeatMode =  MPMusicRepeatMode.one
-    
-    let descriptor = MPMusicPlayerStoreQueueDescriptor(storeIDs: [playbackStoreId])
-//    let playbackStoreIdFilter =
-//      MPMediaPropertyPredicate(value: playbackStoreId,
-//                               forProperty: MPMediaItemPropertyPlaybackStoreID,
-//                               comparisonType: .equalTo)
-    
-//    let filterSet = Set([playbackStoreIdFilter])
-//    let query = MPMediaQuery(filterPredicates: filterSet)
-    myMediaPlayer.setQueue(with: descriptor)
+    myMediaPlayer.setQueue(with: [playbackStoreId])
     myMediaPlayer.play()
   }
 }
