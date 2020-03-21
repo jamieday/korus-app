@@ -1,14 +1,11 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  ImageBackground,
-} from 'react-native';
+import { StyleSheet, View, ImageBackground } from 'react-native';
 
 import { fonts, colors } from '../../styles';
-import { Button } from '../../components';
+import { Button, RadioGroup } from '../../components';
 import { Text } from '../../components/StyledText';
+
+import { CHORUS_API_HOSTNAME } from '../discover/DiscoverView';
 
 import { appleMusicApi } from '../../react-native-apple-music/io/appleMusicApi';
 
@@ -26,6 +23,8 @@ export default function HomeScreen({ isExtended, setIsExtended, navigation }) {
 
   const defaultText = "... Andrew's Music";
   const [mainText, setMainText] = React.useState(defaultText);
+  const users = ['andrew', 'jamie'];
+  const [selectedUser, setSelectedUser] = React.useState(users[0]);
 
   return (
     <View style={styles.container}>
@@ -34,10 +33,16 @@ export default function HomeScreen({ isExtended, setIsExtended, navigation }) {
         style={styles.bgImage}
         resizeMode="cover"
       >
-        <View style={styles.section}>
-          <Text size={20} white>
-            Home
+        <View style={[styles.section, { marginTop: 30 }]}>
+          <Text size={15} color="#fff">
+            Who are you?
           </Text>
+          <RadioGroup
+            style={{ margin: 20, width: '50%' }}
+            items={users}
+            selectedIndex={users.indexOf(selectedUser)}
+            onChange={index => setSelectedUser(users[index])}
+          />
         </View>
         <View style={styles.section}>
           <Text color="#19e7f7" size={15}>
@@ -58,16 +63,14 @@ export default function HomeScreen({ isExtended, setIsExtended, navigation }) {
             caption="Recommend"
             onPress={() => {
               (async () => {
-                console.log('Speak to me now.');
                 const song = await appleMusicApi.selectSong();
-                console.log('Song below:');
-                console.log(JSON.stringify(song));
-                await fetch('http://chorus.media/', {
+                await fetch(`http://${CHORUS_API_HOSTNAME}`, {
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify({
                     'song-name': song.title,
                     'artist-name': song.artist,
                     'playback-store-id': song.playbackStoreId,
+                    username: selectedUser,
                   }),
                   method: 'POST',
                 });

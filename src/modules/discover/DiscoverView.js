@@ -15,9 +15,14 @@ import { RadioGroup, GridRow } from '../../components';
 
 import { appleMusicApi } from '../../react-native-apple-music/io/appleMusicApi';
 
+export const CHORUS_API_HOSTNAME =
+  process.env.CHORUS_API_HOSTNAME ?? 'chorus.media';
+
 export default class DiscoverScreen extends React.Component {
   async updateList() {
-    const response = await fetch('http://chorus.media/api/recommendation/list');
+    const response = await fetch(
+      `http://${CHORUS_API_HOSTNAME}/api/recommendation/list`,
+    );
     const json = await response.json();
     const songs = json.map(song => ({
       id: song.id,
@@ -110,7 +115,7 @@ export default class DiscoverScreen extends React.Component {
         <View style={styles.itemTwoContent}>
           <Image
             style={styles.itemTwoImage}
-            source={{ uri: 'http://chorus.media' + item.image }}
+            source={{ uri: `http://${CHORUS_API_HOSTNAME}${item.image}` }}
           />
           <View
             style={[
