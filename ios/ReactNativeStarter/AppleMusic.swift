@@ -30,7 +30,7 @@ class AppleMusic: NSObject, MPMediaPickerControllerDelegate {
   @objc func requestUserToken(_ developerToken: String,
                               resolver resolve: @escaping RCTPromiseResolveBlock,
                               rejecter reject: @escaping RCTPromiseRejectBlock) {
-    let controller = SKCloudServiceController();
+    let controller = SKCloudServiceController()
     
     let completionHandler = { (userToken: String?, error: Error?) in
       if userToken == nil {
@@ -52,8 +52,8 @@ class AppleMusic: NSObject, MPMediaPickerControllerDelegate {
   
 
 
-  var resolver: RCTPromiseResolveBlock? = nil;
-  var rejecter: RCTPromiseRejectBlock? = nil;
+  var resolver: RCTPromiseResolveBlock? = nil
+  var rejecter: RCTPromiseRejectBlock? = nil
   
   func mediaPicker(
     _ mediaPicker: MPMediaPickerController,
@@ -69,7 +69,7 @@ class AppleMusic: NSObject, MPMediaPickerControllerDelegate {
         "playbackStoreId": selectedItem.playbackStoreID,
       ]
     } else {
-      self.rejecter?(nil, "This feature is only available in iOS 10.3+.", nil);
+      self.rejecter?(nil, "This feature is only available in iOS 10.3+.", nil)
     }
     print(itemJson)
     self.resolver?(itemJson)
@@ -83,8 +83,8 @@ class AppleMusic: NSObject, MPMediaPickerControllerDelegate {
     controller.allowsPickingMultipleItems = false
     controller.prompt = "Promote a song"
     
-    self.resolver = resolve;
-    self.rejecter = reject;
+    self.resolver = resolve
+    self.rejecter = reject
     controller.delegate = self//mediaPickerDelegate
     
     let rootViewController = RCTPresentedViewController()
@@ -97,7 +97,7 @@ class AppleMusic: NSObject, MPMediaPickerControllerDelegate {
     let myMediaPlayer = MPMusicPlayerApplicationController.systemMusicPlayer
     myMediaPlayer.repeatMode =  MPMusicRepeatMode.one
     
-    let descriptor = MPMusicPlayerStoreQueueDescriptor(storeIDs: [playbackStoreId]);
+    let descriptor = MPMusicPlayerStoreQueueDescriptor(storeIDs: [playbackStoreId])
 //    let playbackStoreIdFilter =
 //      MPMediaPropertyPredicate(value: playbackStoreId,
 //                               forProperty: MPMediaItemPropertyPlaybackStoreID,
