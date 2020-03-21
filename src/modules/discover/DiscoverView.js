@@ -44,7 +44,7 @@ export default class DiscoverScreen extends React.Component {
     this.updateList();
     setInterval(() => {
       this.updateList();
-    }, 1000);
+    }, 10000);
   }
 
   _getRenderItemFunction = () =>
@@ -91,24 +91,44 @@ export default class DiscoverScreen extends React.Component {
     );
   };
 
-  renderRowTwo = ({ item }) => (
-    <TouchableOpacity
-      key={item.id}
-      style={styles.itemTwoContainer}
-      onPress={() => this._playSong(item)}
-    >
-      <View style={styles.itemTwoContent}>
-        <Image
-          style={styles.itemTwoImage}
-          source={{ uri: 'http://chorus.media' + item.image }}
-        />
-        <View style={styles.itemTwoOverlay} />
-        <Text style={styles.itemTwoTitle}>{item.title}</Text>
-        <Text style={styles.itemTwoSubTitle}>by {item.subtitle}</Text>
-        <Text style={styles.itemTwoPrice}>Play now</Text>
-      </View>
-    </TouchableOpacity>
-  );
+  renderRowTwo = ({ item }) => {
+    const canPlaySong = item.playbackStoreId != 0;
+    const Container = ({ children }) =>
+      canPlaySong ? (
+        <TouchableOpacity
+          key={item.id}
+          style={styles.itemTwoContainer}
+          onPress={() => this._playSong(item)}
+        >
+          {children}
+        </TouchableOpacity>
+      ) : (
+        <View style={styles.itemTwoContainer}>{children}</View>
+      );
+    return (
+      <Container>
+        <View style={styles.itemTwoContent}>
+          <Image
+            style={styles.itemTwoImage}
+            source={{ uri: 'http://chorus.media' + item.image }}
+          />
+          <View
+            style={[
+              styles.itemTwoOverlay,
+              ...[!canPlaySong && { backgroundColor: colors.primaryLight }],
+            ]}
+          />
+          <Text style={styles.itemTwoTitle}>{item.title}</Text>
+          <Text style={styles.itemTwoSubTitle}>by {item.subtitle}</Text>
+          {canPlaySong ? (
+            <Text style={styles.itemTwoPrice}>Play now</Text>
+          ) : (
+            <Text style={styles.itemTwoPrice2}>Playback not supported.</Text>
+          )}
+        </View>
+      </Container>
+    );
+  };
 
   renderRowThree = ({ item }) => (
     <TouchableOpacity
@@ -251,6 +271,13 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontFamily: fonts.primaryBold,
     fontSize: 20,
+  },
+  itemTwoPrice2: {
+    marginTop: 15,
+    color: colors.white,
+    fontFamily: fonts.primaryBold,
+    fontSize: 16,
+    fontStyle: 'italic',
   },
   itemTwoImage: {
     position: 'absolute',
