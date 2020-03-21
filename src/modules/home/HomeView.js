@@ -5,25 +5,14 @@ import { fonts, colors } from '../../styles';
 import { Button, RadioGroup } from '../../components';
 import { Text } from '../../components/StyledText';
 
-import { CHORUS_API_HOSTNAME } from '../discover/DiscoverView';
+import { API_HOSTNAME } from '../discover/DiscoverView';
 
 import { appleMusicApi } from '../../react-native-apple-music/io/appleMusicApi';
 
 export default function HomeScreen({ isExtended, setIsExtended, navigation }) {
-  // const rnsUrl = 'https://reactnativestarter.com';
-  // const handleClick = () => {
-  //   Linking.canOpenURL(rnsUrl).then(supported => {
-  //     if (supported) {
-  //       Linking.openURL(rnsUrl);
-  //     } else {
-  //       console.log(`Don't know how to open URI: ${rnsUrl}`);
-  //     }
-  //   });
-  // };
-
   const defaultText = "... Andrew's Music";
   const [mainText, setMainText] = React.useState(defaultText);
-  const users = ['andrew', 'jamie'];
+  const users = ['andrew', 'jamie', 'alex'];
   const [selectedUser, setSelectedUser] = React.useState(users[0]);
 
   return (
@@ -64,7 +53,7 @@ export default function HomeScreen({ isExtended, setIsExtended, navigation }) {
             onPress={() => {
               (async () => {
                 const song = await appleMusicApi.selectSong();
-                await fetch(`http://${CHORUS_API_HOSTNAME}`, {
+                await fetch(`http://${API_HOSTNAME}`, {
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify({
                     'song-name': song.title,
