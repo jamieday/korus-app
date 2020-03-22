@@ -56,32 +56,16 @@ const styles = StyleSheet.create({
 
 export default createBottomTabNavigator(
   {
-    Home: {
-      screen: HomeScreen,
+    Discover: {
+      screen: DiscoverScreen,
       navigationOptions: {
         header: null,
       },
     },
-    // Calendar: {
-    //   screen: CalendarScreen,
-    //   navigationOptions: {
-    //     header: (
-    //       <View style={styles.headerContainer}>
-    //         <Image style={styles.headerImage} source={hederBackground} />
-    //         <Text style={styles.headerCaption}>Calendar</Text>
-    //       </View>
-    //     ),
-    //   },
-    // },
-    Discover: {
-      screen: DiscoverScreen,
+    Recommend: {
+      screen: HomeScreen,
       navigationOptions: {
-        header: (
-          <View style={styles.headerContainer}>
-            <Image style={styles.headerImage} source={hederBackground} />
-            <Text style={styles.headerCaption}>Discover</Text>
-          </View>
-        ),
+        header: null,
       },
     },
     // Pages: {
@@ -114,14 +98,14 @@ export default createBottomTabNavigator(
         const { routeName } = navigation.state;
         let iconSource;
         switch (routeName) {
-          case 'Home':
-            iconSource = iconHome;
+          case 'Recommend':
+            iconSource = iconDiscover;
             break;
           case 'Calendar':
             iconSource = iconCalendar;
             break;
           case 'Discover':
-            iconSource = iconDiscover;
+            iconSource = iconPages;
             break;
           case 'Pages':
             iconSource = iconPages;

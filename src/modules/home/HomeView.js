@@ -9,47 +9,43 @@ import { API_HOSTNAME } from '../discover/DiscoverView';
 
 import { appleMusicApi } from '../../react-native-apple-music/io/appleMusicApi';
 
-export default function HomeScreen({ isExtended, setIsExtended, navigation }) {
-  const defaultText = "... Andrew's Music";
-  const [mainText, setMainText] = React.useState(defaultText);
+export default function HomeScreen({}) {
+  const [flashText, setFlashText] = React.useState();
   const users = ['andrew', 'jamie', 'alex'];
   const [selectedUser, setSelectedUser] = React.useState(users[0]);
 
   return (
-    <View style={styles.container}>
-      <ImageBackground
-        source={require('../../../assets/images/background.png')}
-        style={styles.bgImage}
-        resizeMode="cover"
-      >
+    <ImageBackground
+      source={require('../../../assets/images/background.png')}
+      style={styles.bgImage}
+      resizeMode="cover"
+    >
+      <View style={styles.container}>
         <View style={[styles.section, { marginTop: 30 }]}>
           <Text size={15} color="#fff">
             Who are you?
           </Text>
           <RadioGroup
-            style={{ margin: 20, width: '50%' }}
+            style={{
+              backgroundColor: '#dddddd49',
+              marginVertical: 20,
+            }}
             items={users}
             selectedIndex={users.indexOf(selectedUser)}
             onChange={index => setSelectedUser(users[index])}
           />
         </View>
         <View style={styles.section}>
-          <Text color="#19e7f7" size={15}>
-            The only way to discover quality music
-          </Text>
-          <Text size={30} bold white style={styles.title}>
-            {mainText}
+          <Text size={26} bold white style={styles.title}>
+            Share something great
           </Text>
         </View>
-        <View style={[styles.section, { marginTop: 50 }]}>
-          <Text color="#19e7f7" size={18}>
-            Pick your poison
-          </Text>
+        <View style={[styles.section]}>
           <Button
-            style={[{ height: 50, margin: 20 }]}
+            style={[{ height: 75 }]}
             primary
             rounded
-            caption="Recommend"
+            caption="Recommend Track"
             onPress={() => {
               (async () => {
                 const song = await appleMusicApi.selectSong();
@@ -63,24 +59,24 @@ export default function HomeScreen({ isExtended, setIsExtended, navigation }) {
                   }),
                   method: 'POST',
                 });
-                setMainText(`You recommended ${song.title}.`);
-
-                setTimeout(() => setMainText(defaultText), 5000);
+                setFlashText(
+                  `You recommended ${song.title} by ${song.artist}.`,
+                );
+                setTimeout(() => setFlashText(undefined), 3000);
               })();
             }}
           />
-
-          <Button
-            style={{ height: 50 }}
-            primary
-            rounded
-            caption="Discover"
-            onPress={() =>
-              navigation.navigate({
-                routeName: 'Discover',
-              })
-            }
-          />
+          {flashText && (
+            <Text
+              style={{
+                textAlign: 'center',
+                marginTop: 10,
+                color: '#52dd52',
+              }}
+            >
+              {flashText}
+            </Text>
+          )}
         </View>
         <View style={[styles.section, styles.sectionLarge]}>
           <Text color="#19e7f700" hCenter size={15} style={styles.description}>
@@ -88,8 +84,8 @@ export default function HomeScreen({ isExtended, setIsExtended, navigation }) {
             This is a temporary page that will be removed at some point! :)
           </Text>
         </View>
-      </ImageBackground>
-    </View>
+      </View>
+    </ImageBackground>
   );
 }
 
@@ -98,10 +94,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'space-around',
+    margin: 15,
   },
   bgImage: {
     flex: 1,
-    marginHorizontal: -20,
   },
   section: {
     flex: 1,
@@ -130,7 +126,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   title: {
-    marginTop: 30,
+    textAlign: 'center',
   },
   price: {
     marginBottom: 5,
