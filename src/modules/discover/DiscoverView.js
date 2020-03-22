@@ -30,6 +30,7 @@ export default class DiscoverScreen extends React.Component {
       brand: 'Test',
       title: song.name,
       subtitle: song.artist,
+      artworkUrl: song.artworkUrl,
       playbackStoreId: song.appleMusic.playbackStoreId,
       badge: 'NEW',
       price: song.recommendedBy.name,
@@ -89,7 +90,7 @@ export default class DiscoverScreen extends React.Component {
               ? `${this.props.tabIndex}-${item.id}`
               : `${item[0] && item[0].id}`
           }
-          style={{ backgroundColor: colors.darkGray, paddingHorizontal: 15 }}
+          style={{ backgroundColor: '#004ecbdd', padding: 15 }}
           data={this.props.data}
           renderItem={({ item }) => <Recommendation item={item} />}
         />

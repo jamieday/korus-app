@@ -15,6 +15,8 @@ import { colors, fonts } from '../../styles';
 import { appleMusicApi } from '../../react-native-apple-music/io/appleMusicApi';
 import { API_HOSTNAME } from '../discover/DiscoverView';
 
+const profileImgSize = 55;
+
 export const Recommendation = ({ item, style }) => {
   const canPlaySong = item.playbackStoreId != 0;
 
@@ -29,22 +31,44 @@ export const Recommendation = ({ item, style }) => {
   return (
     <Container style={style}>
       <View style={styles.contentContainer}>
+        <View style={styles.header}>
+          <Image
+            style={{
+              width: profileImgSize,
+              height: profileImgSize,
+              marginRight: 8,
+
+              overflow: 'hidden',
+              borderRadius: profileImgSize / 2,
+            }}
+            source={{
+              uri: `http://${API_HOSTNAME}${item.image}`,
+            }}
+          />
+          <Text style={{ flex: 1, color: colors.white }}>
+            <Text style={{ fontWeight: 'bold' }}>{item.price}</Text> recommends
+          </Text>
+        </View>
         <Image
-          style={{ height: 200 }}
+          style={{ height: 350 }}
           source={{
-            uri: `http://${API_HOSTNAME}${item.image}`,
+            uri: item.artworkUrl,
           }}
+          resizeMode={'contain'}
         />
         <View
           style={{
             display: 'flex',
             flexDirection: 'row',
             alignItems: 'center',
+            marginTop: 15,
           }}
         >
           <View style={{ flex: 1 }}>
-            <Text style={styles.songTitle}>{item.title}</Text>
-            <Text style={styles.artistDesc}>by {item.subtitle}</Text>
+            <Text style={[styles.songTitle, { marginBottom: 0 }]}>
+              {item.title}
+            </Text>
+            <Text style={styles.artistDesc}>{item.subtitle}</Text>
           </View>
           <View>
             {canPlaySong ? (
@@ -67,16 +91,22 @@ export const Recommendation = ({ item, style }) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: '50%',
-    margin: '10%',
+    display: 'flex',
+    marginBottom: '50%',
+    // justifyContent: 'center',
   },
-  contentContainer: {
-    height: 250,
+
+  header: {
+    flex: 1,
+    margin: 6,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
   },
   songTitle: {
     color: colors.white,
     fontFamily: fonts.primaryBold,
-    fontSize: 28,
+    fontSize: 18,
   },
   artistDesc: {
     color: colors.white,
