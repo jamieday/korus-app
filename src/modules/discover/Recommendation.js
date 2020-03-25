@@ -1,25 +1,40 @@
 import React from 'react';
 
-import {
-  StyleSheet,
-  Dimensions,
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  TouchableHighlight,
-} from 'react-native';
-
+import { StyleSheet, View, Text, TouchableOpacity, Image } from 'react-native';
 import { colors, fonts } from '../../styles';
 
 import { appleMusicApi } from '../../react-native-apple-music/io/appleMusicApi';
 import { API_HOSTNAME } from '../discover/DiscoverView';
+import { DoubleTap } from '../../modules/double-tap/DoubleTap';
+import { getUsername } from '../identity/getUsername';
 
 const profileImgSize = 55;
 
 export const Recommendation = ({ item, style }) => {
-  const canPlaySong = item.playbackStoreId != 0;
-
+  const [isLoved, setLoved] = React.useState(item.isLoved);
+  const addToLibrary = async () => {
+    const username = await getUsername();
+    if (!username) {
+      return;
+    }
+    const result = await appleMusicApi.requestUserToken();
+    if (result.isError) {
+      // TODO deal with error cases of authorization
+      return;
+    }
+    setLoved(true);
+    const userToken = result.result;
+    await fetch(`http://${API_HOSTNAME}/api/song/love`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        username,
+        'song-id': item.id,
+        'song-playback-store-id': item.playbackStoreId,
+        'user-token': userToken,
+      }),
+    });
+  };
   const Container = ({ children, style }) => {
     style = [styles.container, style];
     return (
@@ -49,13 +64,15 @@ export const Recommendation = ({ item, style }) => {
             <Text style={{ fontWeight: 'bold' }}>{item.price}</Text> recommends
           </Text>
         </View>
-        <Image
-          style={{ height: 350 }}
-          source={{
-            uri: item.artworkUrl,
-          }}
-          resizeMode={'contain'}
-        />
+        <DoubleTap doubleTap={() => !isLoved && addToLibrary()}>
+          <Image
+            style={{ opacity: isLoved ? 1 : 0.66, height: 350 }}
+            source={{
+              uri: item.artworkUrl,
+            }}
+            resizeMode={'contain'}
+          />
+        </DoubleTap>
         <View
           style={{
             display: 'flex',
@@ -70,19 +87,36 @@ export const Recommendation = ({ item, style }) => {
             </Text>
             <Text style={styles.artistDesc}>{item.subtitle}</Text>
           </View>
-          <View>
-            {canPlaySong ? (
-              <TouchableOpacity
-                onPress={() => appleMusicApi.playMusic(item.playbackStoreId)}
-              >
-                <Text style={styles.callToAction}>PLAY</Text>
-              </TouchableOpacity>
-            ) : (
-              <Text style={styles.unsupportedAction}>
-                Playback not supported.
-              </Text>
-            )}
-          </View>
+          {(() => {
+            const OperationButton = ({ onPress, label, disabled }) => (
+              <View>
+                <TouchableOpacity disabled={disabled} onPress={onPress}>
+                  <Text
+                    style={[
+                      styles.callToAction,
+                      ...[disabled && { color: '#ffffff65' }],
+                    ]}
+                  >
+                    {label.toUpperCase()}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            );
+            return (
+              <React.Fragment>
+                <OperationButton
+                  disabled={item.playbackStoreId === 0}
+                  onPress={() => appleMusicApi.playMusic(item.playbackStoreId)}
+                  label="Play"
+                />
+                <OperationButton
+                  disabled={item.playbackStoreId === 0 || isLoved}
+                  onPress={addToLibrary}
+                  label={isLoved ? '❤️' : '♡'}
+                />
+              </React.Fragment>
+            );
+          })()}
         </View>
       </View>
     </Container>
@@ -92,7 +126,7 @@ export const Recommendation = ({ item, style }) => {
 const styles = StyleSheet.create({
   container: {
     display: 'flex',
-    marginBottom: '50%',
+    marginBottom: 100,
     // justifyContent: 'center',
   },
 

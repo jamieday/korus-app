@@ -8,11 +8,10 @@ import { Text } from '../../components/StyledText';
 import { API_HOSTNAME } from '../discover/DiscoverView';
 
 import { appleMusicApi } from '../../react-native-apple-music/io/appleMusicApi';
+import { getUsername } from '../identity/getUsername';
 
 export default function HomeScreen({}) {
   const [flashText, setFlashText] = React.useState();
-  const users = ['andrew', 'jamie', 'alex'];
-  const [selectedUser, setSelectedUser] = React.useState(users[0]);
 
   return (
     <ImageBackground
@@ -22,20 +21,6 @@ export default function HomeScreen({}) {
     >
       <View style={styles.container}>
         <View style={[styles.section, { marginTop: 30 }]}>
-          <Text size={15} color="#fff">
-            Who are you?
-          </Text>
-          <RadioGroup
-            style={{
-              backgroundColor: '#dddddd49',
-              marginVertical: 20,
-            }}
-            items={users}
-            selectedIndex={users.indexOf(selectedUser)}
-            onChange={index => setSelectedUser(users[index])}
-          />
-        </View>
-        <View style={styles.section}>
           <Text size={26} bold white style={styles.title}>
             Share something great
           </Text>
@@ -48,6 +33,10 @@ export default function HomeScreen({}) {
             caption="Recommend Track"
             onPress={() => {
               (async () => {
+                const username = await getUsername();
+                if (!username) {
+                  return;
+                }
                 const song = await appleMusicApi.selectSong();
                 await fetch(`http://${API_HOSTNAME}`, {
                   headers: { 'Content-Type': 'application/json' },
@@ -55,7 +44,7 @@ export default function HomeScreen({}) {
                     'song-name': song.title,
                     'artist-name': song.artist,
                     'playback-store-id': song.playbackStoreId,
-                    username: selectedUser,
+                    username,
                   }),
                   method: 'POST',
                 });

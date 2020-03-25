@@ -7,6 +7,7 @@ import { colors, fonts } from '../../styles';
 
 import HomeScreen from '../home/HomeViewContainer';
 import DiscoverScreen from '../discover/DiscoverViewContainer';
+import { LoveView } from '../love/LoveView';
 
 const iconHome = require('../../../assets/images/tabbar/home.png');
 const iconCalendar = require('../../../assets/images/pages/calendar.png');
@@ -68,6 +69,14 @@ export default createBottomTabNavigator(
         header: null,
       },
     },
+    ...(__DEV__ && {
+      Love: {
+        screen: LoveView,
+        navigationOptions: {
+          header: null,
+        },
+      },
+    }),
     // Pages: {
     //   screen: PagesScreen,
     //   navigationOptions: {

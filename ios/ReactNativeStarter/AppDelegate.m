@@ -18,7 +18,7 @@
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"chorus-app"
-                                            initialProperties:nil];
+                                            initialProperties:@{ @"productName": @"Chorus"}];
 
   rootView.backgroundColor = [[UIColor alloc] initWithRed:82.0f green:116.0f blue:221.0f alpha:1];
 

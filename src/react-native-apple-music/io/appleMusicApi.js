@@ -18,6 +18,7 @@ const {
   requestPermission,
   requestUserToken,
   selectSong,
+  addToLibrary,
   playMusic,
 } = NativeModules.AppleMusic;
 
@@ -35,6 +36,7 @@ export class AppleMusicApi {
   requestPermission = requestPermission;
   requestUserToken = () => requestUserToken(this.config.developerToken);
   selectSong = selectSong;
+  addToLibrary = addToLibrary;
   playMusic = playMusic;
   // public fetchSong = (id: string) =>
   // this.appleMusicWebApi.fetchSong(id);

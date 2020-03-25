@@ -4,6 +4,7 @@ import { colors } from '../../styles';
 
 import { appleMusicApi } from '../../react-native-apple-music/io/appleMusicApi';
 import { Recommendation } from './Recommendation';
+import { getUsername } from '../identity/getUsername';
 
 export const API_HOSTNAME = (() => {
   const hostname = process.env['API_HOSTNAME'];
@@ -13,6 +14,7 @@ export const API_HOSTNAME = (() => {
     );
     return hostname;
   }
+  console.log(`[API Client] Using default hostname: ${hostname}`);
   return 'chorus.media';
 })();
 
@@ -22,13 +24,14 @@ export default class DiscoverScreen extends React.Component {
   async refreshList(upToPage) {
     console.log('Fetching recommendations...');
     const response = await fetch(
-      `http://${API_HOSTNAME}/api/recommendation/list`,
+      `http://${API_HOSTNAME}/api/recommendation/list?username=${await getUsername()}`,
     );
     const json = await response.json();
     const songs = json.map(song => ({
       id: song.id,
       brand: 'Test',
       title: song.name,
+      isLoved: song.isLoved,
       subtitle: song.artist,
       artworkUrl: song.artworkUrl,
       playbackStoreId: song.appleMusic.playbackStoreId,
@@ -60,7 +63,13 @@ export default class DiscoverScreen extends React.Component {
             (async () => {
               try {
                 this.props.setRefreshing(true);
-                this.props.setData(await this.refreshList(1));
+                const sleep = sleepMs =>
+                  new Promise(resolve => setTimeout(resolve, sleepMs));
+                // UX: Keep refreshing in the background if the call takes too long
+                await Promise.race([
+                  sleep(500),
+                  (async () => this.props.setData(await this.refreshList(1)))(),
+                ]);
               } finally {
                 this.props.setRefreshing(false);
               }

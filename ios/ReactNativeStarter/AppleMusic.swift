@@ -49,8 +49,6 @@ class AppleMusic: NSObject, MPMediaPickerControllerDelegate {
         withCompletionHandler: completionHandler)
     }
   }
-  
-
 
   var resolver: RCTPromiseResolveBlock? = nil
   var rejecter: RCTPromiseRejectBlock? = nil
@@ -98,5 +96,15 @@ class AppleMusic: NSObject, MPMediaPickerControllerDelegate {
     myMediaPlayer.repeatMode =  MPMusicRepeatMode.one
     myMediaPlayer.setQueue(with: [playbackStoreId])
     myMediaPlayer.play()
+  }
+  
+  @objc func addToLibrary(_ playbackStoreId: String) {
+//    let mediaLibrary = MPMediaLibrary()
+//    let appPlaylistUuid = UUID(uuidString: "4ce50dd7-f143-48cf-b472-69fde1a6bc97")!
+//    let appPlaylistMetadata = MPMediaPlaylistCreationMetadata(name: "Chorus - Loved")
+//    mediaLibrary.getPlaylist(with: appPlaylistUuid, creationMetadata: appPlaylistMetadata) { (playlist, err) in
+//      playlist?.add([])
+//      playlist?.add([songToAdd])
+//    }
   }
 }
