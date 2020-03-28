@@ -93,18 +93,8 @@ class AppleMusic: NSObject, MPMediaPickerControllerDelegate {
   @objc func playMusic(_ playbackStoreId: String) {
     // Instantiate a new music player
     let myMediaPlayer = MPMusicPlayerApplicationController.systemMusicPlayer
-    myMediaPlayer.repeatMode =  MPMusicRepeatMode.one
+    myMediaPlayer.repeatMode =  MPMusicRepeatMode.all
     myMediaPlayer.setQueue(with: [playbackStoreId])
     myMediaPlayer.play()
-  }
-  
-  @objc func addToLibrary(_ playbackStoreId: String) {
-//    let mediaLibrary = MPMediaLibrary()
-//    let appPlaylistUuid = UUID(uuidString: "4ce50dd7-f143-48cf-b472-69fde1a6bc97")!
-//    let appPlaylistMetadata = MPMediaPlaylistCreationMetadata(name: "Chorus - Loved")
-//    mediaLibrary.getPlaylist(with: appPlaylistUuid, creationMetadata: appPlaylistMetadata) { (playlist, err) in
-//      playlist?.add([])
-//      playlist?.add([songToAdd])
-//    }
   }
 }

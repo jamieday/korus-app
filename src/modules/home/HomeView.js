@@ -39,12 +39,16 @@ export default function HomeScreen({}) {
                 }
                 const song = await appleMusicApi.selectSong();
                 await fetch(`http://${API_HOSTNAME}`, {
-                  headers: { 'Content-Type': 'application/json' },
+                  headers: {
+                    'Content-Type': 'application/json',
+
+                    // Header duplicated in backend {7d25eb5a-2c5a-431b-95a8-14f980c8f7e1}
+                    'X-Chorus-User-Token': username,
+                  },
                   body: JSON.stringify({
                     'song-name': song.title,
                     'artist-name': song.artist,
                     'playback-store-id': song.playbackStoreId,
-                    username,
                   }),
                   method: 'POST',
                 });

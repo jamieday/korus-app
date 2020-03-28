@@ -15,6 +15,4 @@ RCT_EXTERN_METHOD(selectSong:(RCTPromiseResolveBlock)resolve
 
 RCT_EXTERN_METHOD(playMusic:(NSString *)id)
 
-RCT_EXTERN_METHOD(addToLibrary:(NSString *)id)
-
 @end

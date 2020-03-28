@@ -22,13 +22,19 @@ export const Recommendation = ({ item, style }) => {
       // TODO deal with error cases of authorization
       return;
     }
-    setLoved(true);
     const userToken = result.result;
+    setLoved(true);
     await fetch(`http://${API_HOSTNAME}/api/song/love`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+
+        // Header duplicated in backend {7d25eb5a-2c5a-431b-95a8-14f980c8f7e1}
+        'X-Chorus-User-Token': username,
+        // Header duplicated in backend {8eeaa95a-ab4f-45ca-a97a-f4767d8f4872}
+        'X-Apple-Music-User-Token': userToken,
+      },
       body: JSON.stringify({
-        username,
         'song-id': item.id,
         'song-playback-store-id': item.playbackStoreId,
         'user-token': userToken,
@@ -88,7 +94,12 @@ export const Recommendation = ({ item, style }) => {
             <Text style={styles.artistDesc}>{item.subtitle}</Text>
           </View>
           {(() => {
-            const OperationButton = ({ onPress, label, disabled }) => (
+            const OperationButton = ({
+              onPress,
+              label,
+              disabled,
+              disabledLabel,
+            }) => (
               <View>
                 <TouchableOpacity disabled={disabled} onPress={onPress}>
                   <Text
@@ -97,7 +108,10 @@ export const Recommendation = ({ item, style }) => {
                       ...[disabled && { color: '#ffffff65' }],
                     ]}
                   >
-                    {label.toUpperCase()}
+                    {(disabled && disabledLabel
+                      ? disabledLabel
+                      : label
+                    ).toUpperCase()}
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -105,7 +119,8 @@ export const Recommendation = ({ item, style }) => {
             return (
               <React.Fragment>
                 <OperationButton
-                  disabled={item.playbackStoreId === 0}
+                  disabled={typeof item.unsupported['playback'] !== 'undefined'}
+                  disabledLabel={item.unsupported['playback']}
                   onPress={() => appleMusicApi.playMusic(item.playbackStoreId)}
                   label="Play"
                 />

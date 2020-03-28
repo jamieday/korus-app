@@ -23,8 +23,22 @@ const tracksPerPage = 4;
 export default class DiscoverScreen extends React.Component {
   async refreshList(upToPage) {
     console.log('Fetching recommendations...');
+    const result = await appleMusicApi.requestUserToken();
+    if (result.isError) {
+      // TODO deal with error cases of authorization
+      return;
+    }
+    const userToken = result.result;
     const response = await fetch(
-      `http://${API_HOSTNAME}/api/recommendation/list?username=${await getUsername()}`,
+      `http://${API_HOSTNAME}/api/recommendation/list`,
+      {
+        headers: {
+          // Header duplicated in backend {7d25eb5a-2c5a-431b-95a8-14f980c8f7e1}
+          'X-Chorus-User-Token': await getUsername(),
+          // Header duplicated in backend {8eeaa95a-ab4f-45ca-a97a-f4767d8f4872}
+          'X-Apple-Music-User-Token': userToken,
+        },
+      },
     );
     const json = await response.json();
     const songs = json.map(song => ({
@@ -32,6 +46,7 @@ export default class DiscoverScreen extends React.Component {
       brand: 'Test',
       title: song.name,
       isLoved: song.isLoved,
+      unsupported: song.unsupported,
       subtitle: song.artist,
       artworkUrl: song.artworkUrl,
       playbackStoreId: song.appleMusic.playbackStoreId,
@@ -101,7 +116,9 @@ export default class DiscoverScreen extends React.Component {
           }
           style={{ backgroundColor: '#004ecbdd', padding: 15 }}
           data={this.props.data}
-          renderItem={({ item }) => <Recommendation item={item} />}
+          renderItem={({ item }) => (
+            <Recommendation key={item.id} item={item} />
+          )}
         />
       </View>
     );
