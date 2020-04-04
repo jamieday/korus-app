@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@react-native-firebase/app": "^6.3.4",
+    "@react-native-firebase/messaging": "^6.3.4",
     "global": "^4.4.0",
     "i18n-js": "^3.2.1",
     "jetifier": "^1.6.5",

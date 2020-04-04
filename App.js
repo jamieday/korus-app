@@ -8,7 +8,16 @@ import { store, persistor } from './src/redux/store';
 
 import AppView from './src/modules/AppViewContainer';
 
+import messaging from '@react-native-firebase/messaging';
+ 
 export default function App() {
+  React.useEffect(() => {
+    await messaging().registerForRemoteNotifications();
+
+    // ask for push notification permission
+    await messaging().requestPermission();
+  }, []);
+
   return (
     <Provider store={store}>
       <PersistGate
