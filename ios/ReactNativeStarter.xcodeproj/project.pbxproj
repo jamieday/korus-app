@@ -87,6 +87,7 @@
 		65C4209D7DE64233A6905E8B /* libRNLocalize-tvOS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = "libRNLocalize-tvOS.a"; sourceTree = "<group>"; };
 		77256A02D70CA211C5EE661E /* Pods-ReactNativeStarter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactNativeStarter.release.xcconfig"; path = "Target Support Files/Pods-ReactNativeStarter/Pods-ReactNativeStarter.release.xcconfig"; sourceTree = "<group>"; };
 		7D5AE191243575930078051C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		7D6EA733243D89CD00AB5DB3 /* ReactNativeStarter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = ReactNativeStarter.entitlements; path = ReactNativeStarter/ReactNativeStarter.entitlements; sourceTree = "<group>"; };
 		7D9A02A9241D636600E0F9E6 /* MediaPickerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPickerDelegate.swift; sourceTree = "<group>"; };
 		7DDBF7792415DB09006EDBE7 /* ReactNativeStarter-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ReactNativeStarter-Bridging-Header.h"; sourceTree = "<group>"; };
 		7DDBF77A2415DB0A006EDBE7 /* AppleMusic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppleMusic.swift; path = ReactNativeStarter/AppleMusic.swift; sourceTree = "<group>"; };
@@ -173,6 +174,7 @@
 		13B07FAE1A68108700A75B9A /* ReactNativeStarter */ = {
 			isa = PBXGroup;
 			children = (
+				7D6EA733243D89CD00AB5DB3 /* ReactNativeStarter.entitlements */,
 				7DDBF77A2415DB0A006EDBE7 /* AppleMusic.swift */,
 				7DDBF77B2415DB0A006EDBE7 /* AppleMusicBridge.m */,
 				7D9A02A9241D636600E0F9E6 /* MediaPickerDelegate.swift */,
@@ -789,6 +791,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = ReactNativeStarter/ReactNativeStarter.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = X99CXJUGDH;
@@ -822,6 +825,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = ReactNativeStarter/ReactNativeStarter.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = X99CXJUGDH;
 				HEADER_SEARCH_PATHS = (

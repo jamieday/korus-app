@@ -1,18 +1,6 @@
-import { Alert } from 'react-native';
+import auth from '@react-native-firebase/auth';
 
-const users = ['andrew', 'jamie', 'alex'];
-
-export const getUsername = () =>
-  new Promise(resolve =>
-    Alert.alert('Who are you again?', undefined, [
-      ...users.map(user => ({
-        text: user,
-        onPress: () => resolve(user),
-      })),
-      {
-        text: 'Cancel',
-        style: 'cancel',
-        onPress: () => resolve(undefined),
-      },
-    ]),
-  );
+export const getUsername = () => {
+  const user = auth().currentUser;
+  return user && user.displayName;
+};

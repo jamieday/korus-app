@@ -28,15 +28,21 @@ export default class DiscoverScreen extends React.Component {
       // TODO deal with error cases of authorization
       return;
     }
-    const userToken = result.result;
+    const appleMusicUserToken = result.result;
+
+    const chorusUserToken = await getUsername();
+    if (!chorusUserToken) {
+      return;
+    }
+
     const response = await fetch(
       `http://${API_HOSTNAME}/api/recommendation/list`,
       {
         headers: {
           // Header duplicated in backend {7d25eb5a-2c5a-431b-95a8-14f980c8f7e1}
-          'X-Chorus-User-Token': await getUsername(),
+          'X-Chorus-User-Token': chorusUserToken,
           // Header duplicated in backend {8eeaa95a-ab4f-45ca-a97a-f4767d8f4872}
-          'X-Apple-Music-User-Token': userToken,
+          'X-Apple-Music-User-Token': appleMusicUserToken,
         },
       },
     );
