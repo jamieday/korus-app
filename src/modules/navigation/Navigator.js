@@ -9,6 +9,7 @@ import appleAuth, {
 import { signInWithApple } from './packages/AppleSignIn';
 import { colors } from '../../styles';
 import { Button, TextInput } from '../../components';
+import crashlytics from '@react-native-firebase/crashlytics';
 
 export const AuthNContext = React.createContext(undefined);
 
@@ -19,6 +20,12 @@ export default function NavigatorView() {
 
   // Handle user state changes
   function onStateChanged(user) {
+    crashlytics().log('User state changed');
+    Promise.all([
+      crashlytics().setUserId(user.uid),
+      crashlytics().setUserName(user.displayName),
+      crashlytics().setUserEmail(user.email),
+    ]);
     setUser(user);
     if (initializing) {
       setInitializing(false);
@@ -26,6 +33,7 @@ export default function NavigatorView() {
   }
 
   useEffect(() => {
+    crashlytics().log('App mounted');
     const subscriber = auth().onUserChanged(onStateChanged);
     return subscriber; // unsubscribe on unmount
   }, []);

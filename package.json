@@ -19,6 +19,7 @@
     "@invertase/react-native-apple-authentication": "^0.2.0",
     "@react-native-firebase/app": "^6.4.0",
     "@react-native-firebase/auth": "^6.4.0",
+    "@react-native-firebase/crashlytics": "^6.4.0",
     "@react-native-firebase/messaging": "^6.4.0",
     "global": "^4.4.0",
     "i18n-js": "^3.2.1",
