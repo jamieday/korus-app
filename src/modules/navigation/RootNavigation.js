@@ -26,7 +26,7 @@ const stackNavigator = createStackNavigator(
     Main: {
       screen: MainTabNavigator,
       navigationOptions: () => ({
-        title: "Andrew's Tunes",
+        title: 'Chorus - Discover Music',
         headerLeft: null,
         headerBackground: (
           <Image
