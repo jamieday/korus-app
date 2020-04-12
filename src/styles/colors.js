@@ -16,6 +16,7 @@ const blueVersion = {
   blue: '#5A81F7',
   bluish: '#F1F1F7',
   black: '#1F2124',
+  lightBlack: '#111',
   green: '#6DD0A3',
   yellow: '#ffc247',
 };

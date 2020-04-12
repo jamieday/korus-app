@@ -28,16 +28,16 @@ const stackNavigator = createStackNavigator(
       navigationOptions: () => ({
         title: 'Chorus - Discover Music',
         headerLeft: null,
-        headerBackground: (
-          <Image
-            style={{
-              flex: 1,
-              width,
-            }}
-            source={headerBackground}
-            resizeMode="cover"
-          />
-        ),
+        // headerBackground: (
+        //   <Image
+        //     style={{
+        //       flex: 1,
+        //       width,
+        //     }}
+        //     source={headerBackground}
+        //     resizeMode="cover"
+        //   />
+        // ),
       }),
     },
     Profile: {
@@ -83,16 +83,16 @@ const stackNavigator = createStackNavigator(
         fontFamily: fonts.primaryLight,
       },
       headerStyle: {
-        backgroundColor: colors.primary,
+        backgroundColor: colors.black,
         borderBottomWidth: 0,
       },
-      headerBackground: (
-        <Image
-          style={{ flex: 1 }}
-          source={headerBackground}
-          resizeMode="cover"
-        />
-      ),
+      // headerBackground: (
+      //   <Image
+      //     style={{ flex: 1 }}
+      //     source={headerBackground}
+      //     resizeMode="cover"
+      //   />
+      // ),
       headerTitleStyle: {
         color: colors.white,
         fontFamily: fonts.primaryRegular,

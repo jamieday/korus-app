@@ -1,6 +1,6 @@
 /* eslint-disable import/no-unresolved */
 import React from 'react';
-import { Image, View, StyleSheet, Text } from 'react-native';
+import { Image, View, StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from 'react-navigation';
 
 import { colors, fonts } from '../../styles';
@@ -9,29 +9,27 @@ import HomeScreen from '../home/HomeViewContainer';
 import DiscoverScreen from '../discover/DiscoverViewContainer';
 import { LoveView } from '../love/LoveView';
 
-const iconHome = require('../../../assets/images/tabbar/home.png');
 const iconCalendar = require('../../../assets/images/pages/calendar.png');
 const iconDiscover = require('../../../assets/images/pages/chat.png');
 const iconPages = require('../../../assets/images/tabbar/pages.png');
 const iconComponents = require('../../../assets/images/tabbar/components.png');
-
-const hederBackground = require('../../../assets/images/topBarBg.png');
 
 const styles = StyleSheet.create({
   tabBarItemContainer: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    borderBottomWidth: 2,
-    borderBottomColor: colors.white,
+    // borderBottomWidth: 2,
+    // borderBottomColor: colors.darkGray,
     paddingHorizontal: 10,
   },
   tabBarIcon: {
     width: 23,
     height: 23,
+    tintColor: colors.grey,
   },
   tabBarIconFocused: {
-    tintColor: colors.primary,
+    tintColor: colors.white,
   },
   headerContainer: {
     height: 70,
@@ -122,6 +120,8 @@ export default createBottomTabNavigator(
           case 'Components':
             iconSource = iconComponents;
             break;
+          case 'Profile':
+            iconSource = icon;
           default:
             iconSource = iconComponents;
         }
@@ -142,9 +142,9 @@ export default createBottomTabNavigator(
     tabBarOptions: {
       showLabel: true,
       style: {
-        backgroundColor: colors.white,
+        backgroundColor: colors.black,
         borderTopWidth: 0.5,
-        borderTopColor: '#d6d6d6',
+        borderTopColor: '#666',
       },
       labelStyle: {
         color: colors.grey,

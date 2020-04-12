@@ -9,6 +9,7 @@ import { DoubleTap } from '../../modules/double-tap/DoubleTap';
 import { getUsername } from '../identity/getUsername';
 
 const profileImgSize = 55;
+const defaultProfileImg = require('../../../assets/images/default-avatar.png');
 
 export const Recommendation = ({ item, style }) => {
   const [isLoved, setLoved] = React.useState(item.isLoved);
@@ -62,9 +63,13 @@ export const Recommendation = ({ item, style }) => {
               overflow: 'hidden',
               borderRadius: profileImgSize / 2,
             }}
-            source={{
-              uri: `http://${API_HOSTNAME}${item.image}`,
-            }}
+            source={
+              item.image
+                ? {
+                    uri: `http://${API_HOSTNAME}${item.image}`,
+                  }
+                : defaultProfileImg
+            }
           />
           <Text style={{ flex: 1, color: colors.white }}>
             <Text style={{ fontWeight: 'bold' }}>{item.price}</Text> recommends
@@ -141,7 +146,7 @@ export const Recommendation = ({ item, style }) => {
 const styles = StyleSheet.create({
   container: {
     display: 'flex',
-    marginBottom: 100,
+    marginBottom: 50,
     // justifyContent: 'center',
   },
 

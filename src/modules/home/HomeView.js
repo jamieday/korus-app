@@ -14,10 +14,11 @@ export default function HomeScreen({}) {
   const [flashText, setFlashText] = React.useState();
 
   return (
-    <ImageBackground
-      source={require('../../../assets/images/background.png')}
-      style={styles.bgImage}
-      resizeMode="cover"
+    <View
+      style={{
+        backgroundColor: colors.black,
+        height: '100%',
+      }}
     >
       <View style={styles.container}>
         <View style={[styles.section, { marginTop: 30 }]}>
@@ -28,7 +29,7 @@ export default function HomeScreen({}) {
         <View style={[styles.section]}>
           <Button
             style={[{ height: 75 }]}
-            primary
+            bgColor={'#333'}
             rounded
             caption="Recommend Track"
             onPress={() => {
@@ -78,7 +79,7 @@ export default function HomeScreen({}) {
           </Text>
         </View>
       </View>
-    </ImageBackground>
+    </View>
   );
 }
 
