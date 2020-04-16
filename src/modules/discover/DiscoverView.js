@@ -120,10 +120,18 @@ export default class DiscoverScreen extends React.Component {
               ? `${this.props.tabIndex}-${item.id}`
               : `${item[0] && item[0].id}`
           }
-          style={{ backgroundColor: colors.lightBlack, padding: 15 }}
+          style={{
+            backgroundColor: colors.lightBlack,
+            padding: 15,
+          }}
           data={this.props.data}
           renderItem={({ item }) => (
-            <Recommendation key={item.id} item={item} />
+            <Recommendation
+              key={item.id}
+              item={item}
+              isPlaying={this.props.playingSongId === item.id}
+              onPlay={() => this.props.setPlayingSongId(item.id)}
+            />
           )}
         />
       </View>

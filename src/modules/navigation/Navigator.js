@@ -21,11 +21,13 @@ export default function NavigatorView() {
   // Handle user state changes
   function onStateChanged(user) {
     crashlytics().log('User state changed');
-    Promise.all([
-      crashlytics().setUserId(user.uid),
-      crashlytics().setUserName(user.displayName),
-      crashlytics().setUserEmail(user.email),
-    ]);
+    if (user) {
+      crashlytics().setUserId(user.uid);
+      if (user.displayName) crashlytics().setUserName(user.displayName);
+      if (user.email) crashlytics().setUserEmail(user.email);
+    } else {
+      crashlytics().log('User logged out');
+    }
     setUser(user);
     if (initializing) {
       setInitializing(false);

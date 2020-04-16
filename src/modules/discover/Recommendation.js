@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { StyleSheet, View, Text, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, View, Text, Image, ImageBackground } from 'react-native';
 import { colors, fonts } from '../../styles';
 
 import { appleMusicApi } from '../../react-native-apple-music/io/appleMusicApi';
@@ -8,23 +8,54 @@ import { API_HOSTNAME } from '../discover/DiscoverView';
 import { DoubleTap } from '../../modules/double-tap/DoubleTap';
 import { getUsername } from '../identity/getUsername';
 
-const profileImgSize = 55;
-const defaultProfileImg = require('../../../assets/images/default-avatar.png');
+import LinearGradient from 'react-native-linear-gradient';
+import crashlytics from '@react-native-firebase/crashlytics';
+import ProfileIcon from '../../../assets/images/pages/profile.svg';
+import LoveIcon from '../../../assets/images/icons/love.svg';
 
-export const Recommendation = ({ item, style }) => {
+const playIcon = require('../../../assets/images/icons/play.png');
+const pauseIcon = require('../../../assets/images/icons/pause.png');
+
+const log = message => {
+  console.log(message);
+  crashlytics().log(message);
+};
+
+export const Recommendation = ({ item, style, isPlaying, onPlay }) => {
   const [isLoved, setLoved] = React.useState(item.isLoved);
+
+  const playSong = item => {
+    if (typeof item.unsupported['playback'] === 'undefined') {
+      log(`Playing song ${item.playbackStoreId}`);
+      if (onPlay) onPlay();
+      appleMusicApi.playMusic(item.playbackStoreId);
+    } else {
+      (async () => {
+        await crashlytics().setAttribute('song', item);
+        log(`Tried to play song ${item.playbackStoreId}`);
+      })();
+    }
+  };
+
   const addToLibrary = async () => {
+    if (item.playbackStoreId === 0 || isLoved) {
+      log('Could not love song');
+      return;
+    }
     const username = await getUsername();
     if (!username) {
+      log('Could not resolve user');
       return;
     }
     const result = await appleMusicApi.requestUserToken();
     if (result.isError) {
+      log('Could not get apple music user token');
       // TODO deal with error cases of authorization
       return;
     }
     const userToken = result.result;
     setLoved(true);
+    log('Loving song...');
     await fetch(`http://${API_HOSTNAME}/api/song/love`, {
       method: 'POST',
       headers: {
@@ -42,137 +73,129 @@ export const Recommendation = ({ item, style }) => {
       }),
     });
   };
-  const Container = ({ children, style }) => {
-    style = [styles.container, style];
-    return (
-      <View key={item.id} style={style}>
-        {children}
-      </View>
-    );
-  };
-  return (
-    <Container style={style}>
-      <View style={styles.contentContainer}>
-        <View style={styles.header}>
-          <Image
-            style={{
-              width: profileImgSize,
-              height: profileImgSize,
-              marginRight: 8,
 
-              overflow: 'hidden',
-              borderRadius: profileImgSize / 2,
-            }}
-            source={
-              item.image
-                ? {
-                    uri: `http://${API_HOSTNAME}${item.image}`,
-                  }
-                : defaultProfileImg
-            }
-          />
-          <Text style={{ flex: 1, color: colors.white }}>
-            <Text style={{ fontWeight: 'bold' }}>{item.price}</Text> recommends
-          </Text>
-        </View>
-        <DoubleTap doubleTap={() => !isLoved && addToLibrary()}>
-          <Image
-            style={{ opacity: isLoved ? 1 : 0.66, height: 350 }}
-            source={{
-              uri: item.artworkUrl,
-            }}
-            resizeMode={'contain'}
-          />
-        </DoubleTap>
-        <View
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginTop: 15,
-          }}
+  const height = 350;
+
+  return (
+    <ImageBackground
+      key={item.id}
+      style={[styles.container, style]}
+      source={{
+        uri: item.artworkUrl,
+      }}
+      borderRadius={15}
+    >
+      <DoubleTap
+        singleTap={() => playSong(item)}
+        doubleTap={() => !isLoved && addToLibrary()}
+      >
+        <LinearGradient
+          locations={[0, 0.25, 0.72, 1]}
+          style={[styles.gradientContainer, { height }]}
+          colors={['#000000b4', '#00000000', '#00000000', '#000000b4']}
         >
-          <View style={{ flex: 1 }}>
-            <Text style={[styles.songTitle, { marginBottom: 0 }]}>
-              {item.title}
-            </Text>
-            <Text style={styles.artistDesc}>{item.subtitle}</Text>
+          <View
+            style={{
+              position: 'absolute',
+              top: '39%',
+              left: '40%',
+            }}
+          >
+            {!isPlaying && (
+              <Image style={{ width: 75, height: 75 }} source={playIcon} />
+            )}
           </View>
-          {(() => {
-            const OperationButton = ({
-              onPress,
-              label,
-              disabled,
-              disabledLabel,
-            }) => (
-              <View>
-                <TouchableOpacity disabled={disabled} onPress={onPress}>
-                  <Text
-                    style={[
-                      styles.callToAction,
-                      ...[disabled && { color: '#ffffff65' }],
-                    ]}
-                  >
-                    {(disabled && disabledLabel
-                      ? disabledLabel
-                      : label
-                    ).toUpperCase()}
-                  </Text>
-                </TouchableOpacity>
+          <View
+            style={[
+              { height },
+              {
+                padding: 15,
+                justifyContent: 'space-between',
+              },
+            ]}
+          >
+            <View>
+              <Text style={styles.artistDesc}>{item.subtitle}</Text>
+              <Text
+                numberOfLines={1}
+                style={[styles.songTitle, { marginBottom: 0 }]}
+              >
+                {item.title}
+              </Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}
+            >
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <ProfileIcon
+                  style={{ marginRight: 5 }}
+                  width={25}
+                  fill={colors.white}
+                />
+                <Text style={styles.recommenders}>{item.price}</Text>
               </View>
-            );
-            return (
-              <React.Fragment>
-                <OperationButton
-                  disabled={typeof item.unsupported['playback'] !== 'undefined'}
-                  disabledLabel={item.unsupported['playback']}
-                  onPress={() => appleMusicApi.playMusic(item.playbackStoreId)}
-                  label="Play"
-                />
-                <OperationButton
-                  disabled={item.playbackStoreId === 0 || isLoved}
-                  onPress={addToLibrary}
-                  label={isLoved ? '❤️' : '♡'}
-                />
-              </React.Fragment>
-            );
-          })()}
-        </View>
-      </View>
-    </Container>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Text style={{ color: 'white', marginRight: 5 }}>
+                  {isLoved ? '❤️' : '♡'}
+                </Text>
+                {/* <LoveIcon
+                  style={{ marginRight: 5 }}
+                  width={25}
+                  fill={colors.white}
+                /> */}
+                <Text style={styles.recommenders}>{isLoved ? 1 : 0}</Text>
+              </View>
+            </View>
+          </View>
+        </LinearGradient>
+      </DoubleTap>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
-    marginBottom: 50,
-    // justifyContent: 'center',
+    marginTop: 10,
+    marginBottom: 15,
+
+    // Box shadow
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
   },
 
-  header: {
-    flex: 1,
-    margin: 6,
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
+  gradientContainer: {
+    borderRadius: 15,
   },
+
   songTitle: {
     color: colors.white,
     fontFamily: fonts.primaryBold,
-    fontSize: 18,
+    fontSize: 20,
+    marginTop: 5,
   },
-  artistDesc: {
-    color: colors.white,
-    fontFamily: fonts.primaryRegular,
-    fontSize: 14,
-    marginVertical: 5,
-  },
-  callToAction: {
+
+  recommenders: {
     color: colors.white,
     fontFamily: fonts.primaryBold,
-    fontSize: 12,
-    padding: 15,
+    fontSize: 14,
+    marginBottom: 5,
+  },
+  artistDesc: {
+    color: colors.lightGray,
+    fontFamily: fonts.primaryRegular,
+    fontSize: 14,
+    textTransform: 'uppercase',
   },
   unsupportedAction: {
     marginTop: 15,

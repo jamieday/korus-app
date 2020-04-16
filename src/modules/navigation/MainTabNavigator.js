@@ -1,6 +1,6 @@
 /* eslint-disable import/no-unresolved */
 import React from 'react';
-import { Image, View, StyleSheet } from 'react-native';
+import { processColor, Image, View, StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from 'react-navigation';
 
 import { colors, fonts } from '../../styles';
@@ -8,10 +8,10 @@ import { colors, fonts } from '../../styles';
 import HomeScreen from '../home/HomeViewContainer';
 import DiscoverScreen from '../discover/DiscoverViewContainer';
 import { LoveView } from '../love/LoveView';
+import DiscoverIcon from '../../../assets/images/pages/discover.svg';
 
 const iconCalendar = require('../../../assets/images/pages/calendar.png');
 const iconDiscover = require('../../../assets/images/pages/chat.png');
-const iconPages = require('../../../assets/images/tabbar/pages.png');
 const iconComponents = require('../../../assets/images/tabbar/components.png');
 
 const styles = StyleSheet.create({
@@ -112,10 +112,17 @@ export default createBottomTabNavigator(
             iconSource = iconCalendar;
             break;
           case 'Discover':
-            iconSource = iconPages;
+            return (
+              <View style={styles.tabBarItemContainer}>
+                <DiscoverIcon
+                  width={27}
+                  fill={focused ? colors.white : colors.gray}
+                />
+              </View>
+            );
             break;
           case 'Pages':
-            iconSource = iconPages;
+            iconSource = require('../../../assets/images/tabbar/pages.png');
             break;
           case 'Components':
             iconSource = iconComponents;

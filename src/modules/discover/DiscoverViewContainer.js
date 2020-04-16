@@ -9,4 +9,5 @@ export default compose(
   withState('isRefreshing', 'setRefreshing', false),
   withState('isEndReached', 'setEndReached', false),
   withState('upToPage', 'setUpToPage', 1),
+  withState('playingSongId', 'setPlayingSongId', undefined),
 )(GridView);

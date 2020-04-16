@@ -38,6 +38,7 @@
     "react-native-modal-datetime-picker": "^6.0.0",
     "react-native-modal-dropdown": "0.7.0",
     "react-native-paper": "^3.1.1",
+    "react-native-svg": "^12.1.0",
     "react-native-ui-lib": "^3.39.0",
     "react-native-vector-icons": "^6.6.0",
     "react-navigation": "^3.3.2",
@@ -79,6 +80,7 @@
     "prettier": "^1.16.1",
     "react-addons-test-utils": "^15.6.2",
     "react-dom": "^16.6.3",
+    "react-native-svg-transformer": "^0.14.3",
     "react-test-renderer": "16.8.1",
     "sinon": "^7.1.1"
   },
