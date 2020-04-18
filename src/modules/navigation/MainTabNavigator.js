@@ -61,7 +61,7 @@ export default createBottomTabNavigator(
         header: null,
       },
     },
-    Recommend: {
+    Share: {
       screen: HomeScreen,
       navigationOptions: {
         header: null,
@@ -105,7 +105,7 @@ export default createBottomTabNavigator(
         const { routeName } = navigation.state;
         let iconSource;
         switch (routeName) {
-          case 'Recommend':
+          case 'Share':
             iconSource = iconDiscover;
             break;
           case 'Calendar':

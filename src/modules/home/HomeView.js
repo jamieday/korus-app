@@ -21,17 +21,13 @@ export default function HomeScreen({}) {
       }}
     >
       <View style={styles.container}>
-        <View style={[styles.section, { marginTop: 30 }]}>
-          <Text size={26} bold white style={styles.title}>
-            Share something great
-          </Text>
-        </View>
+        <View style={[styles.section, { marginTop: 30 }]}></View>
         <View style={[styles.section]}>
           <Button
             style={[{ height: 75 }]}
             bgColor={'#333'}
             rounded
-            caption="Recommend Track"
+            caption="Share a song"
             onPress={() => {
               (async () => {
                 const username = await getUsername();
