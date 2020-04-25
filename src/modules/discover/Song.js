@@ -1,44 +1,42 @@
 import React from 'react';
 
-import { StyleSheet, View, Text, Image, ImageBackground } from 'react-native';
+import { StyleSheet, View, Text, ImageBackground } from 'react-native';
 import { colors, fonts } from '../../styles';
 
 import { appleMusicApi } from '../../react-native-apple-music/io/appleMusicApi';
-import { API_HOSTNAME } from '../discover/DiscoverView';
-import { DoubleTap } from '../../modules/double-tap/DoubleTap';
+import { API_HOSTNAME } from './DiscoverScreen';
+import { DoubleTap } from '../double-tap/DoubleTap';
 import { getUsername } from '../identity/getUsername';
 
 import LinearGradient from 'react-native-linear-gradient';
 import crashlytics from '@react-native-firebase/crashlytics';
 import ProfileIcon from '../../../assets/images/pages/profile.svg';
-import LoveIcon from '../../../assets/images/icons/love.svg';
 
 const playIcon = require('../../../assets/images/icons/play.png');
-const pauseIcon = require('../../../assets/images/icons/pause.png');
 
 const log = message => {
   console.log(message);
   crashlytics().log(message);
 };
 
-export const Recommendation = ({ item, style, isPlaying, onPlay }) => {
-  const [isLoved, setLoved] = React.useState(item.isLoved);
+export const Song = ({ song, style, isPlaying, onPlay }) => {
+  const [isLoved, setLoved] = React.useState(song.isLoved);
 
-  const playSong = item => {
-    if (typeof item.unsupported['playback'] === 'undefined') {
-      log(`Playing song ${item.playbackStoreId}`);
+  const playSong = song => {
+    if (typeof song.unsupported['playback'] === 'undefined') {
+      log(`Playing song ${song.playbackStoreId}`);
       if (onPlay) onPlay();
-      appleMusicApi.playMusic(item.playbackStoreId);
+      appleMusicApi.playMusic(song.playbackStoreId);
     } else {
       (async () => {
-        await crashlytics().setAttribute('song', item);
-        log(`Tried to play song ${item.playbackStoreId}`);
+        await crashlytics().setAttribute('song', song);
+        log(`Tried to play song ${song.playbackStoreId}`);
       })();
     }
   };
 
   const addToLibrary = async () => {
-    if (item.playbackStoreId === 0 || isLoved) {
+    if (song.playbackStoreId === 0 || isLoved) {
       log('Could not love song');
       return;
     }
@@ -67,8 +65,8 @@ export const Recommendation = ({ item, style, isPlaying, onPlay }) => {
         'X-Apple-Music-User-Token': userToken,
       },
       body: JSON.stringify({
-        'song-id': item.id,
-        'song-playback-store-id': item.playbackStoreId,
+        'song-id': song.id,
+        'song-playback-store-id': song.playbackStoreId,
         'user-token': userToken,
       }),
     });
@@ -78,15 +76,15 @@ export const Recommendation = ({ item, style, isPlaying, onPlay }) => {
 
   return (
     <ImageBackground
-      key={item.id}
+      key={song.id}
       style={[styles.container, style]}
       source={{
-        uri: item.artworkUrl,
+        uri: song.artworkUrl,
       }}
       borderRadius={15}
     >
       <DoubleTap
-        singleTap={() => playSong(item)}
+        singleTap={() => playSong(song)}
         doubleTap={() => !isLoved && addToLibrary()}
       >
         <LinearGradient
@@ -101,9 +99,9 @@ export const Recommendation = ({ item, style, isPlaying, onPlay }) => {
               left: '40%',
             }}
           >
-            {!isPlaying && (
+            {/* {!isPlaying && (
               <Image style={{ width: 75, height: 75 }} source={playIcon} />
-            )}
+            )} */}
           </View>
           <View
             style={[
@@ -115,12 +113,12 @@ export const Recommendation = ({ item, style, isPlaying, onPlay }) => {
             ]}
           >
             <View>
-              <Text style={styles.artistDesc}>{item.subtitle}</Text>
+              <Text style={styles.artistDesc}>{song.artist}</Text>
               <Text
                 numberOfLines={1}
-                style={[styles.songTitle, { marginBottom: 0 }]}
+                style={[styles.songName, { marginBottom: 0 }]}
               >
-                {item.title}
+                {song.name}
               </Text>
             </View>
             <View
@@ -136,7 +134,7 @@ export const Recommendation = ({ item, style, isPlaying, onPlay }) => {
                   width={25}
                   fill={colors.white}
                 />
-                <Text style={styles.recommenders}>{item.price}</Text>
+                <Text style={styles.recommenders}>{song.sharer}</Text>
               </View>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Text style={{ color: 'white', marginRight: 5 }}>
@@ -178,7 +176,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
 
-  songTitle: {
+  songName: {
     color: colors.white,
     fontFamily: fonts.primaryBold,
     fontSize: 20,

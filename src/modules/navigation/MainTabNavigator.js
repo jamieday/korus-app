@@ -5,13 +5,13 @@ import { createBottomTabNavigator } from 'react-navigation';
 
 import { colors, fonts } from '../../styles';
 
-import HomeScreen from '../home/HomeViewContainer';
-import DiscoverScreen from '../discover/DiscoverViewContainer';
+import { ShareScreenContainer as ShareScreen } from '../home/ShareViewContainer';
+import { DiscoverScreen } from '../discover/DiscoverScreen';
 import { LoveView } from '../love/LoveView';
 import DiscoverIcon from '../../../assets/images/pages/discover.svg';
+import ShareIcon from '../../../assets/images/icons/share.svg';
 
 const iconCalendar = require('../../../assets/images/pages/calendar.png');
-const iconDiscover = require('../../../assets/images/pages/chat.png');
 const iconComponents = require('../../../assets/images/tabbar/components.png');
 
 const styles = StyleSheet.create({
@@ -62,7 +62,7 @@ export default createBottomTabNavigator(
       },
     },
     Share: {
-      screen: HomeScreen,
+      screen: ShareScreen,
       navigationOptions: {
         header: null,
       },
@@ -106,8 +106,15 @@ export default createBottomTabNavigator(
         let iconSource;
         switch (routeName) {
           case 'Share':
-            iconSource = iconDiscover;
-            break;
+            return (
+              <View style={styles.tabBarItemContainer}>
+                <ShareIcon
+                  width={21}
+                  height={21}
+                  fill={focused ? colors.white : colors.gray}
+                />
+              </View>
+            );
           case 'Calendar':
             iconSource = iconCalendar;
             break;
@@ -120,7 +127,6 @@ export default createBottomTabNavigator(
                 />
               </View>
             );
-            break;
           case 'Pages':
             iconSource = require('../../../assets/images/tabbar/pages.png');
             break;
