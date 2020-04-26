@@ -1,15 +1,16 @@
 /* eslint-disable import/no-unresolved */
 import React from 'react';
-import { processColor, Image, View, StyleSheet } from 'react-native';
+import { Image, View, StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from 'react-navigation';
 
 import { colors, fonts } from '../../styles';
 
 import { ShareScreenContainer as ShareScreen } from '../home/ShareViewContainer';
 import { DiscoverScreen } from '../discover/DiscoverScreen';
-import { LoveView } from '../love/LoveView';
+import { GroupsScreen } from '../groups/GroupsScreen';
 import DiscoverIcon from '../../../assets/images/pages/discover.svg';
 import ShareIcon from '../../../assets/images/icons/share.svg';
+import GroupsIcon from '../../../assets/images/icons/groups.svg';
 
 const iconCalendar = require('../../../assets/images/pages/calendar.png');
 const iconComponents = require('../../../assets/images/tabbar/components.png');
@@ -68,8 +69,8 @@ export default createBottomTabNavigator(
       },
     },
     ...(__DEV__ && {
-      Love: {
-        screen: LoveView,
+      People: {
+        screen: GroupsScreen,
         navigationOptions: {
           header: null,
         },
@@ -130,9 +131,16 @@ export default createBottomTabNavigator(
           case 'Pages':
             iconSource = require('../../../assets/images/tabbar/pages.png');
             break;
-          case 'Components':
-            iconSource = iconComponents;
-            break;
+          case 'People':
+            return (
+              <View style={styles.tabBarItemContainer}>
+                <GroupsIcon
+                  width={20}
+                  height={20}
+                  fill={focused ? colors.white : colors.gray}
+                />
+              </View>
+            );
           case 'Profile':
             iconSource = icon;
           default:

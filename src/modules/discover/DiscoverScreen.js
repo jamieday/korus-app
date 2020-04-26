@@ -4,6 +4,7 @@ import {
   StyleSheet,
   View,
   FlatList,
+  Text,
   ActivityIndicator,
 } from 'react-native';
 import { colors } from '../../styles';
@@ -27,20 +28,24 @@ export const API_HOSTNAME = (() => {
 const tracksPerPage = 4;
 
 export const DiscoverScreen = ({ navigation }) => {
-  const [data, setData] = React.useState([]);
+  const [data, setData] = React.useState(undefined);
   const [upToPage, setUpToPage] = React.useState(1);
-  const [isRefreshing, setRefreshing] = React.useState(false);
+  const [isRefreshing, setRefreshing] = React.useState(true);
   const [isEndReached, setEndReached] = React.useState(false);
   const [playingSongId, setPlayingSongId] = React.useState(undefined);
+  const [didPressRefresh, setDidPressRefresh] = React.useState(false);
 
   const listRef = React.useRef();
   const scrollToTop = () => {
-    listRef.current.scrollToOffset({ animated: true, offset: 0 });
+    if (listRef.current) {
+      listRef.current.scrollToOffset({ animated: true, offset: 0 });
+    }
   };
 
   React.useEffect(() => {
     console.log('Discover screen setting up...');
     refresh();
+
     return () => {
       console.log('TODO cancel refresh here.'); // TODO
       console.log('Discover screen unmounted.');
@@ -133,41 +138,81 @@ export const DiscoverScreen = ({ navigation }) => {
           />
         );
       })()}
-      <FlatList
-        ref={listRef}
-        onRefresh={refresh}
-        refreshing={isRefreshing}
-        onEndReached={() => {
-          setEndReached(true);
-          const nextPage = upToPage + 1;
-          setUpToPage(nextPage);
-          // (async () => {
-          // const additionalItems = await refreshList(nextPage);
-          // setData([...data, additionalItems]);
-          // })();
-          setEndReached(false);
-        }}
-        onEndReachedThreshold={0.95}
-        showsVerticalScrollIndicator={false}
-        initialNumToRender={tracksPerPage}
-        ListFooterComponent={() =>
-          isEndReached && <ActivityIndicator animating size="large" />
-        }
-        keyExtractor={item => item.id}
-        style={{
-          backgroundColor: colors.lightBlack,
-          padding: 15,
-        }}
-        data={data}
-        renderItem={({ item }) => (
-          <Song
-            key={item.id}
-            song={item}
-            isPlaying={playingSongId === item.id}
-            onPlay={() => setPlayingSongId(item.id)}
-          />
-        )}
-      />
+      {data && !data.length ? (
+        <View
+          style={{
+            justifyContent: 'center',
+            height: '100%',
+            alignItems: 'center',
+          }}
+        >
+          <Text
+            style={{
+              color: colors.white,
+              marginBottom: 20,
+              textAlign: 'center',
+              padding: 20,
+            }}
+          >
+            Um, this only really works with friends. And as far as we can tell,
+            you don't have any.
+          </Text>
+          {isRefreshing ? (
+            <ActivityIndicator />
+          ) : (
+            <Button
+              onPress={() => {
+                if (!didPressRefresh) {
+                  refresh();
+                  setDidPressRefresh(true);
+                } else {
+                  navigation.navigate('People');
+                  setDidPressRefresh(false);
+                }
+              }}
+              title={
+                didPressRefresh ? '(hint: Go find some friends...)' : 'Refresh'
+              }
+            />
+          )}
+        </View>
+      ) : (
+        <FlatList
+          ref={listRef}
+          onRefresh={refresh}
+          refreshing={isRefreshing}
+          onEndReached={() => {
+            setEndReached(true);
+            const nextPage = upToPage + 1;
+            setUpToPage(nextPage);
+            // (async () => {
+            // const additionalItems = await refreshList(nextPage);
+            // setData([...data, additionalItems]);
+            // })();
+            setEndReached(false);
+          }}
+          onEndReachedThreshold={0.95}
+          showsVerticalScrollIndicator={false}
+          initialNumToRender={tracksPerPage}
+          ListFooterComponent={() =>
+            isEndReached && <ActivityIndicator animating size="large" />
+          }
+          keyExtractor={item => item.id}
+          style={{
+            backgroundColor: colors.lightBlack,
+            padding: 15,
+          }}
+          data={data}
+          renderItem={({ item }) => (
+            <Song
+              key={item.id}
+              song={item}
+              isPlaying={playingSongId === item.id}
+              onPlay={() => setPlayingSongId(item.id)}
+            />
+          )}
+        />
+      )}
     </View>
   );
 };

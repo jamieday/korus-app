@@ -1,9 +1,9 @@
 import React from 'react';
-import { FlatList, StyleSheet, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { fonts, colors } from '../../styles';
 import { TextInput } from '../../components';
-import { Text } from '../../components/StyledText';
+import { SelectionList } from '../../components/SelectionList';
 import ShareIcon from '../../../assets/images/icons/share.svg';
 import { API_HOSTNAME } from '../discover/DiscoverScreen';
 
@@ -116,34 +116,17 @@ export const ShareScreen = ({ navigation }) => {
           />
         </View>
         <View style={[styles.section, { width: '100%' }]}>
-          <FlatList
+          <SelectionList
             keyExtractor={song => song.playbackStoreId}
-            style={{
-              padding: 15,
-            }}
-            data={songs}
-            renderItem={({ item: song }) => (
-              <TouchableOpacity
-                onPress={() => shareSong(song)}
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  marginBottom: 20,
-                }}
-                key={song.playbackStoreId}
-              >
-                <View style={{ flex: 1, marginRight: 10 }}>
-                  <Text style={{ color: colors.white }} numberOfLines={1}>
-                    {song.name}
-                  </Text>
-                  <Text style={{ color: colors.gray }} numberOfLines={1}>
-                    {song.artist}
-                  </Text>
-                </View>
-                <ShareIcon width={20} height={20} fill={colors.white} />
-              </TouchableOpacity>
-            )}
+            items={songs}
+            onItemPressed={shareSong}
+            getItemDetail={song => ({
+              title: song.name,
+              subtitle: song.artist,
+            })}
+            actionIcon={
+              <ShareIcon width={20} height={20} fill={colors.white} />
+            }
           />
         </View>
       </View>
