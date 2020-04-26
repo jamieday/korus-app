@@ -1,7 +1,13 @@
 import React from 'react';
-import { StyleSheet, View, FlatList, ActivityIndicator } from 'react-native';
+import {
+  Button,
+  StyleSheet,
+  View,
+  FlatList,
+  ActivityIndicator,
+} from 'react-native';
 import { colors } from '../../styles';
-
+import auth from '@react-native-firebase/auth';
 import { appleMusicApi } from '../../react-native-apple-music/io/appleMusicApi';
 import { Song } from './Song';
 import { getUsername } from '../identity/getUsername';
@@ -114,6 +120,19 @@ export const DiscoverScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      {(() => {
+        const username = getUsername();
+        const allowedToLogout = ['Alex'];
+        if (allowedToLogout.indexOf(username) === -1) {
+          return null;
+        }
+        return (
+          <Button
+            onPress={() => auth().signOut()}
+            title="Alexander, press this button"
+          />
+        );
+      })()}
       <FlatList
         ref={listRef}
         onRefresh={refresh}
