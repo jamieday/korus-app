@@ -2,6 +2,4 @@
 - Push notifications (engagement)
 - Love screen (?? add to play list ? )
 
-
-- Like counter
-- Fix follow / unfollow race condition 
+- Fix follow / unfollow race condition

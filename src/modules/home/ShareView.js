@@ -21,7 +21,7 @@ export const ShareScreen = ({ navigation }) => {
   const [songs, setSongs] = React.useState([]);
 
   const shareSong = async song => {
-    const username = await getUsername();
+    const username = getUsername();
     if (!username) {
       return;
     }
@@ -65,7 +65,7 @@ export const ShareScreen = ({ navigation }) => {
     }
     const appleMusicUserToken = result.result;
 
-    const chorusUserToken = await getUsername();
+    const chorusUserToken = getUsername();
     if (!chorusUserToken) {
       return;
     }

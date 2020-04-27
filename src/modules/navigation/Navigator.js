@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text } from 'react-native';
 import AppNavigator from './RootNavigation';
 // import messaging from '@react-native-firebase/messaging';

@@ -93,8 +93,14 @@ class AppleMusic: NSObject, MPMediaPickerControllerDelegate {
   @objc func playMusic(_ playbackStoreId: String) {
     // Instantiate a new music player
     let myMediaPlayer = MPMusicPlayerApplicationController.systemMusicPlayer
-    myMediaPlayer.repeatMode =  MPMusicRepeatMode.all
-    myMediaPlayer.setQueue(with: [playbackStoreId])
-    myMediaPlayer.play()
+    
+    if (myMediaPlayer.playbackState == MPMusicPlaybackState.playing
+      && myMediaPlayer.nowPlayingItem!.playbackStoreID == playbackStoreId) {
+      myMediaPlayer.pause();
+    } else {
+      myMediaPlayer.repeatMode =  MPMusicRepeatMode.all
+      myMediaPlayer.setQueue(with: [playbackStoreId])
+      myMediaPlayer.play()
+    }
   }
 }

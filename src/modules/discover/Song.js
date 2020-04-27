@@ -19,6 +19,7 @@ const log = message => {
 
 export const Song = ({ song, style, onPlay }) => {
   const [loves, setLoves] = React.useState(song.loves);
+  React.useEffect(() => setLoves(song.loves), [song.loves]);
   const username = getUsername();
 
   const playSong = song => {
