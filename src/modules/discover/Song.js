@@ -83,9 +83,22 @@ export const Song = ({ song, style, onPlay }) => {
         doubleTap={() => addToLibrary()}
       >
         <LinearGradient
-          locations={[0, 0.25, 0.72, 1]}
+          locations={[0, 0.1, 0.2, 0.3, 0.4, 0.45, 0.55, 0.6, 0.7, 0.8, 0.9, 1]}
           style={[styles.gradientContainer, { height }]}
-          colors={['#000000b4', '#00000000', '#00000000', '#000000b4']}
+          colors={[
+            '#000000AA',
+            '#00000075',
+            '#00000050',
+            '#00000030',
+            '#00000010',
+            '#00000000',
+            '#00000000',
+            '#00000010',
+            '#00000030',
+            '#00000050',
+            '#00000075',
+            '#000000AA',
+          ]}
         >
           <View
             style={{
