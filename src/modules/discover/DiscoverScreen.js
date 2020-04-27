@@ -34,6 +34,7 @@ export const DiscoverScreen = ({ navigation }) => {
   const [isEndReached, setEndReached] = React.useState(false);
   const [playingSongId, setPlayingSongId] = React.useState(undefined);
   const [didPressRefresh, setDidPressRefresh] = React.useState(false);
+  const [accessDenied, setAccessDenied] = React.useState(false);
 
   const listRef = React.useRef();
   const scrollToTop = () => {
@@ -64,7 +65,9 @@ export const DiscoverScreen = ({ navigation }) => {
     console.log('Fetching shares...');
     const result = await appleMusicApi.requestUserToken();
     if (result.isError) {
-      // TODO deal with error cases of authorization
+      setAccessDenied(
+        "You don't seem to have Apple Music yet. Let andrew know if you need some help setting up.",
+      );
       return;
     }
     const appleMusicUserToken = result.result;
@@ -102,8 +105,7 @@ export const DiscoverScreen = ({ navigation }) => {
 
     const appleMusicPermission = await appleMusicApi.requestPermission();
     if (appleMusicPermission !== 'ok') {
-      // nope cannot recommend or play music ? what can do ?
-      console.error("Wasn't given apple music permission!");
+      setAccessDenied('Please provide access to Apple Music in your settings.');
     }
     return songs;
   };
@@ -123,21 +125,37 @@ export const DiscoverScreen = ({ navigation }) => {
     }
   };
 
+  if (accessDenied) {
+    return (
+      <View style={styles.container}>
+        <View
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100%',
+            padding: 20,
+          }}
+        >
+          <Text
+            style={{
+              textAlign: 'center',
+              color: colors.white,
+              marginBottom: 15,
+              fontWeight: 'bold',
+            }}
+          >
+            Access denied.
+          </Text>
+          <Text style={{ textAlign: 'center', color: colors.white }}>
+            {accessDenied}
+          </Text>
+        </View>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
-      {(() => {
-        const username = getUsername();
-        const allowedToLogout = ['Alex'];
-        if (allowedToLogout.indexOf(username) === -1) {
-          return null;
-        }
-        return (
-          <Button
-            onPress={() => auth().signOut()}
-            title="Alexander, press this button"
-          />
-        );
-      })()}
       {data && !data.length ? (
         <View
           style={{
