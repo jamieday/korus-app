@@ -4,3 +4,4 @@
 
 
 - Like counter
+- Fix follow / unfollow race condition 

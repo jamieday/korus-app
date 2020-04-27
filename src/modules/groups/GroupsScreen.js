@@ -54,10 +54,6 @@ export const GroupsScreen = () => {
             return;
           }
 
-          console.log(
-            `${user.isFollowed ? 'Unfollowed' : 'Followed'} ${user.username}.`,
-          );
-
           setUsers([
             ...users.filter(one => one.username != user.username),
             { ...user, isFollowed: !user.isFollowed },
@@ -79,6 +75,10 @@ export const GroupsScreen = () => {
                 targetUsername: user.username,
               }),
             },
+          );
+
+          console.log(
+            `${user.isFollowed ? 'Unfollowed' : 'Followed'} ${user.username}.`,
           );
         }}
       />
