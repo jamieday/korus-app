@@ -68,14 +68,12 @@ export default createBottomTabNavigator(
         header: null,
       },
     },
-    ...(__DEV__ && {
-      People: {
-        screen: GroupsScreen,
-        navigationOptions: {
-          header: null,
-        },
+    People: {
+      screen: GroupsScreen,
+      navigationOptions: {
+        header: null,
       },
-    }),
+    },
     // Pages: {
     //   screen: PagesScreen,
     //   navigationOptions: {
