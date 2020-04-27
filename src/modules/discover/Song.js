@@ -12,15 +12,14 @@ import LinearGradient from 'react-native-linear-gradient';
 import crashlytics from '@react-native-firebase/crashlytics';
 import ProfileIcon from '../../../assets/images/pages/profile.svg';
 
-const playIcon = require('../../../assets/images/icons/play.png');
-
 const log = message => {
   console.log(message);
   crashlytics().log(message);
 };
 
-export const Song = ({ song, style, isPlaying, onPlay }) => {
-  const [isLoved, setLoved] = React.useState(song.isLoved);
+export const Song = ({ song, style, onPlay }) => {
+  const [loves, setLoves] = React.useState(song.loves);
+  const username = getUsername();
 
   const playSong = song => {
     if (typeof song.unsupported['playback'] === 'undefined') {
@@ -36,13 +35,8 @@ export const Song = ({ song, style, isPlaying, onPlay }) => {
   };
 
   const addToLibrary = async () => {
-    if (song.playbackStoreId === 0 || isLoved) {
+    if (song.playbackStoreId === 0 || loves.indexOf(username) != -1) {
       log('Could not love song');
-      return;
-    }
-    const username = await getUsername();
-    if (!username) {
-      log('Could not resolve user');
       return;
     }
     const result = await appleMusicApi.requestUserToken();
@@ -52,7 +46,7 @@ export const Song = ({ song, style, isPlaying, onPlay }) => {
       return;
     }
     const userToken = result.result;
-    setLoved(true);
+    setLoves([...loves, username]);
     log('Loving song...');
     await fetch(`http://${API_HOSTNAME}/api/song/love`, {
       method: 'POST',
@@ -85,7 +79,7 @@ export const Song = ({ song, style, isPlaying, onPlay }) => {
     >
       <DoubleTap
         singleTap={() => playSong(song)}
-        doubleTap={() => !isLoved && addToLibrary()}
+        doubleTap={() => addToLibrary()}
       >
         <LinearGradient
           locations={[0, 0.25, 0.72, 1]}
@@ -138,14 +132,14 @@ export const Song = ({ song, style, isPlaying, onPlay }) => {
               </View>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Text style={{ color: 'white', marginRight: 5 }}>
-                  {isLoved ? '❤️' : '♡'}
+                  {loves.indexOf(username) !== -1 ? '❤️' : '♡'}
                 </Text>
                 {/* <LoveIcon
                   style={{ marginRight: 5 }}
                   width={25}
                   fill={colors.white}
                 /> */}
-                <Text style={styles.recommenders}>{isLoved ? 1 : 0}</Text>
+                <Text style={styles.recommenders}>{loves.length}</Text>
               </View>
             </View>
           </View>

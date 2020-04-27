@@ -14,7 +14,7 @@ export const GroupsScreen = () => {
     (async () => {
       console.log('Fetch users to follow...');
 
-      const chorusUserToken = await getUsername();
+      const chorusUserToken = getUsername();
       if (!chorusUserToken) {
         console.log('User not signed in??');
         return;
@@ -48,7 +48,7 @@ export const GroupsScreen = () => {
           )
         }
         onItemPressed={async user => {
-          const chorusUserToken = await getUsername();
+          const chorusUserToken = getUsername();
           if (!chorusUserToken) {
             console.log('User not signed in??');
             return;

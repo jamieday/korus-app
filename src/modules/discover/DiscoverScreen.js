@@ -72,7 +72,7 @@ export const DiscoverScreen = ({ navigation }) => {
     }
     const appleMusicUserToken = result.result;
 
-    const chorusUserToken = await getUsername();
+    const chorusUserToken = getUsername();
     if (!chorusUserToken) {
       return;
     }
@@ -91,9 +91,8 @@ export const DiscoverScreen = ({ navigation }) => {
     const json = await response.json();
     const songs = json.map(song => ({
       id: song.id,
-      brand: 'Test',
       name: song.name,
-      isLoved: song.isLoved,
+      loves: song.loves,
       unsupported: song.unsupported,
       artist: song.artist,
       artworkUrl: song.artworkUrl,
