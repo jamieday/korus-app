@@ -63,10 +63,15 @@ export const DiscoverScreen = ({ navigation }) => {
 
   const refreshList = async upToPage => {
     console.log('Fetching shares...');
+    const appleMusicPermission = await appleMusicApi.requestPermission();
+    if (appleMusicPermission !== 'ok') {
+      setAccessDenied('Please provide access to Apple Music in your settings.');
+      return;
+    }
     const result = await appleMusicApi.requestUserToken();
     if (result.isError) {
       setAccessDenied(
-        "You don't seem to have Apple Music yet. Let andrew know if you need some help setting up.",
+        "Hmm, we can't access your Apple Music. Do you have an Apple Music subscription?",
       );
       return;
     }
@@ -101,11 +106,6 @@ export const DiscoverScreen = ({ navigation }) => {
     }));
 
     console.log(`Fetched ${songs.length} shares.`);
-
-    const appleMusicPermission = await appleMusicApi.requestPermission();
-    if (appleMusicPermission !== 'ok') {
-      setAccessDenied('Please provide access to Apple Music in your settings.');
-    }
     return songs;
   };
 
@@ -145,9 +145,16 @@ export const DiscoverScreen = ({ navigation }) => {
           >
             Access denied.
           </Text>
-          <Text style={{ textAlign: 'center', color: colors.white }}>
+          <Text
+            style={{
+              textAlign: 'center',
+              color: colors.white,
+              marginBottom: 15,
+            }}
+          >
             {accessDenied}
           </Text>
+          <Button onPress={refresh} title="Refresh" />
         </View>
       </View>
     );
