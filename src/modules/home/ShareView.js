@@ -102,8 +102,8 @@ export const ShareScreen = ({ navigation }) => {
         height: '100%',
       }}
     >
-      <View style={styles.container}>
-        <View style={[styles.section, { marginTop: 30 }]}>
+      <View>
+        <View style={{ margin: 30, marginBottom: 0 }}>
           <TextInput
             autoCapitalize="none"
             returnKeyType="search"
@@ -115,7 +115,7 @@ export const ShareScreen = ({ navigation }) => {
             placeholder="search by song, album, or artist"
           />
         </View>
-        <View style={[styles.section, { width: '100%' }]}>
+        <View>
           <SelectionList
             keyExtractor={song => song.playbackStoreId}
             items={songs}
@@ -123,6 +123,7 @@ export const ShareScreen = ({ navigation }) => {
             getItemDetail={song => ({
               title: song.name,
               subtitle: song.artist,
+              imageUrl: song.artworkUrl,
             })}
             actionIcon={
               <ShareIcon width={20} height={20} fill={colors.white} />
@@ -133,47 +134,3 @@ export const ShareScreen = ({ navigation }) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    margin: 15,
-  },
-  bgImage: {
-    flex: 1,
-  },
-  section: {
-    paddingHorizontal: 20,
-    justifyContent: 'center',
-  },
-  sectionLarge: {
-    flex: 2,
-    justifyContent: 'space-around',
-  },
-  sectionHeader: {
-    marginBottom: 8,
-  },
-  sharerContainer: {
-    alignItems: 'center',
-  },
-  description: {
-    padding: 15,
-    lineHeight: 25,
-  },
-  titleDescription: {
-    color: '#19e7f7',
-    textAlign: 'center',
-    fontFamily: fonts.primaryRegular,
-    fontSize: 15,
-  },
-  title: {
-    textAlign: 'center',
-  },
-  sharer: {
-    marginBottom: 5,
-  },
-  sharerLink: {
-    borderBottomWidth: 1,
-    borderBottomColor: colors.primary,
-  },
-});

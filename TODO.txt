@@ -1,6 +1,6 @@
 # Next
-- Like counter
 - Push notifications (engagement)
 - Love screen (?? add to play list ? )
 
-- Checkmark
+
+- Like counter

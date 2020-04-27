@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, View, TouchableOpacity, Text } from 'react-native';
+import { FlatList, View, TouchableOpacity, Text, Image } from 'react-native';
 import { colors } from '../styles';
 
 export const SelectionList = ({
@@ -16,7 +16,7 @@ export const SelectionList = ({
     }}
     data={items}
     renderItem={({ item }) => {
-      const { title, subtitle } = getItemDetail(item);
+      const { title, subtitle, imageUrl = undefined } = getItemDetail(item);
 
       return (
         <TouchableOpacity
@@ -29,6 +29,17 @@ export const SelectionList = ({
           }}
           key={keyExtractor(item)}
         >
+          {imageUrl && (
+            <Image
+              style={{
+                width: 50,
+                height: 50,
+                marginRight: 10,
+                borderRadius: 10,
+              }}
+              source={{ uri: imageUrl }}
+            />
+          )}
           <View style={{ flex: 1, marginRight: 10 }}>
             <Text style={{ color: colors.white }} numberOfLines={1}>
               {title}
