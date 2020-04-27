@@ -5,7 +5,7 @@ import { fonts, colors } from '../../styles';
 import { TextInput } from '../../components';
 import { SelectionList } from '../../components/SelectionList';
 import ShareIcon from '../../../assets/images/icons/share.svg';
-import { API_HOSTNAME } from '../discover/DiscoverScreen';
+import { API_HOST } from '../discover/DiscoverScreen';
 
 import { appleMusicApi } from '../../react-native-apple-music/io/appleMusicApi';
 import { getUsername } from '../identity/getUsername';
@@ -25,7 +25,9 @@ export const ShareScreen = ({ navigation }) => {
     if (!username) {
       return;
     }
-    await fetch(`http://${API_HOSTNAME}`, {
+
+    const host = API_HOST();
+    await fetch(`${host}`, {
       headers: {
         'Content-Type': 'application/json',
 
@@ -72,10 +74,9 @@ export const ShareScreen = ({ navigation }) => {
 
     log(`Searching for ${input}...`);
 
+    const host = API_HOST();
     const response = await fetch(
-      `http://${API_HOSTNAME}/api/songs/search?query=${encodeURIComponent(
-        input,
-      )}`,
+      `${host}/api/songs/search?query=${encodeURIComponent(input)}`,
       {
         headers: {
           // Header duplicated in backend {7d25eb5a-2c5a-431b-95a8-14f980c8f7e1}

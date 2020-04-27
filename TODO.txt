@@ -2,4 +2,7 @@
 - Push notifications (engagement)
 - Love screen (?? add to play list ? )
 
-- Fix follow / unfollow race condition
+# Technical
+1. react native upgrade / port
+2. nodejs to cloud functions
+3. mongo to neo4j

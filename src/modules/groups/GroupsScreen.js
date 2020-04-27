@@ -4,7 +4,7 @@ import { colors } from '../../styles';
 import { SelectionList } from '../../components/SelectionList';
 import FollowIcon from '../../../assets/images/icons/follow.svg';
 import SelectedIcon from '../../../assets/images/icons/selected.svg';
-import { API_HOSTNAME } from '../discover/DiscoverScreen';
+import { API_HOST } from '../discover/DiscoverScreen';
 import { getUsername } from '../identity/getUsername';
 
 export const GroupsScreen = () => {
@@ -20,8 +20,9 @@ export const GroupsScreen = () => {
         return;
       }
 
+      const host = API_HOST();
       const users = await (
-        await fetch(`http://${API_HOSTNAME}/api/users/follow-bulk/list`, {
+        await fetch(`${host}/api/users/follow-bulk/list`, {
           headers: {
             // Header duplicated in backend {7d25eb5a-2c5a-431b-95a8-14f980c8f7e1}
             'X-Chorus-User-Token': chorusUserToken,
@@ -59,10 +60,9 @@ export const GroupsScreen = () => {
             { ...user, isFollowed: !user.isFollowed },
           ]);
 
+          const host = API_HOST();
           await fetch(
-            `http://${API_HOSTNAME}/api/users${
-              user.isFollowed ? '/unfollow' : '/follow'
-            }`,
+            `${host}/api/users${user.isFollowed ? '/unfollow' : '/follow'}`,
             {
               method: 'POST',
               headers: {

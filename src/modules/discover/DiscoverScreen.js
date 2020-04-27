@@ -8,21 +8,20 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { colors } from '../../styles';
-import auth from '@react-native-firebase/auth';
 import { appleMusicApi } from '../../react-native-apple-music/io/appleMusicApi';
 import { Song } from './Song';
 import { getUsername } from '../identity/getUsername';
 
-export const API_HOSTNAME = (() => {
-  let hostname = process.env.API_HOSTNAME;
-  if (hostname) {
-    hostname = '10.76.1.15:3000';
-    console.log(`[API Client] Using development hostname: ${hostname}`);
-    return hostname;
-  }
-  hostname = 'chorus.media';
-  console.log(`[API Client] Using default hostname: ${hostname}`);
-  return hostname;
+export const API_HOST = (() => {
+  let host;
+  return () => {
+    const newHost = process.env.API_HOST || 'http://chorus.media';
+    if (newHost != host) {
+      host = newHost;
+      console.log(`[API Client] Updated host: ${newHost}`);
+    }
+    return newHost;
+  };
 })();
 
 const tracksPerPage = 4;
@@ -79,20 +78,25 @@ export const DiscoverScreen = ({ navigation }) => {
 
     const chorusUserToken = getUsername();
     if (!chorusUserToken) {
+      setAccessDenied(
+        "Hmm, it seems like you're not logged in. Try restarting the app.",
+      );
       return;
     }
 
-    const response = await fetch(
-      `http://${API_HOSTNAME}/api/recommendation/list`,
-      {
-        headers: {
-          // Header duplicated in backend {7d25eb5a-2c5a-431b-95a8-14f980c8f7e1}
-          'X-Chorus-User-Token': chorusUserToken,
-          // Header duplicated in backend {8eeaa95a-ab4f-45ca-a97a-f4767d8f4872}
-          'X-Apple-Music-User-Token': appleMusicUserToken,
-        },
+    const host = API_HOST();
+    const response = await fetch(`${host}/api/recommendation/list`, {
+      headers: {
+        // Header duplicated in backend {7d25eb5a-2c5a-431b-95a8-14f980c8f7e1}
+        'X-Chorus-User-Token': chorusUserToken,
+        // Header duplicated in backend {8eeaa95a-ab4f-45ca-a97a-f4767d8f4872}
+        'X-Apple-Music-User-Token': appleMusicUserToken,
       },
-    );
+    });
+    if (response.status != 200) {
+      console.error('Unexpected status code: ${response.status}');
+      return [];
+    }
     const json = await response.json();
     const songs = json.map(song => ({
       id: song.id,
@@ -143,7 +147,7 @@ export const DiscoverScreen = ({ navigation }) => {
               fontWeight: 'bold',
             }}
           >
-            Access denied.
+            Oh.
           </Text>
           <Text
             style={{

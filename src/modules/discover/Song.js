@@ -4,7 +4,7 @@ import { StyleSheet, View, Text, ImageBackground } from 'react-native';
 import { colors, fonts } from '../../styles';
 
 import { appleMusicApi } from '../../react-native-apple-music/io/appleMusicApi';
-import { API_HOSTNAME } from './DiscoverScreen';
+import { API_HOST } from './DiscoverScreen';
 import { DoubleTap } from '../double-tap/DoubleTap';
 import { getUsername } from '../identity/getUsername';
 
@@ -49,7 +49,8 @@ export const Song = ({ song, style, onPlay }) => {
     const userToken = result.result;
     setLoves([...loves, username]);
     log('Loving song...');
-    await fetch(`http://${API_HOSTNAME}/api/song/love`, {
+    const host = API_HOST();
+    await fetch(`${host}/api/song/love`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
