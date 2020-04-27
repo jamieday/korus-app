@@ -25,7 +25,7 @@ export const SelectionList = ({
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
-            marginBottom: 20,
+            padding: 20,
           }}
           key={keyExtractor(item)}
         >

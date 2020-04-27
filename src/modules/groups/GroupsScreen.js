@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { colors } from '../../styles';
 import { SelectionList } from '../../components/SelectionList';
 import FollowIcon from '../../../assets/images/icons/follow.svg';
-import UnfollowIcon from '../../../assets/images/icons/unfollow.svg';
+import SelectedIcon from '../../../assets/images/icons/selected.svg';
 import { API_HOSTNAME } from '../discover/DiscoverScreen';
 import { getUsername } from '../identity/getUsername';
 
@@ -42,7 +42,7 @@ export const GroupsScreen = () => {
         getItemDetail={user => ({ title: user.username })}
         actionIcon={user =>
           user.isFollowed ? (
-            <UnfollowIcon width={20} height={20} fill={colors.white} />
+            <SelectedIcon width={20} height={20} fill={colors.white} />
           ) : (
             <FollowIcon width={20} height={20} fill={colors.white} />
           )
