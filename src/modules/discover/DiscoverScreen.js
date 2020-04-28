@@ -8,21 +8,8 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { colors } from '../../styles';
-import { appleMusicApi } from '../../react-native-apple-music/io/appleMusicApi';
 import { Song } from './Song';
-import { getUsername } from '../identity/getUsername';
-
-export const API_HOST = (() => {
-  let host;
-  return () => {
-    const newHost = process.env.API_HOST || 'http://chorus.media';
-    if (newHost != host) {
-      host = newHost;
-      console.log(`[API Client] Updated host: ${newHost}`);
-    }
-    return newHost;
-  };
-})();
+import { api } from '../api/callApi';
 
 const tracksPerPage = 4;
 
@@ -33,7 +20,7 @@ export const DiscoverScreen = ({ navigation }) => {
   const [isEndReached, setEndReached] = React.useState(false);
   const [playingSongId, setPlayingSongId] = React.useState(undefined);
   const [didPressRefresh, setDidPressRefresh] = React.useState(false);
-  const [accessDenied, setAccessDenied] = React.useState(false);
+  const [accessDenied, setAccessDenied] = React.useState(undefined);
 
   const listRef = React.useRef();
   const scrollToTop = () => {
@@ -62,43 +49,17 @@ export const DiscoverScreen = ({ navigation }) => {
 
   const refreshList = async upToPage => {
     console.log('Fetching shares...');
-    const appleMusicPermission = await appleMusicApi.requestPermission();
-    if (appleMusicPermission !== 'ok') {
-      setAccessDenied('Please provide access to Apple Music in your settings.');
-      return;
-    }
-    const result = await appleMusicApi.requestUserToken();
-    if (result.isError) {
-      setAccessDenied(
-        "Hmm, we can't access your Apple Music. Do you have an Apple Music subscription?",
-      );
-      return;
-    }
-    const appleMusicUserToken = result.result;
 
-    const chorusUserToken = getUsername();
-    if (!chorusUserToken) {
-      setAccessDenied(
-        "Hmm, it seems like you're not logged in. Try restarting the app.",
-      );
+    const [songResponse, error] = await api().get('/recommendation/list');
+
+    if (error) {
+      setAccessDenied(error.message);
       return;
+    } else {
+      setAccessDenied(undefined);
     }
 
-    const host = API_HOST();
-    const response = await fetch(`${host}/api/recommendation/list`, {
-      headers: {
-        // Header duplicated in backend {7d25eb5a-2c5a-431b-95a8-14f980c8f7e1}
-        'X-Chorus-User-Token': chorusUserToken,
-        // Header duplicated in backend {8eeaa95a-ab4f-45ca-a97a-f4767d8f4872}
-        'X-Apple-Music-User-Token': appleMusicUserToken,
-      },
-    });
-    if (response.status != 200) {
-      console.error('Unexpected status code: ${response.status}');
-      return [];
-    }
-    const json = await response.json();
-    const songs = json.map(song => ({
+    const songs = songResponse.map(song => ({
       id: song.id,
       name: song.name,
       loves: song.loves,

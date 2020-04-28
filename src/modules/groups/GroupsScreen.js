@@ -4,8 +4,8 @@ import { colors } from '../../styles';
 import { SelectionList } from '../../components/SelectionList';
 import FollowIcon from '../../../assets/images/icons/follow.svg';
 import SelectedIcon from '../../../assets/images/icons/selected.svg';
-import { API_HOST } from '../discover/DiscoverScreen';
 import { getUsername } from '../identity/getUsername';
+import { api } from '../api/callApi';
 
 export const GroupsScreen = () => {
   const [users, setUsers] = React.useState([]);
@@ -13,24 +13,8 @@ export const GroupsScreen = () => {
   React.useEffect(() => {
     (async () => {
       console.log('Fetch users to follow...');
-
-      const chorusUserToken = getUsername();
-      if (!chorusUserToken) {
-        console.log('User not signed in??');
-        return;
-      }
-
-      const host = API_HOST();
-      const users = await (
-        await fetch(`${host}/api/users/follow-bulk/list`, {
-          headers: {
-            // Header duplicated in backend {7d25eb5a-2c5a-431b-95a8-14f980c8f7e1}
-            'X-Chorus-User-Token': chorusUserToken,
-          },
-        })
-      ).json();
+      const [users] = await api().get('/users/follow-bulk/list');
       console.log(`Fetched ${users.length} users.`);
-
       setUsers(users);
     })();
   }, []);
@@ -60,25 +44,11 @@ export const GroupsScreen = () => {
             { ...user, isFollowed: !user.isFollowed },
           ]);
 
-          const host = API_HOST();
-          await fetch(
-            `${host}/api/users${user.isFollowed ? '/unfollow' : '/follow'}`,
+          await api().post(
+            `/users${user.isFollowed ? '/unfollow' : '/follow'}`,
             {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-
-                // Header duplicated in backend {7d25eb5a-2c5a-431b-95a8-14f980c8f7e1}
-                'X-Chorus-User-Token': chorusUserToken,
-              },
-              body: JSON.stringify({
-                targetUsername: user.username,
-              }),
+              targetUsername: user.username,
             },
-          );
-
-          console.log(
-            `${user.isFollowed ? 'Unfollowed' : 'Followed'} ${user.username}.`,
           );
         }}
       />

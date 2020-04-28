@@ -4,13 +4,13 @@ import { StyleSheet, View, Text, ImageBackground } from 'react-native';
 import { colors, fonts } from '../../styles';
 
 import { appleMusicApi } from '../../react-native-apple-music/io/appleMusicApi';
-import { API_HOST } from './DiscoverScreen';
 import { DoubleTap } from '../double-tap/DoubleTap';
 import { getUsername } from '../identity/getUsername';
 
 import LinearGradient from 'react-native-linear-gradient';
 import crashlytics from '@react-native-firebase/crashlytics';
 import ProfileIcon from '../../../assets/images/pages/profile.svg';
+import { api } from '../api/callApi';
 
 const log = message => {
   console.log(message);
@@ -49,22 +49,10 @@ export const Song = ({ song, style, onPlay }) => {
     const userToken = result.result;
     setLoves([...loves, username]);
     log('Loving song...');
-    const host = API_HOST();
-    await fetch(`${host}/api/song/love`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-
-        // Header duplicated in backend {7d25eb5a-2c5a-431b-95a8-14f980c8f7e1}
-        'X-Chorus-User-Token': username,
-        // Header duplicated in backend {8eeaa95a-ab4f-45ca-a97a-f4767d8f4872}
-        'X-Apple-Music-User-Token': userToken,
-      },
-      body: JSON.stringify({
-        'song-id': song.id,
-        'song-playback-store-id': song.playbackStoreId,
-        'user-token': userToken,
-      }),
+    await api().post('/song/love', {
+      'song-id': song.id,
+      'song-playback-store-id': song.playbackStoreId,
+      'user-token': userToken,
     });
   };
 
