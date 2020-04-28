@@ -81,6 +81,7 @@
     "prettier": "^1.16.1",
     "react-addons-test-utils": "^15.6.2",
     "react-dom": "^16.6.3",
+    "react-native-clean-project": "^3.3.0",
     "react-native-svg-transformer": "^0.14.3",
     "react-test-renderer": "16.8.1",
     "sinon": "^7.1.1"
