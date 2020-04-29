@@ -7,6 +7,9 @@ import { appleMusicApi } from '../../react-native-apple-music/io/appleMusicApi';
 import { DoubleTap } from '../double-tap/DoubleTap';
 import { getUsername } from '../identity/getUsername';
 
+import PauseIcon from '../../../assets/images/icons/pause.svg';
+import PlayIcon from '../../../assets/images/icons/play.svg';
+
 import LinearGradient from 'react-native-linear-gradient';
 import crashlytics from '@react-native-firebase/crashlytics';
 import ProfileIcon from '../../../assets/images/pages/profile.svg';
@@ -17,16 +20,22 @@ const log = message => {
   crashlytics().log(message);
 };
 
-export const Song = ({ song, style, onPlay }) => {
+export const Song = ({ song, style, isPlaying, onPlay, onPause }) => {
   const [loves, setLoves] = React.useState(song.loves);
   React.useEffect(() => setLoves(song.loves), [song.loves]);
   const username = getUsername();
+
+  const pauseSong = () => {
+    log('Pausing song.');
+    appleMusicApi.pauseSong();
+    if (onPause) onPause();
+  };
 
   const playSong = song => {
     if (typeof song.unsupported['playback'] === 'undefined') {
       log(`Playing song ${song.playbackStoreId}`);
       if (onPlay) onPlay();
-      appleMusicApi.playMusic(song.playbackStoreId);
+      appleMusicApi.playSong(song.playbackStoreId);
     } else {
       (async () => {
         await crashlytics().setAttribute('song', song);
@@ -68,7 +77,7 @@ export const Song = ({ song, style, onPlay }) => {
       borderRadius={15}
     >
       <DoubleTap
-        singleTap={() => playSong(song)}
+        singleTap={() => (isPlaying ? pauseSong() : playSong(song))}
         doubleTap={() => addToLibrary()}
       >
         <LinearGradient
@@ -92,13 +101,32 @@ export const Song = ({ song, style, onPlay }) => {
           <View
             style={{
               position: 'absolute',
-              top: '39%',
-              left: '40%',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '100%',
+              height: '100%',
             }}
           >
-            {/* {!isPlaying && (
-              <Image style={{ width: 75, height: 75 }} source={playIcon} />
-            )} */}
+            {(() => {
+              const ActionIcon = isPlaying ? PauseIcon : PlayIcon;
+              const size = 45;
+              return (
+                <ActionIcon
+                  style={{
+                    // Box shadow
+                    shadowColor: '#000000DD',
+                    shadowOffset: {
+                      width: 2,
+                      height: 4,
+                    },
+                    shadowOpacity: 1.0,
+                  }}
+                  width={size}
+                  height={size}
+                  fill={colors.white}
+                />
+              );
+            })()}
           </View>
           <View
             style={[

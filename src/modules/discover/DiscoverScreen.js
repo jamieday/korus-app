@@ -25,7 +25,7 @@ export const DiscoverScreen = ({ navigation }) => {
   const listRef = React.useRef();
   const scrollToTop = () => {
     if (listRef.current) {
-      listRef.current.scrollToOffset({ animated: true, offset: 0 });
+      listRef.current.scrollToOffset({ offset: 0 });
     }
   };
 
@@ -198,6 +198,7 @@ export const DiscoverScreen = ({ navigation }) => {
               song={item}
               isPlaying={playingSongId === item.id}
               onPlay={() => setPlayingSongId(item.id)}
+              onPause={() => setPlayingSongId(undefined)}
             />
           )}
         />

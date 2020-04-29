@@ -1,6 +1,77 @@
 # Next
-- Push notifications (engagement)
-- Love screen (?? add to play list ? )
+1. Specification for push notifications
+    - particularly right now user engagement is a focus - can template notifications, like “{user} shared {songName} by {songArtist}”
+- Love screen (track the songs you loved so you can  add to play list ? )
+(loved) evolving playlist (loved)
+
+PRIORITIZATION!!!!
+
+Performance improvements
+- Put calculation into command, not query
+- Like right away... aggregate events into local storage then push?
+- React optimizations improvements (ComponentWillUpdate, read logs)
+
+Security / input validation analysis
+- Firebase/nodejs
+- any other user input or action.
+- tracking. i literally want to look at a user in the dashboard and see everything he/she is doing.
+
+Major
+
+- Spotify integration
+  WHY? More users to test with.
+       Needs to be done at some point.
+
+- Groups
+  Only valuable once we get more users.
+
+- Chorus playlists
+
+- Profile
+  Songs I shared
+  Songs I love
+
+Intermediary
+
+Lowish priority 
+
+- Share - preview song you share
+
+Low priority
+
+- Share - show existing music in there
+    1. songs i liked
+    2. songs i played recently
+    3. playlist
+    4. rest
+
+    Search still searches apple music
+    Possibly prioritize library then applemusic
+
+Detail
+
+high priority 
+- login bug (username needs to refresh properly)
+
+- play button feedback
+- clicking like + unlike
+
+
+low priority
+- don't show zero likes it seems kinda sad
+- delete song
+- can't pause, only can stop
+- love emoji is terrible
+- slide right to nav to the right.
+
+- Questions
+  - What to do when multiple people u follow share the same thing
+        Aggregate the users who shared it into andrew,jamie,alex + 16 others thing
+
+
+- Repost / Bump feature ?
+   
+    
 
 # Technical
 1. react native upgrade / port

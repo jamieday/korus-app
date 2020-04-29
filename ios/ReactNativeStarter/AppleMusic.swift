@@ -1,12 +1,6 @@
 import StoreKit
 import MediaPlayer
 
-//import RCTConvert
-//import RCTImageStoreManager
-//import RCTRootView
-//import RCTUtils
-
-@available(iOS 9.3, *)
 @objc(AppleMusic)
 class AppleMusic: NSObject, MPMediaPickerControllerDelegate {
   
@@ -26,7 +20,6 @@ class AppleMusic: NSObject, MPMediaPickerControllerDelegate {
     }
   }
   
-  @available(iOS 10.3, *)
   @objc func requestUserToken(_ developerToken: String,
                               resolver resolve: @escaping RCTPromiseResolveBlock,
                               rejecter reject: @escaping RCTPromiseRejectBlock) {
@@ -49,58 +42,18 @@ class AppleMusic: NSObject, MPMediaPickerControllerDelegate {
         withCompletionHandler: completionHandler)
     }
   }
+ 
+  let myMediaPlayer = MPMusicPlayerController.applicationMusicPlayer
 
-  var resolver: RCTPromiseResolveBlock? = nil
-  var rejecter: RCTPromiseRejectBlock? = nil
-  
-  func mediaPicker(
-    _ mediaPicker: MPMediaPickerController,
-    didPickMediaItems mediaItemCollection: MPMediaItemCollection) {
-    print("OK!")
-    print("you picked: \(mediaItemCollection)")
-    let selectedItem = mediaItemCollection.representativeItem!
-    var itemJson: Dictionary<String, String> = [:]
-    if #available(iOS 10.3, *) {
-      itemJson = [
-        "title":           selectedItem.title!,
-        "artist":          selectedItem.artist!,
-        "playbackStoreId": selectedItem.playbackStoreID,
-      ]
-    } else {
-      self.rejecter?(nil, "This feature is only available in iOS 10.3+.", nil)
+  @objc func playSong(_ playbackStoreId: String) {
+    if (myMediaPlayer.nowPlayingItem?.playbackStoreID != playbackStoreId) {
+        myMediaPlayer.repeatMode =  MPMusicRepeatMode.none
+        myMediaPlayer.setQueue(with: [playbackStoreId])
     }
-    print(itemJson)
-    self.resolver?(itemJson)
-    mediaPicker.dismiss(animated: true, completion: nil)
+    myMediaPlayer.play()
   }
-  
-  @available(iOS 10.3, *)
-  @objc func selectSong(_ resolve: @escaping RCTPromiseResolveBlock,
-                        rejecter reject: @escaping RCTPromiseRejectBlock) {
-    let controller = MPMediaPickerController(mediaTypes: .music)
-    controller.allowsPickingMultipleItems = false
-    controller.prompt = "Promote a song"
-    
-    self.resolver = resolve
-    self.rejecter = reject
-    controller.delegate = self//mediaPickerDelegate
-    
-    let rootViewController = RCTPresentedViewController()
-    rootViewController!.present(controller, animated: true, completion: nil)
-  }
-  
-  @available(iOS 10.3, *)
-  @objc func playMusic(_ playbackStoreId: String) {
-    // Instantiate a new music player
-    let myMediaPlayer = MPMusicPlayerApplicationController.systemMusicPlayer
-    
-    if (myMediaPlayer.playbackState == MPMusicPlaybackState.playing
-      && myMediaPlayer.nowPlayingItem!.playbackStoreID == playbackStoreId) {
-      myMediaPlayer.pause();
-    } else {
-      myMediaPlayer.repeatMode =  MPMusicRepeatMode.all
-      myMediaPlayer.setQueue(with: [playbackStoreId])
-      myMediaPlayer.play()
-    }
+
+  @objc func pauseSong() {
+    myMediaPlayer.pause();
   }
 }
