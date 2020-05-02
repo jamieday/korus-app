@@ -12,7 +12,7 @@ import { colors, fonts } from '../../styles';
 
 import { appleMusicApi } from '../../react-native-apple-music/io/appleMusicApi';
 import { DoubleTap } from '../double-tap/DoubleTap';
-import { getUsername } from '../identity/getUsername';
+import { getUsername } from '../identity';
 
 import PauseIcon from '../../../assets/images/icons/pause.svg';
 import PlayIcon from '../../../assets/images/icons/play.svg';
@@ -32,7 +32,14 @@ const log = message => {
   crashlytics().log(message);
 };
 
-export const Song = ({ song, style, isPlaying, onPlay, onPause }) => {
+export const Song = ({
+  song,
+  style,
+  isPlaying,
+  onPlay,
+  onPause,
+  didUnshare,
+}) => {
   const [loves, setLoves] = React.useState(song.loves);
   React.useEffect(() => setLoves(song.loves), [song.loves]);
   const username = getUsername();
@@ -45,41 +52,31 @@ export const Song = ({ song, style, isPlaying, onPlay, onPause }) => {
 
   const playSong = song => {
     if (typeof song.unsupported['playback'] === 'undefined') {
-      log(`Playing song ${song.playbackStoreId}`);
+      log(`Playing song ${song.appleMusic.playbackStoreId}`);
       if (onPlay) onPlay();
-      appleMusicApi.playSong(song.playbackStoreId);
+      appleMusicApi.playSong(song.appleMusic.playbackStoreId);
     } else {
       (async () => {
         await crashlytics().setAttribute('song', song);
-        log(`Tried to play song ${song.playbackStoreId}`);
+        log(`Tried to play song ${song.appleMusic.playbackStoreId}`);
       })();
     }
   };
 
-  const unloveSong = () => {
-    log('Tried to unlike! Not implemented.');
-    alert("I'm afraid we haven't implemented unliking yet :)");
+  const unloveSong = async () => {
+    if (loves.indexOf(username) === -1) {
+      return;
+    }
+    setLoves(loves.filter(lover => lover != username));
+    await api().post(`/share/${encodeURIComponent(song.shareId)}/unlove`);
   };
 
   const loveSong = async () => {
-    if (song.playbackStoreId === 0 || loves.indexOf(username) != -1) {
-      log('Could not love song');
+    if (loves.indexOf(username) !== -1) {
       return;
     }
-    const result = await appleMusicApi.requestUserToken();
-    if (result.isError) {
-      log('Could not get apple music user token');
-      // TODO deal with error cases of authorization
-      return;
-    }
-    const userToken = result.result;
-    setLoves([...loves, username]);
-    log('Loving song...');
-    await api().post('/song/love', {
-      'song-id': song.id,
-      'song-playback-store-id': song.playbackStoreId,
-      'user-token': userToken,
-    });
+    setLoves([...new Set([...loves, username]).values()]);
+    await api().post(`/share/${encodeURIComponent(song.shareId)}/love`);
   };
 
   const isLoved = loves.indexOf(username) !== -1;
@@ -89,7 +86,6 @@ export const Song = ({ song, style, isPlaying, onPlay, onPause }) => {
 
   return (
     <ImageBackground
-      key={song.id}
       style={[styles.container, style]}
       source={{
         uri: song.artworkUrl,
@@ -173,7 +169,7 @@ export const Song = ({ song, style, isPlaying, onPlay, onPause }) => {
                   {song.name}
                 </Text>
               </View>
-              {isMine && false && (
+              {isMine && (
                 <TouchableOpacity
                   style={{ padding: 15 }}
                   hitSlop={{ left: 10, bottom: 20 }}
@@ -189,9 +185,18 @@ export const Song = ({ song, style, isPlaying, onPlay, onPause }) => {
                       selectedIndex => {
                         switch (options[selectedIndex]) {
                           case 'Unshare':
-                            alert(
-                              "I'm afraid we haven't implemented this feature yet.",
-                            );
+                            (async () => {
+                              const [_, error] = await api().post(
+                                `/share/${encodeURIComponent(
+                                  song.shareId,
+                                )}/unshare`,
+                              );
+                              if (error) {
+                                console.error(error);
+                              }
+                              pauseSong();
+                              didUnshare();
+                            })();
                             break;
                           case 'Cancel':
                             break;

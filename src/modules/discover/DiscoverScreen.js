@@ -48,9 +48,9 @@ export const DiscoverScreen = ({ navigation }) => {
   }, [navigation.state.params?.refresh]);
 
   const refreshList = async upToPage => {
-    console.log('Fetching shares...');
+    console.log('Fetching feed...');
 
-    const [songResponse, error] = await api().get('/recommendation/list');
+    const [songs, error] = await api().get('/discover/feed');
 
     if (error) {
       setAccessDenied(error.message);
@@ -58,17 +58,6 @@ export const DiscoverScreen = ({ navigation }) => {
     } else {
       setAccessDenied(undefined);
     }
-
-    const songs = songResponse.map(song => ({
-      id: song.id,
-      name: song.name,
-      loves: song.loves,
-      unsupported: song.unsupported,
-      artist: song.artist,
-      artworkUrl: song.artworkUrl,
-      playbackStoreId: song.appleMusic.playbackStoreId,
-      sharer: song.recommendedBy.name,
-    }));
 
     console.log(`Fetched ${songs.length} shares.`);
     return songs;
@@ -124,6 +113,8 @@ export const DiscoverScreen = ({ navigation }) => {
       </View>
     );
   }
+
+  const keyExtractor = item => item.shareId;
 
   return (
     <View style={styles.container}>
@@ -186,7 +177,7 @@ export const DiscoverScreen = ({ navigation }) => {
           ListFooterComponent={() =>
             isEndReached && <ActivityIndicator animating size="large" />
           }
-          keyExtractor={item => item.id}
+          keyExtractor={keyExtractor}
           style={{
             backgroundColor: colors.lightBlack,
             padding: 15,
@@ -194,11 +185,12 @@ export const DiscoverScreen = ({ navigation }) => {
           data={data}
           renderItem={({ item }) => (
             <Song
-              key={item.id}
+              key={keyExtractor(item)}
               song={item}
               isPlaying={playingSongId === item.id}
               onPlay={() => setPlayingSongId(item.id)}
               onPause={() => setPlayingSongId(undefined)}
+              didUnshare={() => refresh()}
             />
           )}
         />

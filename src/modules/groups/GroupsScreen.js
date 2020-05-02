@@ -4,7 +4,6 @@ import { colors } from '../../styles';
 import { SelectionList } from '../../components/SelectionList';
 import FollowIcon from '../../../assets/images/icons/follow.svg';
 import SelectedIcon from '../../../assets/images/icons/selected.svg';
-import { getUsername } from '../identity/getUsername';
 import { api } from '../api/callApi';
 
 export const GroupsScreen = () => {
@@ -13,7 +12,7 @@ export const GroupsScreen = () => {
   React.useEffect(() => {
     (async () => {
       console.log('Fetch users to follow...');
-      const [users] = await api().get('/users/follow-bulk/list');
+      const [users] = await api().get('/people/users/all');
       console.log(`Fetched ${users.length} users.`);
       setUsers(users);
     })();
@@ -33,22 +32,15 @@ export const GroupsScreen = () => {
           )
         }
         onItemPressed={async user => {
-          const chorusUserToken = getUsername();
-          if (!chorusUserToken) {
-            console.log('User not signed in??');
-            return;
-          }
-
           setUsers([
             ...users.filter(one => one.username != user.username),
             { ...user, isFollowed: !user.isFollowed },
           ]);
 
           await api().post(
-            `/users${user.isFollowed ? '/unfollow' : '/follow'}`,
-            {
-              targetUsername: user.username,
-            },
+            `/people/user/${encodeURIComponent(user.username)}/${
+              user.isFollowed ? 'unfollow' : 'follow'
+            }`,
           );
         }}
       />

@@ -48,28 +48,15 @@ Low priority
     Search still searches apple music
     Possibly prioritize library then applemusic
 
-Detail
-
-high priority 
-- login bug (username needs to refresh properly)
-
-- play button feedback
-- clicking like + unlike
-
-
-low priority
-
-- delete song
-- slide right to nav to the right.
-
-- Questions
-  - What to do when multiple people u follow share the same thing
-        Aggregate the users who shared it into andrew,jamie,alex + 16 others thing
-
-
-- Repost / Bump feature ?
-   
-# Technical
+# Technical debt
 1. react native upgrade / port
-2. nodejs to cloud functions
-3. mongo to neo4j
+
+React native rebuild
+https://reactnative.dev/docs/typescript
+
+SQLification 
+https://sequelize.org/v5/
+
+AirBnb no like me research
+https://softwareengineeringdaily.com/2018/09/24/show-summary-react-native-at-airbnb/ 
+

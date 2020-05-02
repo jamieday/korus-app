@@ -91,13 +91,41 @@ export default function NavigatorView() {
 
   const Startup = () => {
     const [usernameQueued, setUsernameQueued] = useState(undefined);
+    const [enterUsernameMsg, setEnterUsernameMsg] = useState(
+      'Enter a username',
+    );
 
     const captureUsername = async () => {
       if (!usernameQueued) {
-        alert('Enter a username');
+        alert(enterUsernameMsg);
+        setEnterUsernameMsg(
+          'Seriously, just type in the box and put some letters in.',
+        );
+        return;
       }
       if (!user.displayName) {
+        var usernameRegex = /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/gi;
+        if (!usernameRegex.test(usernameQueued)) {
+          alert("Not gonna work, your username isn't valid.");
+          return;
+        }
+        if (
+          [
+            'Callum',
+            'Connor',
+            'Kaijai',
+            'alex',
+            'andrew',
+            'megangreb',
+            'stephanie',
+          ].indexOf(usernameQueued) !== -1
+        ) {
+          alert("That name's taken. Try being original maybe?");
+          return;
+        }
+
         await user.updateProfile({ displayName: usernameQueued });
+        await auth().currentUser.reload();
       }
     };
 

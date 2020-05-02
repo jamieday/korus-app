@@ -18,7 +18,7 @@ export const ShareScreen = ({ navigation }) => {
   const [songs, setSongs] = React.useState([]);
 
   const shareSong = async song => {
-    await api().post(`/songs/recommend-one`, {
+    await api().post(`/share/publish`, {
       'song-name': song.name,
       'artist-name': song.artist,
       'playback-store-id': song.playbackStoreId,
@@ -41,7 +41,7 @@ export const ShareScreen = ({ navigation }) => {
     log(`Searching for ${input}...`);
 
     const [songs] = await api().get(
-      `/songs/search?query=${encodeURIComponent(input)}`,
+      `/song/search?query=${encodeURIComponent(input)}`,
     );
 
     if (!songs) {

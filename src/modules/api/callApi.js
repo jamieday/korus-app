@@ -1,11 +1,11 @@
 import axios from 'axios';
-import { getUsername } from '../identity/getUsername';
+import { getUserToken } from '../identity';
 import { appleMusicApi } from '../../react-native-apple-music/io/appleMusicApi';
 
 export const api = (() => {
   const initPromise = (async () => {
-    const chorusUserToken = getUsername();
-    if (!chorusUserToken) {
+    const firebaseUserToken = await getUserToken();
+    if (!firebaseUserToken) {
       return [
         undefined,
         "Hmm, it seems like you're not logged in. Try restarting the app.",
@@ -29,7 +29,7 @@ export const api = (() => {
     }
     const appleMusicUserToken = result.result;
 
-    return [{ appleMusicUserToken, chorusUserToken }, undefined];
+    return [{ appleMusicUserToken, firebaseUserToken }, undefined];
   })();
 
   const call = async (endpoint, method, body) => {
@@ -57,7 +57,7 @@ export const api = (() => {
         headers: {
           ...(method === 'POST' && { 'Content-Type': 'application/json' }),
           // Header duplicated in backend {7d25eb5a-2c5a-431b-95a8-14f980c8f7e1}
-          'X-Chorus-User-Token': authTokens.chorusUserToken,
+          'X-Firebase-User-Token': authTokens.firebaseUserToken,
           // Header duplicated in backend {8eeaa95a-ab4f-45ca-a97a-f4767d8f4872}
           'X-Apple-Music-User-Token': authTokens.appleMusicUserToken,
         },
@@ -85,11 +85,13 @@ export const api = (() => {
           ];
       }
       if (response.status != 200) {
-        console.log(`Bad status code: ${response.status}`);
+        console.debug(`Bad status code: ${response.status}`);
+      } else {
+        console.debug('Done.');
       }
       return [await response.data, undefined];
     } catch (e) {
-      console.log(e);
+      console.debug(e);
       return [
         undefined,
         {
