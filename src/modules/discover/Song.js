@@ -10,6 +10,9 @@ import { getUsername } from '../identity/getUsername';
 import PauseIcon from '../../../assets/images/icons/pause.svg';
 import PlayIcon from '../../../assets/images/icons/play.svg';
 
+import LovedIcon from '../../../assets/images/icons/loved.svg';
+import LoveableIcon from '../../../assets/images/icons/loveable.svg';
+
 import LinearGradient from 'react-native-linear-gradient';
 import crashlytics from '@react-native-firebase/crashlytics';
 import ProfileIcon from '../../../assets/images/pages/profile.svg';
@@ -162,15 +165,21 @@ export const Song = ({ song, style, isPlaying, onPlay, onPause }) => {
                 <Text style={styles.recommenders}>{song.sharer}</Text>
               </View>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Text style={{ color: 'white', marginRight: 5 }}>
-                  {loves.indexOf(username) !== -1 ? '❤️' : '♡'}
-                </Text>
-                {/* <LoveIcon
-                  style={{ marginRight: 5 }}
-                  width={25}
-                  fill={colors.white}
-                /> */}
-                <Text style={styles.recommenders}>{loves.length}</Text>
+                {(() => {
+                  const isLoved = loves.indexOf(username) !== -1;
+                  const LoveStateIcon = isLoved ? LovedIcon : LoveableIcon;
+                  return (
+                    <LoveStateIcon
+                      style={{ marginRight: 5 }}
+                      width={15}
+                      height={15}
+                      fill={colors.white}
+                    />
+                  );
+                })()}
+                {loves.length > 0 && (
+                  <Text style={styles.recommenders}>{loves.length}</Text>
+                )}
               </View>
             </View>
           </View>
@@ -212,7 +221,6 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontFamily: fonts.primaryBold,
     fontSize: 14,
-    marginBottom: 5,
   },
   artistDesc: {
     color: colors.lightGray,
