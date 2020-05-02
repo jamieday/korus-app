@@ -58,10 +58,8 @@ high priority
 
 
 low priority
-- don't show zero likes it seems kinda sad
+
 - delete song
-- can't pause, only can stop
-- love emoji is terrible
 - slide right to nav to the right.
 
 - Questions
@@ -71,8 +69,6 @@ low priority
 
 - Repost / Bump feature ?
    
-    
-
 # Technical
 1. react native upgrade / port
 2. nodejs to cloud functions

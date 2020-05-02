@@ -1,6 +1,13 @@
 import React from 'react';
 
-import { StyleSheet, View, Text, ImageBackground } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  ImageBackground,
+  TouchableOpacity,
+  ActionSheetIOS,
+} from 'react-native';
 import { colors, fonts } from '../../styles';
 
 import { appleMusicApi } from '../../react-native-apple-music/io/appleMusicApi';
@@ -12,6 +19,8 @@ import PlayIcon from '../../../assets/images/icons/play.svg';
 
 import LovedIcon from '../../../assets/images/icons/loved.svg';
 import LoveableIcon from '../../../assets/images/icons/loveable.svg';
+
+import MoreOptions from '../../../assets/images/icons/more-options.svg';
 
 import LinearGradient from 'react-native-linear-gradient';
 import crashlytics from '@react-native-firebase/crashlytics';
@@ -47,7 +56,12 @@ export const Song = ({ song, style, isPlaying, onPlay, onPause }) => {
     }
   };
 
-  const addToLibrary = async () => {
+  const unloveSong = () => {
+    log('Tried to unlike! Not implemented.');
+    alert("I'm afraid we haven't implemented unliking yet :)");
+  };
+
+  const loveSong = async () => {
     if (song.playbackStoreId === 0 || loves.indexOf(username) != -1) {
       log('Could not love song');
       return;
@@ -68,6 +82,9 @@ export const Song = ({ song, style, isPlaying, onPlay, onPause }) => {
     });
   };
 
+  const isLoved = loves.indexOf(username) !== -1;
+  const isMine = song.sharer == username;
+
   const height = 350;
 
   return (
@@ -81,7 +98,7 @@ export const Song = ({ song, style, isPlaying, onPlay, onPause }) => {
     >
       <DoubleTap
         singleTap={() => (isPlaying ? pauseSong() : playSong(song))}
-        doubleTap={() => addToLibrary()}
+        doubleTap={loveSong}
       >
         <LinearGradient
           locations={[0, 0.1, 0.2, 0.3, 0.4, 0.45, 0.55, 0.6, 0.7, 0.8, 0.9, 1]}
@@ -140,14 +157,52 @@ export const Song = ({ song, style, isPlaying, onPlay, onPause }) => {
               },
             ]}
           >
-            <View>
-              <Text style={styles.artistDesc}>{song.artist}</Text>
-              <Text
-                numberOfLines={1}
-                style={[styles.songName, { marginBottom: 0 }]}
-              >
-                {song.name}
-              </Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+            >
+              <View style={{ flex: 1 }}>
+                <Text style={styles.artistDesc}>{song.artist}</Text>
+                <Text
+                  numberOfLines={1}
+                  style={[styles.songName, { marginBottom: 0 }]}
+                >
+                  {song.name}
+                </Text>
+              </View>
+              {isMine && false && (
+                <TouchableOpacity
+                  style={{ padding: 15 }}
+                  hitSlop={{ left: 10, bottom: 20 }}
+                  onPress={() => {
+                    const options = ['Unshare', 'Cancel'];
+                    song.sharer;
+                    ActionSheetIOS.showActionSheetWithOptions(
+                      {
+                        options,
+                        cancelButtonIndex: options.indexOf('Cancel'),
+                        destructiveButtonIndex: options.indexOf('Unshare'),
+                      },
+                      selectedIndex => {
+                        switch (options[selectedIndex]) {
+                          case 'Unshare':
+                            alert(
+                              "I'm afraid we haven't implemented this feature yet.",
+                            );
+                            break;
+                          case 'Cancel':
+                            break;
+                        }
+                      },
+                    );
+                  }}
+                >
+                  <MoreOptions width={17} height={17} fill={colors.white} />
+                </TouchableOpacity>
+              )}
             </View>
             <View
               style={{
@@ -164,9 +219,14 @@ export const Song = ({ song, style, isPlaying, onPlay, onPause }) => {
                 />
                 <Text style={styles.recommenders}>{song.sharer}</Text>
               </View>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <TouchableOpacity
+                style={{ flexDirection: 'row', alignItems: 'center' }}
+                onPress={() => {
+                  isLoved ? unloveSong() : loveSong();
+                }}
+                hitSlop={{ top: 20, left: 20 }}
+              >
                 {(() => {
-                  const isLoved = loves.indexOf(username) !== -1;
                   const LoveStateIcon = isLoved ? LovedIcon : LoveableIcon;
                   return (
                     <LoveStateIcon
@@ -180,7 +240,7 @@ export const Song = ({ song, style, isPlaying, onPlay, onPause }) => {
                 {loves.length > 0 && (
                   <Text style={styles.recommenders}>{loves.length}</Text>
                 )}
-              </View>
+              </TouchableOpacity>
             </View>
           </View>
         </LinearGradient>
@@ -214,7 +274,6 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontFamily: fonts.primaryBold,
     fontSize: 20,
-    marginTop: 5,
   },
 
   recommenders: {
