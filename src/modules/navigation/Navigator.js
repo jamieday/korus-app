@@ -64,7 +64,7 @@ export default function NavigatorView() {
             textAlign: 'center',
           }}
         >
-          The new way to find good music.
+          Try to figure out how to sign up.
         </Text>
 
         {appleAuth.isSupported ? (
@@ -106,7 +106,19 @@ export default function NavigatorView() {
       if (!user.displayName) {
         var usernameRegex = /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/gi;
         if (!usernameRegex.test(usernameQueued)) {
-          alert("Not gonna work, your username isn't valid.");
+          const hint =
+            usernameQueued.indexOf(' ') !== -1
+              ? ' (try without spaces)'
+              : '(invalid name)';
+          if (usernameQueued.length < 10) {
+            alert(
+              `We're not letting "${usernameQueued}" join the platform...${hint}`,
+            );
+          } else {
+            alert(
+              `I don't know how to break it to you, but you're not getting in with a username like that.${hint}`,
+            );
+          }
           return;
         }
         if (
@@ -125,7 +137,7 @@ export default function NavigatorView() {
         }
 
         await user.updateProfile({ displayName: usernameQueued });
-        await auth().currentUser.reload();
+        await user.reload();
       }
     };
 
@@ -157,10 +169,11 @@ export default function NavigatorView() {
             margin: 50,
             marginHorizontal: 'auto',
             fontWeight: '600',
-            fontSize: 42,
+            fontSize: 22,
+            textAlign: 'center',
           }}
         >
-          Almost there.
+          Let's see if you can figure out where to go from here.
         </Text>
         <View
           style={{ width: '100%', marginBottom: 50, paddingHorizontal: 40 }}

@@ -6,5 +6,8 @@ export const getUsername = () => {
 };
 
 export const getUserToken = async () => {
-  return auth().currentUser.getIdToken();
+  const user = auth().currentUser;
+  return user && (await auth().currentUser.getIdToken());
 };
+
+export const logout = () => auth().signOut();
