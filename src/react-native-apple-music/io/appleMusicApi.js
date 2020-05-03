@@ -15,8 +15,11 @@ export class AppleMusicApi {
   }
 
   requestPermission = requestPermission;
+
   requestUserToken = () => requestUserToken(this.config.developerToken);
+
   playSong = playSong;
+
   pauseSong = pauseSong;
 }
 

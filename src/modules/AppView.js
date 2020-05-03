@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Navigator from './navigation/Navigator';
+import { AppView as ApppView } from './navigation/AppView';
 
 export default function AppView() {
-  return <Navigator onNavigationStateChange={() => {}} uriPrefix="/app" />;
+  return <ApppView />;
 }

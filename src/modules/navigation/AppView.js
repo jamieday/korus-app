@@ -1,0 +1,106 @@
+import React, { useState, useEffect } from 'react';
+import { View, Text } from 'react-native';
+// import messaging from '@react-native-firebase/messaging';
+import auth from '@react-native-firebase/auth';
+import appleAuth, {
+  AppleButton,
+} from '@invertase/react-native-apple-authentication';
+import crashlytics from '@react-native-firebase/crashlytics';
+import { signInWithApple } from './packages/AppleSignIn';
+import { colors } from '../../styles';
+import { SignedInView } from './SignedInView';
+
+import { AuthNContext } from '../auth';
+
+export const AppView = () => {
+  const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState();
+  const [userToken, setUserToken] = useState();
+
+  // Handle user state changes
+  const onStateChanged = async user => {
+    setUser(user);
+    if (user) {
+      const userToken = await user.getIdToken();
+      setUserToken(userToken);
+    }
+
+    if (initializing) {
+      setInitializing(false);
+    }
+  };
+
+  useEffect(() => {
+    crashlytics().log('App mounted');
+    const subscriber = auth().onUserChanged(user => {
+      onStateChanged(user);
+    });
+    return subscriber; // unsubscribe on unmount
+  }, []);
+
+  if (initializing) {
+    return null;
+  }
+
+  if (!user) {
+    return (
+      <View
+        style={{
+          alignItems: 'center',
+          paddingTop: 80,
+          height: '100%',
+          backgroundColor: colors.black,
+        }}
+      >
+        <Text
+          style={{
+            color: 'white',
+            margin: 100,
+            marginHorizontal: 'auto',
+            fontWeight: '600',
+            fontSize: 30,
+            textAlign: 'center',
+          }}
+        >
+          Try to figure out how to sign up.
+        </Text>
+
+        {appleAuth.isSupported ? (
+          <AppleButton
+            buttonStyle={AppleButton.Style.WHITE}
+            buttonType={AppleButton.Type.SIGN_IN}
+            style={{
+              width: 160 * 1.3,
+              height: 45 * 1.3,
+            }}
+            onPress={signInWithApple}
+          />
+        ) : (
+          <Text
+            style={{ color: colors.lightGray, margin: 20, textAlign: 'center' }}
+          >
+            Sorry, we only support iOS 13 right now. Please update! If this is a
+            dealbreaker for you, let us know.
+          </Text>
+        )}
+      </View>
+    );
+  }
+
+  // React.useEffect(
+  //   () =>
+  //     (async () => {
+  //       await messaging().registerForRemoteNotifications();
+
+  //       // ask for push notification permission
+  //       await messaging().requestPermission();
+  //     })(),
+  //   [],
+  // );
+
+  return (
+    <AuthNContext.Provider value={{ user, userToken }}>
+      <SignedInView />
+    </AuthNContext.Provider>
+  );
+};

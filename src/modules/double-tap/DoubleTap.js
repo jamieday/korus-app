@@ -22,15 +22,15 @@ export class DoubleTap extends Component {
 
   _onPress = () => {
     // get the instance of time when pressed
-    let now = new Date().getTime();
+    const now = new Date().getTime();
 
     if (this.firstPress) {
       // if pressed first can be a first press again
       this.firstPress = false;
 
-      //set the timeout
+      // set the timeout
       this.timer = setTimeout(() => {
-        //check if user passed in prop
+        // check if user passed in prop
         this.props.singleTap ? this.props.singleTap() : null;
 
         // reset back to initial state
@@ -40,12 +40,12 @@ export class DoubleTap extends Component {
       // mark the last time of the press
       this.lastTime = now;
     } else {
-      //if user pressed immediately again within span of delayTime
+      // if user pressed immediately again within span of delayTime
       if (now - this.lastTime < this.delayTime) {
         // clear the timeout for the single press
         this.timer && clearTimeout(this.timer);
 
-        //check if user passed in prop for double click
+        // check if user passed in prop for double click
         this.props.doubleTap ? this.props.doubleTap() : null;
 
         // reset back to initial state

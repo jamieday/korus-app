@@ -1,3 +1,6 @@
+/* eslint-disable no-shadow */
+/* eslint-disable default-case */
+/* eslint-disable import/prefer-default-export */
 import React from 'react';
 
 import {
@@ -8,11 +11,13 @@ import {
   TouchableOpacity,
   ActionSheetIOS,
 } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
+import crashlytics from '@react-native-firebase/crashlytics';
 import { colors, fonts } from '../../styles';
 
 import { appleMusicApi } from '../../react-native-apple-music/io/appleMusicApi';
 import { DoubleTap } from '../double-tap/DoubleTap';
-import { getUsername } from '../identity';
+import { useIdentity } from '../identity';
 
 import PauseIcon from '../../../assets/images/icons/pause.svg';
 import PlayIcon from '../../../assets/images/icons/play.svg';
@@ -22,13 +27,12 @@ import LoveableIcon from '../../../assets/images/icons/loveable.svg';
 
 import MoreOptions from '../../../assets/images/icons/more-options.svg';
 
-import LinearGradient from 'react-native-linear-gradient';
-import crashlytics from '@react-native-firebase/crashlytics';
 import ProfileIcon from '../../../assets/images/pages/profile.svg';
-import { api } from '../api/callApi';
+import { useApi } from '../api';
+import { AppleMusicContext } from '../auth';
 
-const log = message => {
-  console.log(message);
+const log = (message) => {
+  console.debug(message);
   crashlytics().log(message);
 };
 
@@ -40,9 +44,10 @@ export const Song = ({
   onPause,
   didUnshare,
 }) => {
+  const api = useApi();
   const [loves, setLoves] = React.useState(song.loves);
   React.useEffect(() => setLoves(song.loves), [song.loves]);
-  const username = getUsername();
+  const username = useIdentity().displayName;
 
   const pauseSong = () => {
     log('Pausing song.');
@@ -50,8 +55,8 @@ export const Song = ({
     if (onPause) onPause();
   };
 
-  const playSong = song => {
-    if (typeof song.unsupported['playback'] === 'undefined') {
+  const playSong = (song) => {
+    if (typeof song.unsupported.playback === 'undefined') {
       log(`Playing song ${song.appleMusic.playbackStoreId}`);
       if (onPlay) onPlay();
       appleMusicApi.playSong(song.appleMusic.playbackStoreId);
@@ -67,8 +72,8 @@ export const Song = ({
     if (loves.indexOf(username) === -1) {
       return;
     }
-    setLoves(loves.filter(lover => lover != username));
-    await api().post(`/share/${encodeURIComponent(song.shareId)}/unlove`);
+    setLoves(loves.filter((lover) => lover !== username));
+    await api.post(`/share/${encodeURIComponent(song.shareId)}/unlove`);
   };
 
   const loveSong = async () => {
@@ -76,11 +81,11 @@ export const Song = ({
       return;
     }
     setLoves([...new Set([...loves, username]).values()]);
-    await api().post(`/share/${encodeURIComponent(song.shareId)}/love`);
+    await api.post(`/share/${encodeURIComponent(song.shareId)}/love`);
   };
 
   const isLoved = loves.indexOf(username) !== -1;
-  const isMine = song.sharer == username;
+  const isMine = song.sharer === username;
 
   const height = 350;
 
@@ -175,18 +180,17 @@ export const Song = ({
                   hitSlop={{ left: 10, bottom: 20 }}
                   onPress={() => {
                     const options = ['Unshare', 'Cancel'];
-                    song.sharer;
                     ActionSheetIOS.showActionSheetWithOptions(
                       {
                         options,
                         cancelButtonIndex: options.indexOf('Cancel'),
                         destructiveButtonIndex: options.indexOf('Unshare'),
                       },
-                      selectedIndex => {
+                      (selectedIndex) => {
                         switch (options[selectedIndex]) {
                           case 'Unshare':
                             (async () => {
-                              const [_, error] = await api().post(
+                              const [, error] = await api.post(
                                 `/share/${encodeURIComponent(
                                   song.shareId,
                                 )}/unshare`,
@@ -227,7 +231,11 @@ export const Song = ({
               <TouchableOpacity
                 style={{ flexDirection: 'row', alignItems: 'center' }}
                 onPress={() => {
-                  isLoved ? unloveSong() : loveSong();
+                  if (isLoved) {
+                    unloveSong();
+                  } else {
+                    loveSong();
+                  }
                 }}
                 hitSlop={{ top: 20, left: 20 }}
               >

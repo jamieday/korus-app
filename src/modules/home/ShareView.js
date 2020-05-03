@@ -1,24 +1,29 @@
+/* eslint-disable react/jsx-curly-newline */
+/* eslint-disable no-shadow */
+/* eslint-disable no-console */
+/* eslint-disable import/prefer-default-export */
 import React from 'react';
 import { View } from 'react-native';
 
+import crashlytics from '@react-native-firebase/crashlytics';
 import { colors } from '../../styles';
 import { TextInput } from '../../components';
 import { SelectionList } from '../../components/SelectionList';
 import ShareIcon from '../../../assets/images/icons/share.svg';
-import crashlytics from '@react-native-firebase/crashlytics';
-import { api } from '../api/callApi';
+import { useApi } from '../api';
 
-const log = msg => {
+const log = (msg) => {
   crashlytics().log(msg);
-  console.log(msg);
+  console.debug(msg);
 };
 
 export const ShareScreen = ({ navigation }) => {
+  const api = useApi();
   const [searchQueryInput, setSearchQueryInput] = React.useState('');
   const [songs, setSongs] = React.useState([]);
 
-  const shareSong = async song => {
-    await api().post(`/share/publish`, {
+  const shareSong = async (song) => {
+    await api.post(`/share/publish`, {
       'song-name': song.name,
       'artist-name': song.artist,
       'playback-store-id': song.playbackStoreId,
@@ -32,7 +37,7 @@ export const ShareScreen = ({ navigation }) => {
     setSongs([]);
   };
 
-  const searchAppleMusic = async input => {
+  const searchAppleMusic = async (input) => {
     if (!input.trim()) {
       setSongs([]);
       return;
@@ -40,7 +45,7 @@ export const ShareScreen = ({ navigation }) => {
 
     log(`Searching for ${input}...`);
 
-    const [songs] = await api().get(
+    const [songs] = await api.get(
       `/song/search?query=${encodeURIComponent(input)}`,
     );
 
@@ -76,10 +81,10 @@ export const ShareScreen = ({ navigation }) => {
         </View>
         <View>
           <SelectionList
-            keyExtractor={song => song.playbackStoreId}
+            keyExtractor={(song) => song.playbackStoreId}
             items={songs}
             onItemPressed={shareSong}
-            getItemDetail={song => ({
+            getItemDetail={(song) => ({
               title: song.name,
               subtitle: song.artist,
               imageUrl: song.artworkUrl,

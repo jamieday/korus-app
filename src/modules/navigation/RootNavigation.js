@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, TouchableOpacity, Dimensions } from 'react-native';
+import { Image, TouchableOpacity } from 'react-native';
 import { createAppContainer, createStackNavigator } from 'react-navigation';
 
 import MainTabNavigator from './MainTabNavigator';
@@ -16,10 +16,6 @@ import GalleryScreen from '../gallery/GalleryViewContainer';
 import AvailableInFullVersion from '../availableInFullVersion/AvailableInFullVersionViewContainer';
 
 import { colors, fonts } from '../../styles';
-
-const { width } = Dimensions.get('window');
-
-const headerBackground = require('../../../assets/images/topBarBg.png');
 
 const stackNavigator = createStackNavigator(
   {
@@ -98,7 +94,7 @@ const stackNavigator = createStackNavigator(
         fontFamily: fonts.primaryRegular,
       },
       headerTintColor: '#222222',
-      headerLeft: props => (
+      headerLeft: (props) => (
         <TouchableOpacity
           onPress={props.onPress}
           style={{

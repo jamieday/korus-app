@@ -1,13 +1,10 @@
+import { useContext } from 'react';
 import auth from '@react-native-firebase/auth';
+import { AuthNContext } from '../auth';
 
-export const getUsername = () => {
-  const user = auth().currentUser;
-  return user && user.displayName;
-};
-
-export const getUserToken = async () => {
-  const user = auth().currentUser;
-  return user && (await auth().currentUser.getIdToken());
+export const useIdentity = () => {
+  const { user } = useContext(AuthNContext);
+  return user;
 };
 
 export const logout = () => auth().signOut();

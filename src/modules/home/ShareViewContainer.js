@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 import { compose, withState } from 'recompose';
 
 import { ShareScreen } from './ShareView';

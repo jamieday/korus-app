@@ -1,3 +1,6 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/jsx-curly-newline */
+/* eslint-disable import/prefer-default-export */
 import React from 'react';
 import {
   Button,
@@ -9,11 +12,12 @@ import {
 } from 'react-native';
 import { colors } from '../../styles';
 import { Song } from './Song';
-import { api } from '../api/callApi';
+import { useApi } from '../api';
 
 const tracksPerPage = 4;
 
 export const DiscoverScreen = ({ navigation }) => {
+  const api = useApi();
   const [data, setData] = React.useState(undefined);
   const [upToPage, setUpToPage] = React.useState(1);
   const [isRefreshing, setRefreshing] = React.useState(true);
@@ -30,12 +34,12 @@ export const DiscoverScreen = ({ navigation }) => {
   };
 
   React.useEffect(() => {
-    console.log('Discover screen setting up...');
+    console.debug('Discover screen setting up...');
     refresh();
 
     return () => {
-      console.log('TODO cancel refresh here.'); // TODO
-      console.log('Discover screen unmounted.');
+      console.debug('TODO cancel refresh here.'); // TODO
+      console.debug('Discover screen unmounted.');
     };
   }, []);
 
@@ -47,27 +51,26 @@ export const DiscoverScreen = ({ navigation }) => {
     }
   }, [navigation.state.params?.refresh]);
 
-  const refreshList = async upToPage => {
-    console.log('Fetching feed...');
+  const refreshList = async (_upToPage) => {
+    console.debug('Fetching feed...');
 
-    const [songs, error] = await api().get('/discover/feed');
+    const [songs, error] = await api.get('/discover/feed');
 
     if (error) {
-      setAccessDenied(error.message);
-      return;
-    } else {
-      setAccessDenied(undefined);
+      setAccessDenied(error);
+      return undefined;
     }
+    setAccessDenied(undefined);
 
-    console.log(`Fetched ${songs.length} shares.`);
+    console.debug(`Fetched ${songs.length} shares.`);
     return songs;
   };
 
   const refresh = async () => {
     try {
       setRefreshing(true);
-      const sleep = sleepMs =>
-        new Promise(resolve => setTimeout(resolve, sleepMs));
+      const sleep = (sleepMs) =>
+        new Promise((resolve) => setTimeout(resolve, sleepMs));
       // UX: Keep refreshing in the background if the call takes too long
       await Promise.race([
         sleep(500),
@@ -114,7 +117,7 @@ export const DiscoverScreen = ({ navigation }) => {
     );
   }
 
-  const keyExtractor = item => item.shareId;
+  const keyExtractor = (item) => item.shareId;
 
   return (
     <View style={styles.container}>
@@ -135,7 +138,7 @@ export const DiscoverScreen = ({ navigation }) => {
             }}
           >
             Um, this only really works with friends. And as far as we can tell,
-            you don't have any.
+            you don&apos;t have any.
           </Text>
           {isRefreshing ? (
             <ActivityIndicator />
