@@ -24,7 +24,7 @@ export const DiscoverScreen = ({ navigation }) => {
   const [isEndReached, setEndReached] = React.useState(false);
   const [playingSongId, setPlayingSongId] = React.useState(undefined);
   const [didPressRefresh, setDidPressRefresh] = React.useState(false);
-  const [accessDenied, setAccessDenied] = React.useState(undefined);
+  const [error, setError] = React.useState(undefined);
 
   const listRef = React.useRef();
   const scrollToTop = () => {
@@ -57,10 +57,10 @@ export const DiscoverScreen = ({ navigation }) => {
     const [songs, error] = await api.get('/discover/feed');
 
     if (error) {
-      setAccessDenied(error);
+      setError(error);
       return undefined;
     }
-    setAccessDenied(undefined);
+    setError(undefined);
 
     console.debug(`Fetched ${songs.length} shares.`);
     return songs;
@@ -81,7 +81,7 @@ export const DiscoverScreen = ({ navigation }) => {
     }
   };
 
-  if (accessDenied) {
+  if (error) {
     return (
       <View style={styles.container}>
         <View
@@ -109,8 +109,14 @@ export const DiscoverScreen = ({ navigation }) => {
               marginBottom: 15,
             }}
           >
-            {accessDenied}
+            {typeof error === 'object' ? error.problem : error}
           </Text>
+          {typeof error === 'object' && (
+            <Button
+              onPress={error.solution.action}
+              title={error.solution.message}
+            />
+          )}
           <Button onPress={refresh} title="Refresh" />
         </View>
       </View>

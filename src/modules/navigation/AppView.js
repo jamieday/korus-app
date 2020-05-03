@@ -1,3 +1,5 @@
+/* eslint-disable no-shadow */
+/* eslint-disable import/prefer-default-export */
 import React, { useState, useEffect } from 'react';
 import { View, Text } from 'react-native';
 // import messaging from '@react-native-firebase/messaging';
@@ -17,8 +19,13 @@ export const AppView = () => {
   const [user, setUser] = useState();
   const [userToken, setUserToken] = useState();
 
+  const refreshToken = async () => {
+    const token = await user.getIdToken(true);
+    setUserToken(token);
+  };
+
   // Handle user state changes
-  const onStateChanged = async user => {
+  const onStateChanged = async (user) => {
     setUser(user);
     if (user) {
       const userToken = await user.getIdToken();
@@ -32,7 +39,7 @@ export const AppView = () => {
 
   useEffect(() => {
     crashlytics().log('App mounted');
-    const subscriber = auth().onUserChanged(user => {
+    const subscriber = auth().onUserChanged((user) => {
       onStateChanged(user);
     });
     return subscriber; // unsubscribe on unmount
@@ -99,7 +106,7 @@ export const AppView = () => {
   // );
 
   return (
-    <AuthNContext.Provider value={{ user, userToken }}>
+    <AuthNContext.Provider value={{ user, userToken, refreshToken }}>
       <SignedInView />
     </AuthNContext.Provider>
   );

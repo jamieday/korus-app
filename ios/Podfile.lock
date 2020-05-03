@@ -106,7 +106,7 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (6.6.0):
     - GoogleUtilities/Logger
-  - GTMSessionFetcher/Core (1.3.1)
+  - GTMSessionFetcher/Core (1.4.0)
   - nanopb (0.3.9011):
     - nanopb/decode (= 0.3.9011)
     - nanopb/encode (= 0.3.9011)
@@ -316,6 +316,10 @@ PODS:
     - React
   - RNAppleAuthentication (0.2.0):
     - React
+  - RNCAsyncStorage (1.9.0):
+    - React
+  - RNEventEmitter (1.0.15):
+    - React
   - RNFBApp (6.4.0):
     - Firebase/Core (~> 6.13.0)
     - React
@@ -339,6 +343,8 @@ PODS:
     - React
   - RNLocalize (1.3.2):
     - React
+  - RNSpotifyRemote (0.2.2):
+    - React-Core
   - RNSVG (12.1.0):
     - React
   - RNVectorIcons (6.6.0):
@@ -376,12 +382,15 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - ReactNativeUiLib (from `../node_modules/react-native-ui-lib`)
   - "RNAppleAuthentication (from `../node_modules/@invertase/react-native-apple-authentication`)"
+  - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
+  - RNEventEmitter (from `../node_modules/react-native-events`)
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
   - "RNFBCrashlytics (from `../node_modules/@react-native-firebase/crashlytics`)"
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNLocalize (from `../node_modules/react-native-localize`)
+  - RNSpotifyRemote (from `../node_modules/react-native-spotify-remote`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -465,6 +474,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-ui-lib"
   RNAppleAuthentication:
     :path: "../node_modules/@invertase/react-native-apple-authentication"
+  RNCAsyncStorage:
+    :path: "../node_modules/@react-native-community/async-storage"
+  RNEventEmitter:
+    :path: "../node_modules/react-native-events"
   RNFBApp:
     :path: "../node_modules/@react-native-firebase/app"
   RNFBAuth:
@@ -477,6 +490,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-gesture-handler"
   RNLocalize:
     :path: "../node_modules/react-native-localize"
+  RNSpotifyRemote:
+    :path: "../node_modules/react-native-spotify-remote"
   RNSVG:
     :path: "../node_modules/react-native-svg"
   RNVectorIcons:
@@ -508,7 +523,7 @@ SPEC CHECKSUMS:
   GoogleDataTransport: 061fe7d9b476710e3cd8ea51e8e07d8b67c2b420
   GoogleDataTransportCCTSupport: 0f39025e8cf51f168711bd3fb773938d7e62ddb5
   GoogleUtilities: 39530bc0ad980530298e9c4af8549e991fd033b1
-  GTMSessionFetcher: cea130bbfe5a7edc8d06d3f0d17288c32ffe9925
+  GTMSessionFetcher: 6f5c8abbab8a9bce4bb3f057e317728ec6182b10
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
   Protobuf: 176220c526ad8bd09ab1fb40a978eac3fef665f7
@@ -533,12 +548,15 @@ SPEC CHECKSUMS:
   ReactCommon: 198c7c8d3591f975e5431bec1b0b3b581aa1c5dd
   ReactNativeUiLib: 52606c273a072841c6fc5cfc9bd617fc87e5ca15
   RNAppleAuthentication: e875711ddda0361c2b7fca28fb6c64cdd94f7968
+  RNCAsyncStorage: 453cd7c335ec9ba3b877e27d02238956b76f3268
+  RNEventEmitter: db22b54ae7d9be0bd5725613f79a51e2bc364a93
   RNFBApp: 69781cf10ce41f6f6db789e6264dd80119ef2fb7
   RNFBAuth: 50fcc7826344dc96caad8bc4f5b40a64904297b8
   RNFBCrashlytics: f6630b1cfa1fbac5348205232709ac779369d9e7
   RNFBMessaging: 805710731a2b616030514f6f416e8787de521f41
   RNGestureHandler: 02905abe54e1f6e59c081a10b4bd689721e17aa6
   RNLocalize: 08eb68476e1f2d8cacd75fa919bf5e219fb03b19
+  RNSpotifyRemote: 0c87e40397ea89339994f2dcca6672f3944c735b
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b

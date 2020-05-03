@@ -11,8 +11,20 @@
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
+#import <RNSpotifyRemote.h>
+
+#import <React/RCTLinkingManager.h>
 
 @implementation AppDelegate
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)URL options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options
+{
+  if ([URL.absoluteString hasPrefix:@"spotify://"]) {
+    return [[RNSpotifyRemoteAuth sharedInstance] application:application openURL:URL options:options];
+  } else {
+    return [RCTLinkingManager application:application openURL:URL options:options];
+  }
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -25,7 +37,7 @@
                                                    moduleName:@"chorus-app"
                                             initialProperties:nil];
 
-  rootView.backgroundColor = [[UIColor alloc] initWithRed:82.0f green:116.0f blue:221.0f alpha:1];
+  rootView.backgroundColor = [[UIColor alloc] initWithRed: 0.01 green: 0.01 blue: 0.01 alpha: 1.00];
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];

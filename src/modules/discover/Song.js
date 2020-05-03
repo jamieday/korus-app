@@ -29,7 +29,6 @@ import MoreOptions from '../../../assets/images/icons/more-options.svg';
 
 import ProfileIcon from '../../../assets/images/pages/profile.svg';
 import { useApi } from '../api';
-import { AppleMusicContext } from '../auth';
 
 const log = (message) => {
   console.debug(message);

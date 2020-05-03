@@ -139,10 +139,11 @@ export default createBottomTabNavigator(
                 />
               </View>
             );
-          case 'Profile':
-            iconSource = icon;
+          // case 'Profile':
+          // iconSource = icon;
           default:
             iconSource = iconComponents;
+            break;
         }
         return (
           <View style={styles.tabBarItemContainer}>

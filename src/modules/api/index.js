@@ -1,38 +1,26 @@
 /* eslint-disable default-case */
 import axios from 'axios';
 import { useContext } from 'react';
-import { appleMusicApi } from '../../react-native-apple-music/io/appleMusicApi';
-import { AuthNContext, AppleMusicContext } from '../auth';
+import { AuthNContext } from '../auth';
+import { useStreamingService } from '../streaming-service';
+import { getHost } from './getHost';
 
 export const useAuthN = () => useContext(AuthNContext);
 
 export const useApi = () => {
-  const { userToken } = useAuthN();
-  const appleMusicUserToken = useContext(AppleMusicContext);
+  const { userToken, refreshToken } = useAuthN();
+  const streamingService = useStreamingService();
 
-  const call = async (endpoint, method, body) => {
+  const call = async (endpoint, method, body, isRetry = false) => {
     try {
-      if (!userToken) {
+      if (!userToken || !streamingService) {
         return [
           undefined,
-          "Hmm, it seems like you're not logged in. Try restarting the app.",
-        ];
-      }
-      const appleMusicPermission = await appleMusicApi.requestPermission();
-      if (appleMusicPermission !== 'ok') {
-        return [
-          undefined,
-          'Please provide access to Apple Music in your settings.',
-        ];
-      }
-      if (!appleMusicUserToken) {
-        return [
-          undefined,
-          "Hmm, we can't access your Apple Music. Do you have an Apple Music subscription?",
+          'Hmm, I think we messed up. Can you restart the app & try again?',
         ];
       }
 
-      const host = process.env.API_HOST || 'http://chorus.media';
+      const host = getHost();
       const path = `/api${endpoint}`;
       const url = host + path;
       console.debug(`${method} ${path}`);
@@ -42,14 +30,21 @@ export const useApi = () => {
           ...(method === 'POST' && { 'Content-Type': 'application/json' }),
           // Header duplicated in backend {7d25eb5a-2c5a-431b-95a8-14f980c8f7e1}
           'X-Firebase-User-Token': userToken,
-          // Header duplicated in backend {8eeaa95a-ab4f-45ca-a97a-f4767d8f4872}
-          'X-Apple-Music-User-Token': appleMusicUserToken,
+          [streamingService.service.header]: streamingService.context.token,
         },
         data: body,
       });
       switch (response.status) {
+        case 401:
+          if (!isRetry) {
+            console.debug('Refreshing user token...');
+            await refreshToken();
+            console.debug('OK. Retrying that request.');
+            return await call(endpoint, method, body, true);
+          }
+          throw new Error(`${response.status} error for ${path}`);
         case 500:
-          throw new Error(`500 error for ${path}`);
+          throw new Error(`${response.status} error for ${path}`);
 
         case 503: // Service Unavailable
           return [

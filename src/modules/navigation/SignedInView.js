@@ -5,12 +5,10 @@
 /* eslint-disable import/prefer-default-export */
 import React, { useState } from 'react';
 import { View, Text } from 'react-native';
-import AppNavigator from './RootNavigation';
 import { colors } from '../../styles';
 import { Button, TextInput } from '../../components';
-import { appleMusicApi } from '../../react-native-apple-music/io/appleMusicApi';
+import { ValidUserView } from './ValidUserView';
 import { useAuthN } from '../api';
-import { AppleMusicContext } from '../auth';
 
 export const SignedInView = () => {
   const { user } = useAuthN();
@@ -22,6 +20,10 @@ export const SignedInView = () => {
   }
 
   const captureUsername = async () => {
+    if (user.displayName) {
+      return;
+    }
+
     if (!usernameQueued) {
       alert(enterUsernameMsg);
       setEnterUsernameMsg(
@@ -29,73 +31,47 @@ export const SignedInView = () => {
       );
       return;
     }
-    if (!user.displayName) {
-      const usernameRegex = /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/gi;
-      if (!usernameRegex.test(usernameQueued)) {
-        const hint =
-          usernameQueued.indexOf(' ') !== -1
-            ? ' (try without spaces)'
-            : '(invalid name)';
-        if (usernameQueued.length < 10) {
-          alert(
-            `We're not letting "${usernameQueued}" join the platform...${hint}`,
-          );
-        } else {
-          alert(
-            `I don't know how to break it to you, but you're not getting in with a username like that.${hint}`,
-          );
-        }
-        return;
-      }
-      if (
-        [
-          'Callum',
-          'Connor',
-          'Kaijai',
-          'alex',
-          'andrew',
-          'megangreb',
-          'stephanie',
-        ].indexOf(usernameQueued) !== -1
-      ) {
-        alert("That name's taken. Try being original maybe?");
-        return;
-      }
 
-      await (async () => {
-        await user.updateProfile({ displayName: usernameQueued });
-        await user.reload();
-      })();
+    const usernameRegex = /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/gi;
+    if (!usernameRegex.test(usernameQueued)) {
+      const hint =
+        usernameQueued.indexOf(' ') !== -1
+          ? ' (try without spaces)'
+          : '(invalid name)';
+      if (usernameQueued.length < 10) {
+        alert(
+          `We're not letting "${usernameQueued}" join the platform...${hint}`,
+        );
+      } else {
+        alert(
+          `I don't know how to break it to you, but you're not getting in with a username like that.${hint}`,
+        );
+      }
+      return;
     }
-  };
-
-  const ConfirmedUserView = () => {
-    const [appleMusicUserToken, setAppleMusicUserToken] = useState();
-
-    React.useEffect(() => {
-      (async () => {
-        await appleMusicApi.requestPermission();
-        const result = await appleMusicApi.requestUserToken();
-        const appleMusicUserToken = !result.isError ? result.result : undefined;
-        setAppleMusicUserToken(appleMusicUserToken);
-      })();
-    }, []);
-
-    if (!appleMusicUserToken) {
-      return (
-        <View style={{ height: '100%', backgroundColor: colors.lightBlack }} />
-      );
+    if (
+      [
+        'Callum',
+        'Connor',
+        'Kaijai',
+        'alex',
+        'andrew',
+        'megangreb',
+        'stephanie',
+      ].indexOf(usernameQueued) !== -1
+    ) {
+      alert("That name's taken. Try being original maybe?");
+      return;
     }
 
-    return (
-      <AppleMusicContext.Provider value={appleMusicUserToken}>
-        <AppNavigator />
-      </AppleMusicContext.Provider>
-    );
+    await (async () => {
+      await user.updateProfile({ displayName: usernameQueued });
+      await user.reload();
+    })();
   };
 
   return user.displayName ? (
-    <ConfirmedUserView />
+    <ValidUserView />
   ) : (
     <View
       style={{
