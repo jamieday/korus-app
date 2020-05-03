@@ -4,26 +4,61 @@
 /* eslint-disable no-alert */
 /* eslint-disable import/prefer-default-export */
 import React from 'react';
-import { Text, View, Button, Alert } from 'react-native';
+import { Text, View, Button, Alert, AppState } from 'react-native';
 import AppNavigator from './RootNavigation';
 import { colors } from '../../styles';
 import * as AppleMusic from '../streaming-service/apple-music';
 import * as Spotify from '../streaming-service/spotify';
-import { StreamingServiceContext, findService } from '../streaming-service';
+import { findService } from '../streaming-service';
+import { StreamingServiceContext } from '../streaming-service/StreamingServiceContext';
 import { usePersistence } from '../persistence';
+import { remote } from 'react-native-spotify-remote';
+// import auth from '@react-native-firebase/auth';
+// import AsyncStorage from '@react-native-community/async-storage';
+
+// // DevSettings.addMenuItem('Clear storage', () => {
+// //   AsyncStorage.clear();
+// // });
+
+// // DevSettings.addMenuItem('Sign out', () => {
+// //   auth().signOut();
+// // });
 
 export const ValidUserView = () => {
-  const [streamingService, persistStreamingService] = usePersistence(
-    'streaming-service',
+  const [streamingServiceKey, persistStreamingServiceKey] = usePersistence(
+    'streaming-service-default',
+  );
+  const [accessToken, persistAccessToken] = usePersistence(
+    'streaming-service-auth',
   );
 
-  if (streamingService === 'INITIALIZING') {
-    return null;
-  }
+  const onAppStateChange = (state) => {
+    (async () => {
+      switch (state) {
+        case 'active':
+          await remote.connect(accessToken);
+          break;
+        case 'background':
+        case 'inactive':
+          if (await remote.isConnectedAsync()) {
+            await remote.disconnect();
+          }
+          break;
+      }
+    })();
+  };
+
+  React.useEffect(() => {
+    AppState.addEventListener('change', onAppStateChange);
+
+    return () => {
+      AppState.removeEventListener('change', onAppStateChange);
+    };
+  }, []);
 
   const connectToStreamingService = async (key) => {
     const service = findService(key);
-    const [token, error] = await service.requestToken();
+    const [token, error] = await service.authenticate();
     if (error) {
       const errorMsg = typeof error === 'object' ? error.problem : error;
       const action = typeof error === 'object' && error.solution.action;
@@ -49,7 +84,8 @@ export const ValidUserView = () => {
       }
       return;
     }
-    await persistStreamingService({ key: service.uniqueKey, token });
+    await persistStreamingServiceKey(key);
+    await persistAccessToken(token);
   };
 
   // can automate this
@@ -57,7 +93,14 @@ export const ValidUserView = () => {
     connectToStreamingService(AppleMusic.uniqueKey);
   const connectWithSpotify = () => connectToStreamingService(Spotify.uniqueKey);
 
-  if (!streamingService) {
+  if (
+    streamingServiceKey === 'INITIALIZING' ||
+    accessToken === 'INITIALIZING'
+  ) {
+    return null;
+  }
+
+  if (!streamingServiceKey || !accessToken) {
     return (
       <View
         style={{
@@ -89,7 +132,33 @@ export const ValidUserView = () => {
   }
 
   return (
-    <StreamingServiceContext.Provider value={streamingService}>
+    <StreamingServiceContext.Provider
+      value={{
+        key: streamingServiceKey,
+        accessToken,
+        connectPlayer: async (playUri) => {
+          if (streamingServiceKey !== Spotify.uniqueKey) {
+            throw new Error('Temp spotify code');
+          }
+          const log = (msg) => console.debug(`[Spotify] ${msg}`);
+          log('Connecting player...');
+          const [accessToken, error] = await findService(
+            Spotify.uniqueKey,
+          ).connect(playUri);
+
+          if (error) {
+            // No session (shouldn't happen)
+            log('Refresh failed.');
+            await persistAccessToken(undefined);
+            return;
+          }
+
+          log('Persisting token...');
+          await persistAccessToken(accessToken);
+          log('Done.');
+        },
+      }}
+    >
       <AppNavigator />
     </StreamingServiceContext.Provider>
   );

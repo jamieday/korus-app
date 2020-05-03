@@ -6,7 +6,13 @@
 
 PRIORITIZATION!!!!
 
+HIGHEST.
+look at all todo spotify
+
 Performance improvements
+- Add timeouts to api calls
+- Rate limiting and other misc things like caching for spotify/appmusic web appmusic
+   - read old technical design doc
 - Put calculation into command, not query
 - Like right away... aggregate events into local storage then push?
 - React optimizations improvements (ComponentWillUpdate, read logs)

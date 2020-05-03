@@ -19,11 +19,7 @@
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)URL options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options
 {
-  if ([URL.absoluteString hasPrefix:@"spotify://"]) {
     return [[RNSpotifyRemoteAuth sharedInstance] application:application openURL:URL options:options];
-  } else {
-    return [RCTLinkingManager application:application openURL:URL options:options];
-  }
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions

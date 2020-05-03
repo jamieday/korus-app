@@ -3,10 +3,17 @@ import { appleMusicApi } from '../../../react-native-apple-music/io/appleMusicAp
 import { Linking } from 'react-native';
 
 export const uniqueKey = 'apple-music';
-// Header duplicated in backend {8eeaa95a-ab4f-45ca-a97a-f4767d8f4872}
+// Header duplicated in backend {5998EFBB-47E5-4CE5-AB47-FA36DF822201}
 export const header = 'X-Apple-Music-User-Token';
 
-export const requestToken = async () => {
+export const playSong = async (song) => {
+  console.debug(
+    `[Apple Music] Playing with playbackStoreId ${song.appleMusic.playbackStoreId}`,
+  );
+  await appleMusicApi.playSong(song.appleMusic.playbackStoreId);
+};
+
+export const authenticate = async () => {
   const appleMusicPermission = await appleMusicApi.requestPermission();
   if (appleMusicPermission !== 'ok') {
     return [
@@ -26,3 +33,5 @@ export const requestToken = async () => {
   }
   return [result.result, undefined];
 };
+
+export * from './player';

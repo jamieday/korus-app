@@ -15,7 +15,6 @@ import LinearGradient from 'react-native-linear-gradient';
 import crashlytics from '@react-native-firebase/crashlytics';
 import { colors, fonts } from '../../styles';
 
-import { appleMusicApi } from '../../react-native-apple-music/io/appleMusicApi';
 import { DoubleTap } from '../double-tap/DoubleTap';
 import { useIdentity } from '../identity';
 
@@ -28,6 +27,7 @@ import LoveableIcon from '../../../assets/images/icons/loveable.svg';
 import MoreOptions from '../../../assets/images/icons/more-options.svg';
 
 import ProfileIcon from '../../../assets/images/pages/profile.svg';
+import { useStreamingService } from '../streaming-service';
 import { useApi } from '../api';
 
 const log = (message) => {
@@ -44,27 +44,21 @@ export const Song = ({
   didUnshare,
 }) => {
   const api = useApi();
+  const { player } = useStreamingService();
   const [loves, setLoves] = React.useState(song.loves);
   React.useEffect(() => setLoves(song.loves), [song.loves]);
   const username = useIdentity().displayName;
 
-  const pauseSong = () => {
-    log('Pausing song.');
-    appleMusicApi.pauseSong();
+  const pauseSong = async () => {
+    log('[Song] Pausing song.');
     if (onPause) onPause();
+    await player.pauseSong(song);
   };
 
-  const playSong = (song) => {
-    if (typeof song.unsupported.playback === 'undefined') {
-      log(`Playing song ${song.appleMusic.playbackStoreId}`);
-      if (onPlay) onPlay();
-      appleMusicApi.playSong(song.appleMusic.playbackStoreId);
-    } else {
-      (async () => {
-        await crashlytics().setAttribute('song', song);
-        log(`Tried to play song ${song.appleMusic.playbackStoreId}`);
-      })();
-    }
+  const playSong = async (song) => {
+    log('[Song] Playing song.');
+    if (onPlay) onPlay();
+    await player.playSong(song);
   };
 
   const unloveSong = async () => {
@@ -197,8 +191,8 @@ export const Song = ({
                               if (error) {
                                 console.error(error);
                               }
-                              pauseSong();
                               didUnshare();
+                              await pauseSong();
                             })();
                             break;
                           case 'Cancel':

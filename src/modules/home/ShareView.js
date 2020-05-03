@@ -3,7 +3,7 @@
 /* eslint-disable no-console */
 /* eslint-disable import/prefer-default-export */
 import React from 'react';
-import { View } from 'react-native';
+import { View, Text, ActivityIndicator } from 'react-native';
 
 import crashlytics from '@react-native-firebase/crashlytics';
 import { colors } from '../../styles';
@@ -20,13 +20,20 @@ const log = (msg) => {
 export const ShareScreen = ({ navigation }) => {
   const api = useApi();
   const [searchQueryInput, setSearchQueryInput] = React.useState('');
-  const [songs, setSongs] = React.useState([]);
+  const [lastSearch, setLastSearch] = React.useState();
+  const [loading, setLoading] = React.useState(false);
+  const [songs, setSongs] = React.useState(undefined);
 
   const shareSong = async (song) => {
     await api.post(`/share/publish`, {
       'song-name': song.name,
       'artist-name': song.artist,
-      'playback-store-id': song.playbackStoreId,
+      ...(song.playbackStoreId && {
+        'playback-store-id': song.playbackStoreId,
+      }),
+      ...(typeof song.spotify !== 'undefined' && {
+        'spotify-id': song.spotify.id,
+      }),
     });
 
     log(`Shared ${song.name} by ${song.artist}.`);
@@ -34,29 +41,27 @@ export const ShareScreen = ({ navigation }) => {
 
     // Clear input
     setSearchQueryInput('');
-    setSongs([]);
+    setSongs(undefined);
   };
 
-  const searchAppleMusic = async (input) => {
+  const search = async (input) => {
     if (!input.trim()) {
-      setSongs([]);
+      setSongs(undefined);
       return;
     }
 
     log(`Searching for ${input}...`);
 
+    setLoading(true);
     const [songs] = await api.get(
       `/song/search?query=${encodeURIComponent(input)}`,
     );
 
-    if (!songs) {
-      log("Couldn't find any songs.");
-      return;
-    }
-
     log(`Fetched ${songs.length} songs.`);
 
+    setLoading(false);
     setSongs(songs);
+    setLastSearch(input);
   };
 
   return (
@@ -72,27 +77,48 @@ export const ShareScreen = ({ navigation }) => {
             autoCapitalize="none"
             returnKeyType="search"
             onChangeText={setSearchQueryInput}
-            onSubmitEditing={({ nativeEvent: { text } }) =>
-              searchAppleMusic(text)
-            }
+            onSubmitEditing={({ nativeEvent: { text } }) => search(text)}
             value={searchQueryInput}
             placeholder="search by song, album, or artist"
           />
         </View>
         <View>
-          <SelectionList
-            keyExtractor={(song) => song.playbackStoreId}
-            items={songs}
-            onItemPressed={shareSong}
-            getItemDetail={(song) => ({
-              title: song.name,
-              subtitle: song.artist,
-              imageUrl: song.artworkUrl,
-            })}
-            actionIcon={
-              <ShareIcon width={20} height={20} fill={colors.white} />
-            }
-          />
+          {songs !== undefined &&
+            (loading ? (
+              <View style={{ marginTop: 30 }}>
+                <ActivityIndicator />
+              </View>
+            ) : songs.length === 0 ? (
+              lastSearch && (
+                <View style={{ marginTop: 30 }}>
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      textAlign: 'center',
+                      color: colors.white,
+                      fontStyle: 'italic',
+                    }}
+                  >
+                    Yea, so we tried but couldn't find anything remotely like '
+                    {lastSearch}'...
+                  </Text>
+                </View>
+              )
+            ) : (
+              <SelectionList
+                keyExtractor={(song) => song.playbackStoreId}
+                items={songs}
+                onItemPressed={shareSong}
+                getItemDetail={(song) => ({
+                  title: song.name,
+                  subtitle: song.artist,
+                  imageUrl: song.artworkUrl,
+                })}
+                actionIcon={
+                  <ShareIcon width={20} height={20} fill={colors.white} />
+                }
+              />
+            ))}
         </View>
       </View>
     </View>

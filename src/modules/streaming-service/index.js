@@ -1,13 +1,8 @@
 /* eslint-disable import/prefer-default-export */
 import React from 'react';
+import { StreamingServiceContext } from './StreamingServiceContext';
 import * as AppleMusic from './apple-music';
 import * as Spotify from './spotify';
-
-export const StreamingServiceContext = React.createContext();
-
-export const usePlayer = () => {
-  return undefined;
-};
 
 export const findService = (key) => {
   switch (key) {
@@ -22,11 +17,11 @@ export const findService = (key) => {
 
 export const useStreamingService = () => {
   const context = React.useContext(StreamingServiceContext);
-  if (!context) {
-    return undefined;
-  }
+  const service = findService(context.key);
+  const player = service.usePlayer();
   return {
-    service: findService(context.key),
     context,
+    service,
+    player,
   };
 };

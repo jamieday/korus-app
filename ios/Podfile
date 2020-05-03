@@ -39,6 +39,9 @@ target 'Chorus' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
+  pod 'RNEventEmitter', :path => "../node_modules/react-native-events"
+  pod 'RNSpotifyRemote', :path => '../node_modules/react-native-spotify-remote'
+
   target 'ChorusTests' do
     inherit! :search_paths
     # Pods for testing
