@@ -8,12 +8,16 @@ export const SelectionList = ({
   onItemPressed,
   actionIcon,
   getItemDetail,
+  refreshing,
+  onRefresh,
 }) => (
   <FlatList
     keyExtractor={keyExtractor}
     style={{
       padding: 15,
     }}
+    refreshing={refreshing}
+    onRefresh={onRefresh}
     data={items}
     renderItem={({ item }) => {
       const { title, subtitle, imageUrl = undefined } = getItemDetail(item);

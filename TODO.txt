@@ -10,7 +10,6 @@ HIGHEST.
 look at all todo spotify
 
 Performance improvements
-- Add timeouts to api calls
 - Rate limiting and other misc things like caching for spotify/appmusic web appmusic
    - read old technical design doc
 - Put calculation into command, not query

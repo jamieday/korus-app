@@ -4,11 +4,71 @@ import { useContext } from 'react';
 import { AuthNContext } from '../auth';
 import { useStreamingService } from '../streaming-service';
 import { getHost } from './getHost';
+import perf from '@react-native-firebase/perf';
 
 export const useAuthN = () => useContext(AuthNContext);
 
+// Header duplicated in backend {7d25eb5a-2c5a-431b-95a8-14f980c8f7e1}
+const userTokenHeader = 'X-Firebase-User-Token';
+
+axios.interceptors.request.use(async (config) => {
+  console.debug(`[API] ${config.method.toUpperCase()} ${config.url}`);
+
+  const httpMetric = perf().newHttpMetric(
+    config.url,
+    config.method.toUpperCase(),
+  );
+  config.metadata.httpMetric = httpMetric;
+
+  httpMetric.putAttribute('userId', config.metadata.userId);
+  httpMetric.putAttribute('timeout', config.timeout.toString());
+  await httpMetric.start();
+
+  return config;
+});
+axios.interceptors.response.use(
+  async (response) => {
+    console.debug(`[API] Succeeded.`);
+
+    // Request was successful, e.g. HTTP code 200
+    const { httpMetric } = response.config.metadata;
+
+    // - api fails in production mode
+    // - api gives weird spotify art sometimes
+    // - RESCOPE & prioritize next steps!
+    httpMetric.setHttpResponseCode(response.status);
+    httpMetric.setResponseContentType(response.headers['content-type']);
+    await httpMetric.stop();
+
+    return response;
+  },
+  async (error) => {
+    // Request failed, e.g. HTTP code 500
+    if (!error.isAxiosError) {
+      console.error(error);
+    } else {
+      console.debug(
+        `[API] Failed with ${
+          error.response
+            ? `${error.response.status} ${error.response.statusText}`
+            : 'timeout'
+        }`,
+      );
+    }
+
+    const { httpMetric } = error.config.metadata;
+
+    httpMetric.setHttpResponseCode(error.response?.status);
+    httpMetric.setResponseContentType(error.response?.headers['content-type']);
+    await httpMetric.stop();
+
+    // Ensure failed requests throw after interception
+    return Promise.reject(error);
+  },
+);
+
 export const useApi = () => {
-  const { userToken, refreshToken } = useAuthN();
+  const { user, userToken, refreshToken } = useAuthN();
   const { service, context } = useStreamingService();
 
   const call = async (endpoint, method, body, isRetry = false) => {
@@ -23,23 +83,17 @@ export const useApi = () => {
       const host = getHost();
       const path = `/api${endpoint}`;
       const url = host + path;
-      console.debug(`${method} ${path}`);
       const response = await axios(url, {
         method,
         timeout: 8000,
         headers: {
           ...(method === 'POST' && { 'Content-Type': 'application/json' }),
-          // Header duplicated in backend {7d25eb5a-2c5a-431b-95a8-14f980c8f7e1}
-          'X-Firebase-User-Token': userToken,
+          [userTokenHeader]: userToken,
           [service.header]: context.accessToken,
         },
         data: body,
+        metadata: { userId: user?.uid },
       });
-      if (response.status !== 200) {
-        console.error(`Unrecognized status code: ${response.status}`);
-      } else {
-        console.debug('Done.');
-      }
       return [response.data, undefined];
     } catch (e) {
       switch (e.response?.status) {

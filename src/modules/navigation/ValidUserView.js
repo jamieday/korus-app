@@ -13,6 +13,7 @@ import { findService } from '../streaming-service';
 import { StreamingServiceContext } from '../streaming-service/StreamingServiceContext';
 import { usePersistence } from '../persistence';
 import { remote } from 'react-native-spotify-remote';
+import analytics from '@react-native-firebase/analytics';
 // import auth from '@react-native-firebase/auth';
 // import AsyncStorage from '@react-native-community/async-storage';
 
@@ -159,7 +160,29 @@ export const ValidUserView = () => {
         },
       }}
     >
-      <AppNavigator />
+      {(() => {
+        const getActiveRouteName = (state) => {
+          const route = state.routes && state.routes[state.index];
+
+          if (route) {
+            // Dive into nested navigators
+            return getActiveRouteName(route);
+          }
+
+          return state.routeName;
+        };
+        return (
+          <AppNavigator
+            onNavigationStateChange={(prevState, nextState, _action) => {
+              const prevScreen = getActiveRouteName(prevState);
+              const nextScreen = getActiveRouteName(nextState);
+              if (prevScreen !== nextScreen) {
+                analytics().setCurrentScreen(nextScreen, nextScreen);
+              }
+            }}
+          />
+        );
+      })()}
     </StreamingServiceContext.Provider>
   );
 };

@@ -9,23 +9,32 @@ import { SelectionList } from '../../components/SelectionList';
 import FollowIcon from '../../../assets/images/icons/follow.svg';
 import SelectedIcon from '../../../assets/images/icons/selected.svg';
 import { useApi } from '../api';
+import analytics from '@react-native-firebase/analytics';
 
 export const GroupsScreen = () => {
   const api = useApi();
+  const [isLoading, setLoading] = React.useState(false);
   const [users, setUsers] = React.useState([]);
 
+  const refresh = async () => {
+    console.debug('Fetch users to follow...');
+    setLoading(true);
+    const [usersR, error] = await api.get('/people/users/all');
+    const users = error ? [] : usersR;
+    console.debug(`Fetched ${users.length} users.`);
+    setUsers(users);
+    setLoading(false);
+  };
+
   React.useEffect(() => {
-    (async () => {
-      console.debug('Fetch users to follow...');
-      const [users] = await api.get('/people/users/all');
-      console.debug(`Fetched ${users.length} users.`);
-      setUsers(users);
-    })();
+    refresh();
   }, []);
 
   return (
     <View style={styles.container}>
       <SelectionList
+        refreshing={isLoading}
+        onRefresh={refresh}
         keyExtractor={(user) => user.username}
         items={users.sort((a, b) => a.username > b.username)}
         getItemDetail={(user) => ({ title: user.username })}
@@ -41,6 +50,11 @@ export const GroupsScreen = () => {
             ...users.filter((one) => one.username !== user.username),
             { ...user, isFollowed: !user.isFollowed },
           ]);
+
+          analytics().logEvent(
+            user.isFollowed ? 'unfollow_user' : 'follow_user',
+            user,
+          );
 
           await api.post(
             `/people/user/${encodeURIComponent(user.username)}/${

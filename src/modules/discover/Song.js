@@ -12,7 +12,6 @@ import {
   ActionSheetIOS,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import crashlytics from '@react-native-firebase/crashlytics';
 import { colors, fonts } from '../../styles';
 
 import { DoubleTap } from '../double-tap/DoubleTap';
@@ -29,10 +28,10 @@ import MoreOptions from '../../../assets/images/icons/more-options.svg';
 import ProfileIcon from '../../../assets/images/pages/profile.svg';
 import { useStreamingService } from '../streaming-service';
 import { useApi } from '../api';
+import analytics from '@react-native-firebase/analytics';
 
 const log = (message) => {
   console.debug(message);
-  crashlytics().log(message);
 };
 
 export const Song = ({
@@ -51,12 +50,22 @@ export const Song = ({
 
   const pauseSong = async () => {
     log('[Song] Pausing song.');
+    analytics().logEvent('pause_song', {
+      id: song.id,
+      name: song.name,
+      artist: song.artist,
+    });
     if (onPause) onPause();
     await player.pauseSong(song);
   };
 
-  const playSong = async (song) => {
+  const playSong = async () => {
     log('[Song] Playing song.');
+    analytics().logEvent('play_song', {
+      id: song.id,
+      name: song.name,
+      artist: song.artist,
+    });
     if (onPlay) onPlay();
     await player.playSong(song);
   };
@@ -65,6 +74,7 @@ export const Song = ({
     if (loves.indexOf(username) === -1) {
       return;
     }
+    analytics().logEvent('unlike_song', song);
     setLoves(loves.filter((lover) => lover !== username));
     await api.post(`/share/${encodeURIComponent(song.shareId)}/unlove`);
   };
@@ -73,6 +83,7 @@ export const Song = ({
     if (loves.indexOf(username) !== -1) {
       return;
     }
+    analytics().logEvent('like_song', song);
     setLoves([...new Set([...loves, username]).values()]);
     await api.post(`/share/${encodeURIComponent(song.shareId)}/love`);
   };
@@ -91,7 +102,7 @@ export const Song = ({
       borderRadius={15}
     >
       <DoubleTap
-        singleTap={() => (isPlaying ? pauseSong() : playSong(song))}
+        singleTap={() => (isPlaying ? pauseSong() : playSong())}
         doubleTap={loveSong}
       >
         <LinearGradient
@@ -183,6 +194,7 @@ export const Song = ({
                         switch (options[selectedIndex]) {
                           case 'Unshare':
                             (async () => {
+                              analytics().logEvent('unshare_song', song);
                               const [, error] = await api.post(
                                 `/share/${encodeURIComponent(
                                   song.shareId,

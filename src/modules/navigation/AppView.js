@@ -7,10 +7,10 @@ import auth from '@react-native-firebase/auth';
 import appleAuth, {
   AppleButton,
 } from '@invertase/react-native-apple-authentication';
-import crashlytics from '@react-native-firebase/crashlytics';
 import { signInWithApple } from './packages/AppleSignIn';
 import { colors } from '../../styles';
 import { SignedInView } from './SignedInView';
+import analytics from '@react-native-firebase/analytics';
 
 import { AuthNContext } from '../auth';
 
@@ -27,6 +27,10 @@ export const AppView = () => {
   // Handle user state changes
   const onStateChanged = async (user) => {
     setUser(user);
+
+    analytics().setUserId(user.uid);
+    analytics().setUserProperty('username', user.displayName);
+
     if (user) {
       const userToken = await user.getIdToken();
       setUserToken(userToken);
@@ -38,7 +42,6 @@ export const AppView = () => {
   };
 
   useEffect(() => {
-    crashlytics().log('App mounted');
     const subscriber = auth().onUserChanged((user) => {
       onStateChanged(user);
     });

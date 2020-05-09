@@ -5,15 +5,14 @@
 import React from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
 
-import crashlytics from '@react-native-firebase/crashlytics';
 import { colors } from '../../styles';
 import { TextInput } from '../../components';
 import { SelectionList } from '../../components/SelectionList';
 import ShareIcon from '../../../assets/images/icons/share.svg';
 import { useApi } from '../api';
+import analytics from '@react-native-firebase/analytics';
 
 const log = (msg) => {
-  crashlytics().log(msg);
   console.debug(msg);
 };
 
@@ -25,6 +24,7 @@ export const ShareScreen = ({ navigation }) => {
   const [songs, setSongs] = React.useState(undefined);
 
   const shareSong = async (song) => {
+    analytics().logEvent('share_song', song);
     await api.post(`/share/publish`, {
       'song-name': song.name,
       'artist-name': song.artist,
@@ -53,6 +53,7 @@ export const ShareScreen = ({ navigation }) => {
     log(`Searching for ${input}...`);
 
     setLoading(true);
+    analytics().logEvent('search_song', { query: input });
     const [songs] = await api.get(
       `/song/search?query=${encodeURIComponent(input)}`,
     );
@@ -106,7 +107,9 @@ export const ShareScreen = ({ navigation }) => {
               )
             ) : (
               <SelectionList
-                keyExtractor={(song) => song.playbackStoreId}
+                keyExtractor={(song) =>
+                  song.playbackStoreId ?? song.spotify?.id
+                }
                 items={songs}
                 onItemPressed={shareSong}
                 getItemDetail={(song) => ({
