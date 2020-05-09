@@ -22,17 +22,21 @@
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
 	<array>
-	  <dict>
-	    <key>CFBundleURLName</key>
-	    <string>net.chorusapp</string>
-	    <key>CFBundleURLSchemes</key>
-	    <array>
-	      <string>chorusapp</string>
-	    </array>
-	  </dict>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>net.chorusapp</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>chorusapp</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>spotify</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -79,15 +83,16 @@
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
 	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
-	</array>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-	  <string>spotify</string>
 	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>

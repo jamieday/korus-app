@@ -13,6 +13,7 @@ import {
 import { colors } from '../../styles';
 import { Song } from './Song';
 import { useApi } from '../api';
+import messaging from '@react-native-firebase/messaging';
 
 const tracksPerPage = 4;
 
@@ -36,6 +37,12 @@ export const DiscoverScreen = ({ navigation }) => {
   React.useEffect(() => {
     console.debug('Discover screen setting up...');
     refresh();
+
+    if (!__DEV__) {
+      messaging().onNotificationOpenedApp((_remoteMessage) => {
+        refresh();
+      });
+    }
 
     return () => {
       console.debug('TODO cancel refresh here.'); // TODO

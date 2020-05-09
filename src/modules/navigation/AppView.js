@@ -2,7 +2,7 @@
 /* eslint-disable import/prefer-default-export */
 import React, { useState, useEffect } from 'react';
 import { View, Text } from 'react-native';
-// import messaging from '@react-native-firebase/messaging';
+import messaging from '@react-native-firebase/messaging';
 import auth from '@react-native-firebase/auth';
 import appleAuth, {
   AppleButton,
@@ -96,17 +96,6 @@ export const AppView = () => {
       </View>
     );
   }
-
-  // React.useEffect(
-  //   () =>
-  //     (async () => {
-  //       await messaging().registerForRemoteNotifications();
-
-  //       // ask for push notification permission
-  //       await messaging().requestPermission();
-  //     })(),
-  //   [],
-  // );
 
   return (
     <AuthNContext.Provider value={{ user, userToken, refreshToken }}>

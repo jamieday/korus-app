@@ -27,6 +27,7 @@ Major
 - Spotify integration
     Remaining:
       - Cross-platform needed
+        Background job?
 
 - Groups
     - Only valuable once we get more users.
@@ -43,7 +44,7 @@ Lowish priority
 
 - Share - preview song you share
 
-Low priority
+High-ish priority
 
 - Share - show existing music in there
     1. songs i liked

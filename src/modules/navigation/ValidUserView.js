@@ -167,6 +167,21 @@ export const ValidUserView = () => {
       }}
     >
       {(() => {
+        // const api = useApi();
+
+        // const registerToken = (token) =>
+        //   api.post('/push-notifications/register', {
+        //     deviceToken: token,
+        //   });
+
+        // React.useEffect(() => {
+        //   // ask for push notification permission
+        //   messaging().requestPermission({ provisional: true });
+        //   messaging().getToken().then(registerToken);
+
+        //   return messaging().onTokenRefresh(registerToken);
+        // }, []);
+
         const getActiveRouteName = (state) => {
           const route = state.routes && state.routes[state.index];
 
