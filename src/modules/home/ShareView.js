@@ -54,9 +54,18 @@ export const ShareScreen = ({ navigation }) => {
 
     setLoading(true);
     analytics().logEvent('search_song', { query: input });
-    const [songs] = await api.get(
+    const [songs, error] = await api.get(
       `/song/search?query=${encodeURIComponent(input)}`,
     );
+
+    if (error) {
+      //TODO
+      setLoading(false);
+      setSongs([]);
+      setLastSearch(undefined);
+      log(error);
+      return;
+    }
 
     log(`Fetched ${songs.length} songs.`);
 
@@ -89,7 +98,7 @@ export const ShareScreen = ({ navigation }) => {
               <View style={{ marginTop: 30 }}>
                 <ActivityIndicator />
               </View>
-            ) : songs.length === 0 ? (
+            ) : songs?.length === 0 ? (
               lastSearch && (
                 <View style={{ marginTop: 30 }}>
                   <Text

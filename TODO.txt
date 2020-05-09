@@ -8,14 +8,13 @@ PRIORITIZATION!!!!
 
 HIGHEST.
     // - api fails in production mode
-look at all todo spotify
 
 LOWEST
 
 - Performance improvements
 - Rate limiting and other misc things like caching for spotify/appmusic web appmusic
    - read old technical design doc
-- Put calculation into command, not query
+- Put calculation into command, not query   
 - Like right away... aggregate events into local storage then push?
 - React optimizations improvements (ComponentWillUpdate, read logs)
 
@@ -26,10 +25,11 @@ Security / input validation analysis
 Major
 
 - Spotify integration
-    - Cross-platform needed
+    Remaining:
+      - Cross-platform needed
 
 - Groups
-  Only valuable once we get more users.
+    - Only valuable once we get more users.
 
 - Chorus playlists
 

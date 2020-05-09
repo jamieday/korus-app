@@ -35,16 +35,22 @@ export const ValidUserView = () => {
 
   const onAppStateChange = (state) => {
     (async () => {
-      switch (state) {
-        case 'active':
-          await remote.connect(accessToken);
-          break;
-        case 'background':
-        case 'inactive':
-          if (await remote.isConnectedAsync()) {
-            await remote.disconnect();
-          }
-          break;
+      try {
+        switch (state) {
+          case 'active':
+            if (!(await remote.isConnectedAsync())) {
+              await remote.connect(accessToken);
+            }
+            break;
+          case 'background':
+          case 'inactive':
+            if (await remote.isConnectedAsync()) {
+              await remote.disconnect();
+            }
+            break;
+        }
+      } catch (e) {
+        // Convenience attempt to connect, failure is ok
       }
     })();
   };

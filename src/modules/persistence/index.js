@@ -12,7 +12,11 @@ export const usePersistence = (key) => {
   return [
     value,
     async (value) => {
-      await AsyncStorage.setItem(key, JSON.stringify(value));
+      if (typeof value === 'undefined') {
+        await AsyncStorage.removeItem(key);
+      } else {
+        await AsyncStorage.setItem(key, JSON.stringify(value));
+      }
       setValue(value);
     },
   ];

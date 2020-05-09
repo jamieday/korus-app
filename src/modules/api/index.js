@@ -14,15 +14,20 @@ const userTokenHeader = 'X-Firebase-User-Token';
 axios.interceptors.request.use(async (config) => {
   console.debug(`[API] ${config.method.toUpperCase()} ${config.url}`);
 
-  const httpMetric = perf().newHttpMetric(
-    config.url,
-    config.method.toUpperCase(),
-  );
-  config.metadata.httpMetric = httpMetric;
+  try {
+    const httpMetric = perf().newHttpMetric(
+      config.url,
+      config.method.toUpperCase(),
+    );
+    config.metadata.httpMetric = httpMetric;
 
-  httpMetric.putAttribute('userId', config.metadata.userId);
-  httpMetric.putAttribute('timeout', config.timeout.toString());
-  await httpMetric.start();
+    httpMetric.putAttribute('userId', config.metadata.userId);
+    httpMetric.putAttribute('timeout', config.timeout.toString());
+    await httpMetric.start();
+  } catch (e) {
+    // Metrics failed
+    console.error(e);
+  }
 
   return config;
 });
@@ -30,12 +35,19 @@ axios.interceptors.response.use(
   async (response) => {
     console.debug(`[API] Succeeded.`);
 
-    // Request was successful, e.g. HTTP code 200
-    const { httpMetric } = response.config.metadata;
+    try {
+      // Request was successful, e.g. HTTP code 200
+      const { httpMetric } = response.config.metadata;
 
-    httpMetric.setHttpResponseCode(response.status);
-    httpMetric.setResponseContentType(response.headers['content-type']);
-    await httpMetric.stop();
+      httpMetric.setHttpResponseCode(response.status);
+      httpMetric.setResponseContentType(
+        response.headers['content-type'] ?? null,
+      );
+      await httpMetric.stop();
+    } catch (e) {
+      // Metrics failed
+      console.error(e);
+    }
 
     return response;
   },
@@ -53,11 +65,18 @@ axios.interceptors.response.use(
       );
     }
 
-    const { httpMetric } = error.config.metadata;
+    try {
+      const { httpMetric } = error.config.metadata;
 
-    httpMetric.setHttpResponseCode(error.response?.status);
-    httpMetric.setResponseContentType(error.response?.headers['content-type']);
-    await httpMetric.stop();
+      httpMetric.setHttpResponseCode(error.response?.status ?? null);
+      httpMetric.setResponseContentType(
+        error.response?.headers['content-type'] ?? null,
+      );
+      await httpMetric.stop();
+    } catch (e) {
+      // Metrics failed
+      console.error(e);
+    }
 
     // Ensure failed requests throw after interception
     return Promise.reject(error);
