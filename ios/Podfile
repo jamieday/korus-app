@@ -42,6 +42,8 @@ target 'Chorus' do
   pod 'RNEventEmitter', :path => "../node_modules/react-native-events"
   pod 'RNSpotifyRemote', :path => '../node_modules/react-native-spotify-remote'
 
+  pod 'react-native-version-number', :path => '../node_modules/react-native-version-number'
+
   target 'ChorusTests' do
     inherit! :search_paths
     # Pods for testing

@@ -33,9 +33,6 @@ axios.interceptors.response.use(
     // Request was successful, e.g. HTTP code 200
     const { httpMetric } = response.config.metadata;
 
-    // - api fails in production mode
-    // - api gives weird spotify art sometimes
-    // - RESCOPE & prioritize next steps!
     httpMetric.setHttpResponseCode(response.status);
     httpMetric.setResponseContentType(response.headers['content-type']);
     await httpMetric.stop();

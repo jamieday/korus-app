@@ -27,6 +27,9 @@ PODS:
   - Firebase/Performance (6.13.0):
     - Firebase/CoreOnly
     - FirebasePerformance (~> 3.1.7)
+  - Firebase/RemoteConfig (6.13.0):
+    - Firebase/CoreOnly
+    - FirebaseRemoteConfig (~> 4.4.5)
   - FirebaseABTesting (3.2.0):
     - FirebaseAnalyticsInterop (~> 1.3)
     - FirebaseCore (~> 6.1)
@@ -308,6 +311,8 @@ PODS:
     - React-cxxreact (= 0.61.5)
     - React-jsi (= 0.61.5)
   - React-jsinspector (0.61.5)
+  - react-native-version-number (0.3.6):
+    - React
   - React-RCTActionSheet (0.61.5):
     - React-Core/RCTActionSheetHeaders (= 0.61.5)
   - React-RCTAnimation (0.61.5):
@@ -374,6 +379,11 @@ PODS:
     - Firebase/Performance (~> 6.13.0)
     - React
     - RNFBApp
+  - RNFBRemoteConfig (6.7.1):
+    - Firebase/Core (~> 6.13.0)
+    - Firebase/RemoteConfig (~> 6.13.0)
+    - React
+    - RNFBApp
   - RNGestureHandler (1.5.3):
     - React
   - RNLocalize (1.3.2):
@@ -404,6 +414,7 @@ DEPENDENCIES:
   - React-jsi (from `../node_modules/react-native/ReactCommon/jsi`)
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
+  - react-native-version-number (from `../node_modules/react-native-version-number`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
   - React-RCTBlob (from `../node_modules/react-native/Libraries/Blob`)
@@ -424,6 +435,7 @@ DEPENDENCIES:
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
   - "RNFBPerf (from `../node_modules/@react-native-firebase/perf`)"
+  - "RNFBRemoteConfig (from `../node_modules/@react-native-firebase/remote-config`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNLocalize (from `../node_modules/react-native-localize`)
   - RNSpotifyRemote (from `../node_modules/react-native-spotify-remote`)
@@ -488,6 +500,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsiexecutor"
   React-jsinspector:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
+  react-native-version-number:
+    :path: "../node_modules/react-native-version-number"
   React-RCTActionSheet:
     :path: "../node_modules/react-native/Libraries/ActionSheetIOS"
   React-RCTAnimation:
@@ -526,6 +540,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/messaging"
   RNFBPerf:
     :path: "../node_modules/@react-native-firebase/perf"
+  RNFBRemoteConfig:
+    :path: "../node_modules/@react-native-firebase/remote-config"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNLocalize:
@@ -578,6 +594,7 @@ SPEC CHECKSUMS:
   React-jsi: cb2cd74d7ccf4cffb071a46833613edc79cdf8f7
   React-jsiexecutor: d5525f9ed5f782fdbacb64b9b01a43a9323d2386
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
+  react-native-version-number: b415bbec6a13f2df62bf978e85bc0d699462f37f
   React-RCTActionSheet: 600b4d10e3aea0913b5a92256d2719c0cdd26d76
   React-RCTAnimation: 791a87558389c80908ed06cc5dfc5e7920dfa360
   React-RCTBlob: d89293cc0236d9cb0933d85e430b0bbe81ad1d72
@@ -597,6 +614,7 @@ SPEC CHECKSUMS:
   RNFBAuth: c292603069a09065a1b4d3336148beff83e4c897
   RNFBMessaging: c55142d3b2d34d706bf12bd5eef9ef35254c2df1
   RNFBPerf: 1fbcd5833bd74cfb99f4a7ec967d53005d96e3b0
+  RNFBRemoteConfig: 59818c5933149b5a6b7fe5159e3d4df09199e858
   RNGestureHandler: 02905abe54e1f6e59c081a10b4bd689721e17aa6
   RNLocalize: 08eb68476e1f2d8cacd75fa919bf5e219fb03b19
   RNSpotifyRemote: 0c87e40397ea89339994f2dcca6672f3944c735b
@@ -604,6 +622,6 @@ SPEC CHECKSUMS:
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
-PODFILE CHECKSUM: 0aa0b7fa2d6e995f8e8b06b62f1e1742cbb77223
+PODFILE CHECKSUM: c3281d67e67c83fddb80e8d31c0cb87664edab4f
 
 COCOAPODS: 1.9.1

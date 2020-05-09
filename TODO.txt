@@ -7,9 +7,12 @@
 PRIORITIZATION!!!!
 
 HIGHEST.
+    // - api fails in production mode
 look at all todo spotify
 
-Performance improvements
+LOWEST
+
+- Performance improvements
 - Rate limiting and other misc things like caching for spotify/appmusic web appmusic
    - read old technical design doc
 - Put calculation into command, not query
@@ -19,13 +22,11 @@ Performance improvements
 Security / input validation analysis
 - Firebase/nodejs
 - any other user input or action.
-- tracking. i literally want to look at a user in the dashboard and see everything he/she is doing.
 
 Major
 
 - Spotify integration
-  WHY? More users to test with.
-       Needs to be done at some point.
+    - Cross-platform needed
 
 - Groups
   Only valuable once we get more users.
