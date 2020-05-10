@@ -5,8 +5,11 @@
 (loved) evolving playlist (loved)
 
 PRIORITIZATION!!!!
-
 HIGHEST.
+    Start with why.
+- Profile screen : plan. frontend, backend, stats, refactorings.
+- DIAGRAMS!!
+
     // - api fails in production mode
 
 LOWEST

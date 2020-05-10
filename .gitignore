@@ -64,3 +64,4 @@ jest_coverage
 # VSCode
 .vscode/.react
 .env
+.env.*

@@ -1,6 +1,6 @@
 /* eslint-disable import/no-unresolved */
 import React from 'react';
-import { Image, View, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from 'react-navigation';
 
 import { colors, fonts } from '../../styles';
@@ -8,12 +8,12 @@ import { colors, fonts } from '../../styles';
 import { ShareScreenContainer as ShareScreen } from '../home/ShareViewContainer';
 import { DiscoverScreen } from '../discover/DiscoverScreen';
 import { GroupsScreen } from '../groups/GroupsScreen';
+import { ProfileScreen } from '../profile/ProfileScreen';
+
 import DiscoverIcon from '../../../assets/images/pages/discover.svg';
 import ShareIcon from '../../../assets/images/icons/share.svg';
 import GroupsIcon from '../../../assets/images/icons/groups.svg';
-
-const iconCalendar = require('../../../assets/images/pages/calendar.png');
-const iconComponents = require('../../../assets/images/tabbar/components.png');
+import ProfileIcon from '../../../assets/images/pages/profile.svg';
 
 const styles = StyleSheet.create({
   tabBarItemContainer: {
@@ -58,99 +58,41 @@ export default createBottomTabNavigator(
   {
     Discover: {
       screen: DiscoverScreen,
-      navigationOptions: {
-        header: null,
-      },
     },
     Share: {
       screen: ShareScreen,
-      navigationOptions: {
-        header: null,
-      },
     },
     People: {
       screen: GroupsScreen,
-      navigationOptions: {
-        header: null,
-      },
     },
-    // Pages: {
-    //   screen: PagesScreen,
-    //   navigationOptions: {
-    //     header: (
-    //       <View style={styles.headerContainer}>
-    //         <Image style={styles.headerImage} source={hederBackground} />
-    //         <Text style={styles.headerCaption}>Pages</Text>
-    //       </View>
-    //     ),
-    //   },
-    // },
-    // Components: {
-    //   screen: ComponentsScreen,
-    //   navigationOptions: {
-    //     header: (
-    //       <View style={styles.headerContainer}>
-    //         <Image style={styles.headerImage} source={hederBackground} />
-    //         <Text style={styles.headerCaption}>Components</Text>
-    //       </View>
-    //     ),
-    //   },
-    // },
+    Profile: {
+      screen: ProfileScreen,
+    },
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
-      // eslint-disable-next-line react/prop-types
       tabBarIcon: ({ focused }) => {
         const { routeName } = navigation.state;
-        let iconSource;
-        switch (routeName) {
-          case 'Share':
-            return (
-              <View style={styles.tabBarItemContainer}>
-                <ShareIcon
-                  width={21}
-                  height={21}
-                  fill={focused ? colors.white : colors.gray}
-                />
-              </View>
-            );
-          case 'Calendar':
-            iconSource = iconCalendar;
-            break;
-          case 'Discover':
-            return (
-              <View style={styles.tabBarItemContainer}>
-                <DiscoverIcon
-                  width={27}
-                  fill={focused ? colors.white : colors.gray}
-                />
-              </View>
-            );
-          case 'Pages':
-            iconSource = require('../../../assets/images/tabbar/pages.png');
-            break;
-          case 'People':
-            return (
-              <View style={styles.tabBarItemContainer}>
-                <GroupsIcon
-                  width={20}
-                  height={20}
-                  fill={focused ? colors.white : colors.gray}
-                />
-              </View>
-            );
-          // case 'Profile':
-          // iconSource = icon;
-          default:
-            iconSource = iconComponents;
-            break;
-        }
+        const { Icon, size = 20 } = (() => {
+          switch (routeName) {
+            case 'Discover':
+              return { Icon: DiscoverIcon };
+            case 'Share':
+              return { Icon: ShareIcon };
+            case 'People':
+              return { Icon: GroupsIcon };
+            case 'Profile':
+              return { Icon: ProfileIcon };
+            default:
+              throw new Error("Can't find icon");
+          }
+        })();
         return (
           <View style={styles.tabBarItemContainer}>
-            <Image
-              resizeMode="contain"
-              source={iconSource}
-              style={[styles.tabBarIcon, focused && styles.tabBarIconFocused]}
+            <Icon
+              width={size}
+              height={size}
+              fill={focused ? colors.white : colors.gray}
             />
           </View>
         );

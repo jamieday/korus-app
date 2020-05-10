@@ -51,16 +51,11 @@ export const GroupsScreen = () => {
             { ...user, isFollowed: !user.isFollowed },
           ]);
 
-          analytics().logEvent(
-            user.isFollowed ? 'unfollow_user' : 'follow_user',
-            user,
-          );
-
-          await api.post(
-            `/people/user/${encodeURIComponent(user.username)}/${
-              user.isFollowed ? 'unfollow' : 'follow'
-            }`,
-          );
+          if (user.isFollowed) {
+            await api.followUser(user.username);
+          } else {
+            await api.unfollowUser(user.username);
+          }
         }}
       />
     </View>

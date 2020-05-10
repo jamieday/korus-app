@@ -14,7 +14,9 @@ export const usePlayer = () => {
         await remote.playUri(playUri);
         return;
       }
+      console.debug('[Spotify] Not connected. Connecting & playing.');
       await connectPlayer(playUri);
+      await remote.setRepeatMode(RepeatMode.Off);
     },
     pauseSong: async () => {
       if (!(await remote.isConnectedAsync())) {

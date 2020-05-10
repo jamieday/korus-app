@@ -3,8 +3,9 @@ import axios from 'axios';
 import { useContext } from 'react';
 import { AuthNContext } from '../auth';
 import { useStreamingService } from '../streaming-service';
-import { getHost } from './getHost';
+import { API_HOST } from 'react-native-dotenv';
 import perf from '@react-native-firebase/perf';
+import analytics from '@react-native-firebase/analytics';
 
 export const useAuthN = () => useContext(AuthNContext);
 
@@ -96,7 +97,7 @@ export const useApi = () => {
         ];
       }
 
-      const host = getHost();
+      const host = API_HOST;
       const path = `/api${endpoint}`;
       const url = host + path;
       const response = await axios(url, {
@@ -140,8 +141,31 @@ export const useApi = () => {
     }
   };
 
+  const get = (url) => call(url, 'GET');
+  const post = (url, body) => call(url, 'POST', body);
+
+  const viewProfile = (username) => {
+    if (username !== user.displayName) {
+      analytics().logEvent('view_profile', { username });
+    }
+    return get(`/people/user/${encodeURIComponent(username)}/profile`);
+  };
+
+  const followUser = (username) => {
+    analytics().logEvent('follow_user', { username });
+    return post(`/people/user/${encodeURIComponent(username)}/follow`);
+  };
+  const unfollowUser = (username) => {
+    analytics().logEvent('unfollow_user', { username });
+    return post(`/people/user/${encodeURIComponent(username)}/unfollow`);
+  };
+
   return {
-    get: (url) => call(url, 'GET'),
-    post: (url, body) => call(url, 'POST', body),
+    get,
+    post,
+
+    viewProfile,
+    followUser,
+    unfollowUser,
   };
 };

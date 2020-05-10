@@ -1,15 +1,13 @@
 /* eslint-disable no-bitwise */
 /* eslint-disable import/prefer-default-export */
 import { auth, remote, ApiScope } from 'react-native-spotify-remote';
-import { getHost } from '../../api/getHost';
-
-const host = getHost();
+import { API_HOST } from 'react-native-dotenv';
 
 export const apiConfig = {
   clientID: '478eb84f217c4dd79145a565bffd07ee',
   redirectURL: `chorusapp://spotify-login-callback`,
-  tokenRefreshURL: `${host}/spotify/refresh`,
-  tokenSwapURL: `${host}/spotify/swap`,
+  tokenRefreshURL: `${API_HOST}/spotify/refresh`,
+  tokenSwapURL: `${API_HOST}/spotify/swap`,
   scope:
     ApiScope.PlaylistReadPrivateScope |
     ApiScope.PlaylistReadCollaborativeScope |

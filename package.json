@@ -5,6 +5,7 @@
   "scripts": {
     "start": "react-native start",
     "test": "jest",
+    "test:watch": "jest --watch",
     "test:update": "jest -u",
     "test:coverage": "jest --coverage",
     "run:ios": "react-native run-ios",
@@ -88,6 +89,7 @@
     "react-addons-test-utils": "^15.6.2",
     "react-dom": "^16.6.3",
     "react-native-clean-project": "^3.3.0",
+    "react-native-dotenv": "^0.2.0",
     "react-native-svg-transformer": "^0.14.3",
     "react-test-renderer": "16.8.1",
     "sinon": "^7.1.1"
@@ -97,7 +99,7 @@
     "transform": {
       "^.+\\.js$": "<rootDir>/node_modules/react-native/jest/preprocessor.js"
     },
-    "collectCoverage": true,
+    "collectCoverage": false, 
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}",
       "!**/node_modules/**",

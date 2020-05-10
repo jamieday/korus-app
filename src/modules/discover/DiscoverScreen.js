@@ -14,6 +14,7 @@ import { colors } from '../../styles';
 import { Song } from './Song';
 import { useApi } from '../api';
 import messaging from '@react-native-firebase/messaging';
+import { ErrorView } from '../error/ErrorView';
 
 const tracksPerPage = 4;
 
@@ -90,43 +91,7 @@ export const DiscoverScreen = ({ navigation }) => {
 
   if (error) {
     return (
-      <View style={styles.container}>
-        <View
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '100%',
-            padding: 20,
-          }}
-        >
-          <Text
-            style={{
-              textAlign: 'center',
-              color: colors.white,
-              marginBottom: 15,
-              fontWeight: 'bold',
-            }}
-          >
-            Oh.
-          </Text>
-          <Text
-            style={{
-              textAlign: 'center',
-              color: colors.white,
-              marginBottom: 15,
-            }}
-          >
-            {typeof error === 'object' ? error.problem : error}
-          </Text>
-          {typeof error === 'object' && (
-            <Button
-              onPress={error.solution.action}
-              title={error.solution.message}
-            />
-          )}
-          <Button onPress={refresh} title="Refresh" />
-        </View>
-      </View>
+      <ErrorView error={error} refresh={refresh} isRefreshing={isRefreshing} />
     );
   }
 
@@ -207,6 +172,7 @@ export const DiscoverScreen = ({ navigation }) => {
               onPlay={() => setPlayingSongId(item.id)}
               onPause={() => setPlayingSongId(undefined)}
               didUnshare={() => refresh()}
+              navigation={navigation}
             />
           )}
         />

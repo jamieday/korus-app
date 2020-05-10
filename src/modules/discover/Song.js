@@ -41,6 +41,7 @@ export const Song = ({
   onPlay,
   onPause,
   didUnshare,
+  navigation,
 }) => {
   const api = useApi();
   const { player } = useStreamingService();
@@ -225,14 +226,20 @@ export const Song = ({
                 justifyContent: 'space-between',
               }}
             >
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <TouchableOpacity
+                style={{ flexDirection: 'row', alignItems: 'center' }}
+                onPress={() => {
+                  navigation.push('Profile', { username: song.sharer });
+                }}
+                hitSlop={{ top: 50, right: 50 }}
+              >
                 <ProfileIcon
                   style={{ marginRight: 5 }}
                   width={25}
                   fill={colors.white}
                 />
                 <Text style={styles.recommenders}>{song.sharer}</Text>
-              </View>
+              </TouchableOpacity>
               <TouchableOpacity
                 style={{ flexDirection: 'row', alignItems: 'center' }}
                 onPress={() => {

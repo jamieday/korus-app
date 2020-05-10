@@ -1,28 +1,32 @@
 import React from 'react';
-import { Image, TouchableOpacity } from 'react-native';
+import { Image, TouchableOpacity, View, SafeAreaView } from 'react-native';
 import { createAppContainer, createStackNavigator } from 'react-navigation';
 import MainTabNavigator from './MainTabNavigator';
 import { colors, fonts } from '../../styles';
+import { ProfileScreen } from '../profile/ProfileScreen';
+import KorusLogo from '../../../assets/images/logo.svg';
 
 const stackNavigator = createStackNavigator(
   {
     Main: {
       screen: MainTabNavigator,
       navigationOptions: () => ({
-        title: 'CHORUS',
-        headerLeft: null,
-        // headerBackground: (
-        //   <Image
-        //     style={{
-        //       flex: 1,
-        //       width,
-        //     }}
-        //     source={headerBackground}
-        //     resizeMode="cover"
-        //   />
-        // ),
+        header: () => (
+          <SafeAreaView
+            style={{
+              backgroundColor: 'black',
+            }}
+          >
+            <View style={{ height: 47, width: '100%', alignItems: 'center' }}>
+              <View style={{ margin: 10 }}>
+                <KorusLogo width={119} height={27} fill={colors.white} />
+              </View>
+            </View>
+          </SafeAreaView>
+        ),
       }),
     },
+    Profile: { screen: ProfileScreen },
   },
   {
     defaultNavigationOptions: () => ({
@@ -32,35 +36,8 @@ const stackNavigator = createStackNavigator(
       headerStyle: {
         backgroundColor: colors.black,
         borderBottomWidth: 0,
+        height: 47,
       },
-      // headerBackground: (
-      //   <Image
-      //     style={{ flex: 1 }}
-      //     source={headerBackground}
-      //     resizeMode="cover"
-      //   />
-      // ),
-      headerTitleStyle: {
-        color: colors.white,
-        fontFamily: fonts.primaryRegular,
-      },
-      headerTintColor: '#222222',
-      headerLeft: (props) => (
-        <TouchableOpacity
-          onPress={props.onPress}
-          style={{
-            paddingLeft: 25,
-          }}
-        >
-          <Image
-            source={require('../../../assets/images/icons/arrow-back.png')}
-            resizeMode="contain"
-            style={{
-              height: 20,
-            }}
-          />
-        </TouchableOpacity>
-      ),
     }),
   },
 );
