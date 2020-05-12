@@ -392,8 +392,6 @@ PODS:
     - React-Core
   - RNSVG (12.1.0):
     - React
-  - RNVectorIcons (6.6.0):
-    - React
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -440,7 +438,6 @@ DEPENDENCIES:
   - RNLocalize (from `../node_modules/react-native-localize`)
   - RNSpotifyRemote (from `../node_modules/react-native-spotify-remote`)
   - RNSVG (from `../node_modules/react-native-svg`)
-  - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -550,8 +547,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-spotify-remote"
   RNSVG:
     :path: "../node_modules/react-native-svg"
-  RNVectorIcons:
-    :path: "../node_modules/react-native-vector-icons"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -619,7 +614,6 @@ SPEC CHECKSUMS:
   RNLocalize: 08eb68476e1f2d8cacd75fa919bf5e219fb03b19
   RNSpotifyRemote: 0c87e40397ea89339994f2dcca6672f3944c735b
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
-  RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
 PODFILE CHECKSUM: c3281d67e67c83fddb80e8d31c0cb87664edab4f

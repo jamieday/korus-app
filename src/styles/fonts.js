@@ -1,6 +1,6 @@
 export default {
-  primaryLight: 'Lato-Light',
-  primaryRegular: 'Lato-Regular',
-  primaryBold: 'Lato-Bold',
-  primarySemiBold: 'Lato-SemiBold',
+  primaryLight: 'Raleway-Light',
+  primaryRegular: 'Raleway-Regular',
+  primaryBold: 'Raleway-Bold',
+  primarySemiBold: 'Raleway-SemiBold',
 };
