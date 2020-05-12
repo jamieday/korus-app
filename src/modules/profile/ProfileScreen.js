@@ -14,24 +14,23 @@ import {
 } from 'react-native';
 import { colors } from '../../styles';
 import FollowIcon from '../../../assets/images/icons/follow.svg';
+import ProfileIcon from '../../../assets/images/pages/profile.svg';
 import SelectedIcon from '../../../assets/images/icons/selected.svg';
 import LoveIcon from '../../../assets/images/icons/love.svg';
 import { useApi, useAuthN } from '../api';
 import { formatCount } from './formatCount';
 import { ErrorView } from '../error/ErrorView';
-import analytics from '@react-native-firebase/analytics';
 
 export const ProfileScreen = ({ navigation }) => {
   const api = useApi();
-  const [isLoading, setLoading] = React.useState(false);
-  const [users, setUsers] = React.useState([]);
 
-  const { user, userToken } = useAuthN();
+  const { user } = useAuthN();
   const [profile, setProfile] = React.useState('LOADING');
   const [isFollowing, setFollowing] = React.useState();
   React.useEffect(() => {
     setFollowing(profile.isFollowing);
   }, [profile]);
+
   const isMyProfile = user.displayName === profile.username;
 
   const loadProfile = async () => {
@@ -112,7 +111,7 @@ export const ProfileScreen = ({ navigation }) => {
               fill={colors.white}
             />
             <Text style={{ color: colors.white }}>
-              {formatCount(profile.numLikes)}
+              {formatCount(profile.totalLikes)}
             </Text>
             <View
               style={{
@@ -122,41 +121,55 @@ export const ProfileScreen = ({ navigation }) => {
                 borderLeftWidth: 1,
               }}
             />
-            {(() => {
-              const { IconComponent, onPress } = ((isFollowing) =>
-                isFollowing
-                  ? {
-                      IconComponent: SelectedIcon,
-                      onPress: () => {
-                        setFollowing(false);
-                        api.unfollowUser(profile.username);
-                      },
-                    }
-                  : {
-                      IconComponent: FollowIcon,
-                      onPress: () => {
-                        setFollowing(true);
-                        api.followUser(profile.username);
-                      },
-                    })(isFollowing);
+            {isMyProfile ? (
+              <>
+                <ProfileIcon
+                  style={{ marginRight: 3 }}
+                  width={16}
+                  height={16}
+                  fill={colors.white}
+                />
+                <Text style={{ color: colors.white }}>
+                  {formatCount(profile.totalFollowers)}
+                </Text>
+              </>
+            ) : (
+              (() => {
+                const { IconComponent, onPress } = ((isFollowing) =>
+                  isFollowing
+                    ? {
+                        IconComponent: SelectedIcon,
+                        onPress: () => {
+                          setFollowing(false);
+                          api.unfollowUser(profile.username);
+                        },
+                      }
+                    : {
+                        IconComponent: FollowIcon,
+                        onPress: () => {
+                          setFollowing(true);
+                          api.followUser(profile.username);
+                        },
+                      })(isFollowing);
 
-              return (
-                <TouchableOpacity
-                  style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    width: 50,
-                    // height: 5,
-                    borderColor: colors.white,
-                    borderWidth: 1,
-                    paddingVertical: 3,
-                  }}
-                  onPress={onPress}
-                >
-                  <IconComponent width={10} height={10} fill={colors.white} />
-                </TouchableOpacity>
-              );
-            })()}
+                return (
+                  <TouchableOpacity
+                    style={{
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      width: 50,
+                      // height: 5,
+                      borderColor: colors.white,
+                      borderWidth: 1,
+                      paddingVertical: 3,
+                    }}
+                    onPress={onPress}
+                  >
+                    <IconComponent width={10} height={10} fill={colors.white} />
+                  </TouchableOpacity>
+                );
+              })()
+            )}
           </View>
         </LinearGradient>
       </ImageBackground>
@@ -172,19 +185,12 @@ export const ProfileScreen = ({ navigation }) => {
             data={((arr) => {
               const remainder = arr.length % numColumns;
               return arr.concat([...Array(remainder)].map((_) => 'blank'));
-            })(
-              [...Array(5)].map((_, i) => ({
-                id: i,
-                name: 'Cat',
-                artist: 'Steven',
-                numLikes: i * 1000,
-              })),
-            )}
+            })(profile.shares)}
             keyExtractor={(item, index) =>
               item === 'blank' ? `b_${index}` : item.id
             }
-            renderItem={({ item: song }) =>
-              song === 'blank' ? (
+            renderItem={({ item: share }) =>
+              share === 'blank' ? (
                 <View style={{ width: 100, height: 100 }}></View>
               ) : (
                 <View
@@ -201,21 +207,21 @@ export const ProfileScreen = ({ navigation }) => {
                       color: colors.white,
                     }}
                   >
-                    {song.name}
+                    {share.songName}
                   </Text>
                   <Text
                     style={{
                       color: colors.white,
                     }}
                   >
-                    {song.artist}
+                    {share.artistName}
                   </Text>
                   <Text
                     style={{
                       color: colors.white,
                     }}
                   >
-                    {song.numLikes}
+                    {share.totalLikes}
                   </Text>
                 </View>
               )

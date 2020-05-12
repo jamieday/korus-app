@@ -85,6 +85,7 @@ export const ShareScreen = ({ navigation }) => {
         <View style={{ margin: 30, marginBottom: 0 }}>
           <TextInput
             autoCapitalize="none"
+            autoCorrect={false}
             returnKeyType="search"
             onChangeText={setSearchQueryInput}
             onSubmitEditing={({ nativeEvent: { text } }) => search(text)}
