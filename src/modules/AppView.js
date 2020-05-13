@@ -1,28 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Text, View } from 'react-native';
 import { AppView as ApppView } from './navigation/AppView';
 import remoteConfig from '@react-native-firebase/remote-config';
+import { isSupported } from './version/isSupported';
 import VersionNumber from 'react-native-version-number';
-
-const isSupported = (minSupportedVersion) => {
-  const currentVersion = VersionNumber.appVersion;
-  const current = currentVersion.split('.');
-  const min = minSupportedVersion.split('.');
-  // 1.0.0 > 0.1.2
-  const x = (n) => {
-    if (n == min.length || n == current.length) {
-      return true;
-    }
-    if (current[n] < min[n]) {
-      return false;
-    }
-    if (current[n] > min[n]) {
-      return true;
-    }
-    return x(n + 1);
-  };
-  return x(0);
-};
 
 export default function AppView() {
   const minSupportedVersion = remoteConfig().getValue('min_supported_version')
@@ -38,7 +19,10 @@ export default function AppView() {
     })();
   }, []);
 
-  if (!isSupported(minSupportedVersion)) {
+  if (
+    minSupportedVersion &&
+    !isSupported(minSupportedVersion, VersionNumber.appVersion)
+  ) {
     return (
       <View
         style={{
