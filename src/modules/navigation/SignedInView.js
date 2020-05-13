@@ -62,8 +62,8 @@ export const SignedInView = () => {
     ) {
       const validationErrorMessage = [
         "That name's taken. Try being original maybe?",
-        'Ever heard of creativity? Maybe mix a little of that in.',
-        "We'd totally give you that name, but Elon Musk just reserved it for his next child.",
+        "Ever heard of creativity? Maybe mix a little of that in (name's taken).",
+        "We'd totally give you that name, but Elon Musk just reserved it for the name of his next child.",
       ];
       alert(
         validationErrorMessage[

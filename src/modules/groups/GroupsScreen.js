@@ -51,7 +51,7 @@ export const GroupsScreen = () => {
             { ...user, isFollowed: !user.isFollowed },
           ]);
 
-          if (user.isFollowed) {
+          if (!user.isFollowed) {
             await api.followUser(user.username);
           } else {
             await api.unfollowUser(user.username);

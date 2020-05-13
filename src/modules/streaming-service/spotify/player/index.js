@@ -6,6 +6,7 @@ export const usePlayer = () => {
   const { connectPlayer } = React.useContext(StreamingServiceContext);
 
   return {
+    canPlay: (song) => typeof song.spotify !== 'undefined',
     playSong: async ({ spotify: { playUri } }) => {
       console.debug(`[Spotify] Playing ${playUri}`);
       if (await remote.isConnectedAsync()) {

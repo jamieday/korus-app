@@ -11,6 +11,7 @@ import {
   FlatList,
   TouchableOpacity,
   ActivityIndicator,
+  Image,
 } from 'react-native';
 import { colors } from '../../styles';
 import FollowIcon from '../../../assets/images/icons/follow.svg';
@@ -19,6 +20,7 @@ import SelectedIcon from '../../../assets/images/icons/selected.svg';
 import LoveIcon from '../../../assets/images/icons/love.svg';
 import { useApi, useAuthN } from '../api';
 import { formatCount } from './formatCount';
+import { MiniShare } from './MiniShare';
 import { ErrorView } from '../error/ErrorView';
 
 export const ProfileScreen = ({ navigation }) => {
@@ -27,6 +29,7 @@ export const ProfileScreen = ({ navigation }) => {
   const { user } = useAuthN();
   const [profile, setProfile] = React.useState('LOADING');
   const [isFollowing, setFollowing] = React.useState();
+  const [playingSongId, setPlayingSongId] = React.useState();
   React.useEffect(() => {
     setFollowing(profile.isFollowing);
   }, [profile]);
@@ -54,8 +57,8 @@ export const ProfileScreen = ({ navigation }) => {
         style={{
           backgroundColor: colors.lightBlack,
           height: '100%',
+          paddingTop: 15,
           alignItems: 'center',
-          justifyContent: 'center',
         }}
       >
         <ActivityIndicator />
@@ -67,6 +70,7 @@ export const ProfileScreen = ({ navigation }) => {
     return <ErrorView error={profile.error} refresh={loadProfile} />;
   }
 
+  const profileImgSize = 55;
   return (
     <View style={{ backgroundColor: colors.lightBlack, height: '100%' }}>
       <ImageBackground
@@ -74,8 +78,8 @@ export const ProfileScreen = ({ navigation }) => {
           height: 250,
         }}
         source={{
-          uri:
-            'https://d38zjy0x98992m.cloudfront.net/c203f5af-98ae-4c42-bbb1-33560f07e8b9/19-08-07-0034_xgaplus.jpg',
+          uri: profile.coverPhotoUrl,
+          height: 250,
         }}
       >
         <LinearGradient
@@ -87,6 +91,19 @@ export const ProfileScreen = ({ navigation }) => {
           }}
           colors={['#00000000', '#000']}
         >
+          {/* <Image
+            style={{
+              width: profileImgSize,
+              height: profileImgSize,
+              overflow: 'hidden',
+              borderRadius: profileImgSize / 2,
+            }}
+            source={{
+              uri: profile.profilePicUrl,
+              width: profileImgSize,
+              height: profileImgSize,
+            }}
+          /> */}
           <Text
             style={{
               color: colors.white,
@@ -164,6 +181,7 @@ export const ProfileScreen = ({ navigation }) => {
                       paddingVertical: 3,
                     }}
                     onPress={onPress}
+                    hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
                   >
                     <IconComponent width={10} height={10} fill={colors.white} />
                   </TouchableOpacity>
@@ -175,6 +193,7 @@ export const ProfileScreen = ({ navigation }) => {
       </ImageBackground>
       {(() => {
         const numColumns = 3;
+        const songSize = 105;
         return (
           <FlatList
             columnWrapperStyle={{
@@ -191,39 +210,15 @@ export const ProfileScreen = ({ navigation }) => {
             }
             renderItem={({ item: share }) =>
               share === 'blank' ? (
-                <View style={{ width: 100, height: 100 }}></View>
+                <View style={{ width: songSize, height: songSize }}></View>
               ) : (
-                <View
-                  style={{
-                    borderRadius: 30,
-                    backgroundColor: colors.blue,
-                    padding: 15,
-                    width: 100,
-                    height: 100,
-                  }}
-                >
-                  <Text
-                    style={{
-                      color: colors.white,
-                    }}
-                  >
-                    {share.songName}
-                  </Text>
-                  <Text
-                    style={{
-                      color: colors.white,
-                    }}
-                  >
-                    {share.artistName}
-                  </Text>
-                  <Text
-                    style={{
-                      color: colors.white,
-                    }}
-                  >
-                    {share.totalLikes}
-                  </Text>
-                </View>
+                <MiniShare
+                  style={{ width: songSize, height: songSize }}
+                  miniShareData={share}
+                  isPlaying={share.id == playingSongId}
+                  onPlay={() => setPlayingSongId(share.id)}
+                  onPause={() => setPlayingSongId(undefined)}
+                />
               )
             }
             numColumns={numColumns}
