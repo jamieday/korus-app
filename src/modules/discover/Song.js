@@ -36,6 +36,7 @@ const log = (message) => {
 
 export const Song = ({
   song,
+  height,
   style,
   isPlaying,
   onPlay,
@@ -91,8 +92,6 @@ export const Song = ({
 
   const isLoved = loves.indexOf(username) !== -1;
   const isMine = song.sharer === username;
-
-  const height = 350;
 
   return (
     <ImageBackground

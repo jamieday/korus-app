@@ -11,13 +11,13 @@ export const usePlayer = () => {
       console.debug(`[Spotify] Playing ${playUri}`);
       if (await remote.isConnectedAsync()) {
         console.debug('[Spotify] Already connected. Playing directly.');
-        await remote.setRepeatMode(RepeatMode.Off);
+        // await remote.setRepeatMode(RepeatMode.Off);
         await remote.playUri(playUri);
         return;
       }
       console.debug('[Spotify] Not connected. Connecting & playing.');
       await connectPlayer(playUri);
-      await remote.setRepeatMode(RepeatMode.Off);
+      // await remote.setRepeatMode(RepeatMode.Off);
     },
     pauseSong: async () => {
       if (!(await remote.isConnectedAsync())) {

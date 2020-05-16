@@ -15,6 +15,8 @@ const userTokenHeader = 'X-Firebase-User-Token';
 axios.interceptors.request.use(async (config) => {
   console.debug(`[API] ${config.method.toUpperCase()} ${config.url}`);
 
+  config.metadata.startTime = new Date().getTime();
+
   try {
     const httpMetric = perf().newHttpMetric(
       config.url,
@@ -34,12 +36,8 @@ axios.interceptors.request.use(async (config) => {
 });
 axios.interceptors.response.use(
   async (response) => {
-    console.debug(`[API] Succeeded.`);
-
+    const { httpMetric, startTime } = response.config.metadata;
     try {
-      // Request was successful, e.g. HTTP code 200
-      const { httpMetric } = response.config.metadata;
-
       httpMetric.setHttpResponseCode(response.status);
       httpMetric.setResponseContentType(
         response.headers['content-type'] ?? null,
@@ -49,6 +47,12 @@ axios.interceptors.response.use(
       // Metrics failed
       console.error(e);
     }
+
+    console.debug(
+      `[API] Succeeded in ${((new Date().getTime() - startTime) / 1000).toFixed(
+        3,
+      )}s.`,
+    );
 
     return response;
   },

@@ -10,18 +10,19 @@ import FollowIcon from '../../../assets/images/icons/follow.svg';
 import SelectedIcon from '../../../assets/images/icons/selected.svg';
 import { useApi } from '../api';
 import analytics from '@react-native-firebase/analytics';
+import { List } from 'immutable';
 
 export const GroupsScreen = () => {
   const api = useApi();
   const [isLoading, setLoading] = React.useState(false);
-  const [users, setUsers] = React.useState([]);
+  const [users, setUsers] = React.useState(List());
 
   const refresh = async () => {
     console.debug('Fetch users to follow...');
     setLoading(true);
     const [usersR, error] = await api.get('/people/users/all');
-    const users = error ? [] : usersR;
-    console.debug(`Fetched ${users.length} users.`);
+    const users = List(error ? [] : usersR);
+    console.debug(`Fetched ${users.size} users.`);
     setUsers(users);
     setLoading(false);
   };
@@ -36,7 +37,7 @@ export const GroupsScreen = () => {
         refreshing={isLoading}
         onRefresh={refresh}
         keyExtractor={(user) => user.username}
-        items={users.sort((a, b) => a.username > b.username)}
+        items={users.sort((a, b) => a.username > b.username).toArray()}
         getItemDetail={(user) => ({ title: user.username })}
         actionIcon={(user) =>
           user.isFollowed ? (
@@ -45,16 +46,19 @@ export const GroupsScreen = () => {
             <FollowIcon width={20} height={20} fill={colors.white} />
           )
         }
-        onItemPressed={async (user) => {
-          setUsers([
-            ...users.filter((one) => one.username !== user.username),
-            { ...user, isFollowed: !user.isFollowed },
-          ]);
+        onItemPressed={async (targetUser) => {
+          setUsers(
+            users.map((user) =>
+              user.username === targetUser.username
+                ? { ...targetUser, isFollowed: !targetUser.isFollowed }
+                : user,
+            ),
+          );
 
-          if (!user.isFollowed) {
-            await api.followUser(user.username);
+          if (!targetUser.isFollowed) {
+            await api.followUser(targetUser.username);
           } else {
-            await api.unfollowUser(user.username);
+            await api.unfollowUser(targetUser.username);
           }
         }}
       />

@@ -6,24 +6,22 @@ import {
   Button,
   StyleSheet,
   View,
-  FlatList,
   Text,
   ActivityIndicator,
 } from 'react-native';
 import { colors } from '../../styles';
-import { Song } from './Song';
 import { useApi } from '../api';
 import messaging from '@react-native-firebase/messaging';
 import { ErrorView } from '../error/ErrorView';
-
-const tracksPerPage = 4;
+import { List } from 'immutable';
+import { DiscoverFeed } from './DiscoverFeed';
 
 export const DiscoverScreen = ({ navigation }) => {
   const api = useApi();
-  const [data, setData] = React.useState(undefined);
-  const [upToPage, setUpToPage] = React.useState(1);
+  const [shares, setShares] = React.useState(undefined);
   const [isRefreshing, setRefreshing] = React.useState(true);
-  const [isEndReached, setEndReached] = React.useState(false);
+  const [isLoadingNextPage, setLoadingNextPage] = React.useState(false);
+  const [reachedLastPage, setReachedLastPage] = React.useState(false);
   const [playingSongId, setPlayingSongId] = React.useState(undefined);
   const [didPressRefresh, setDidPressRefresh] = React.useState(false);
   const [error, setError] = React.useState(undefined);
@@ -59,31 +57,46 @@ export const DiscoverScreen = ({ navigation }) => {
     }
   }, [navigation.state.params?.refresh]);
 
-  const refreshList = async (_upToPage) => {
-    console.debug('Fetching feed...');
+  const listShares = async (oldestSharedAt = undefined) => {
+    console.debug(
+      `Fetching${oldestSharedAt ? ` older than ${oldestSharedAt}` : ''}...`,
+    );
 
-    const [songs, error] = await api.get('/discover/feed');
+    const [sharesR, errorR] = await api.get(
+      `/discover/feed?limit=${encodeURIComponent(10)}${
+        oldestSharedAt ? `&olderThan=${encodeURIComponent(oldestSharedAt)}` : ''
+      }  `,
+    );
 
-    if (error) {
-      setError(error);
+    if (errorR) {
+      setError(errorR);
       return undefined;
     }
-    setError(undefined);
 
-    console.debug(`Fetched ${songs.length} shares.`);
-    return songs;
+    if (error) {
+      // Error fixed.
+      setError(undefined);
+    }
+
+    console.debug(`Fetched ${sharesR.length} shares.`);
+    return List(sharesR);
+  };
+
+  const appendPage = async () => {
+    const oldestSharedAt = shares.last().sharedAt;
+    const additionalItems = await listShares(oldestSharedAt);
+    if (additionalItems.size === 0) {
+      setReachedLastPage(true);
+      return;
+    }
+    setShares(shares.concat(additionalItems));
   };
 
   const refresh = async () => {
     try {
       setRefreshing(true);
-      const sleep = (sleepMs) =>
-        new Promise((resolve) => setTimeout(resolve, sleepMs));
-      // UX: Keep refreshing in the background if the call takes too long
-      await Promise.race([
-        sleep(500),
-        (async () => setData(await refreshList(1)))(),
-      ]);
+      setReachedLastPage(false);
+      setShares(await listShares());
     } finally {
       setRefreshing(false);
     }
@@ -95,11 +108,9 @@ export const DiscoverScreen = ({ navigation }) => {
     );
   }
 
-  const keyExtractor = (item) => item.shareId;
-
   return (
     <View style={styles.container}>
-      {data && !data.length ? (
+      {shares && !shares.size ? (
         <View
           style={{
             justifyContent: 'center',
@@ -138,43 +149,34 @@ export const DiscoverScreen = ({ navigation }) => {
           )}
         </View>
       ) : (
-        <FlatList
-          ref={listRef}
+        <DiscoverFeed
+          listRef={listRef}
+          shares={shares?.toArray()}
           onRefresh={refresh}
-          refreshing={isRefreshing}
+          isRefreshing={isRefreshing}
           onEndReached={() => {
-            setEndReached(true);
-            const nextPage = upToPage + 1;
-            setUpToPage(nextPage);
-            // (async () => {
-            // const additionalItems = await refreshList(nextPage);
-            // setData([...data, additionalItems]);
-            // })();
-            setEndReached(false);
+            (async () => {
+              if (reachedLastPage || isLoadingNextPage) {
+                return;
+              }
+              try {
+                setLoadingNextPage(true);
+                await appendPage();
+              } finally {
+                setLoadingNextPage(false);
+              }
+            })();
           }}
-          onEndReachedThreshold={0.95}
-          showsVerticalScrollIndicator={false}
-          initialNumToRender={tracksPerPage}
-          ListFooterComponent={() =>
-            isEndReached && <ActivityIndicator animating size="large" />
-          }
-          keyExtractor={keyExtractor}
-          style={{
-            backgroundColor: colors.lightBlack,
-            padding: 15,
+          isEndReached={isLoadingNextPage}
+          isVeryEndReached={reachedLastPage}
+          playingSongId={playingSongId}
+          setPlayingSongId={setPlayingSongId}
+          onUnshare={refresh}
+          onFinishedTheGame={() => {
+            scrollToTop();
+            setTimeout(refresh, 500);
           }}
-          data={data}
-          renderItem={({ item }) => (
-            <Song
-              key={keyExtractor(item)}
-              song={item}
-              isPlaying={playingSongId === item.id}
-              onPlay={() => setPlayingSongId(item.id)}
-              onPause={() => setPlayingSongId(undefined)}
-              didUnshare={() => refresh()}
-              navigation={navigation}
-            />
-          )}
+          navigation={navigation}
         />
       )}
     </View>

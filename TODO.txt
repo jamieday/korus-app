@@ -1,3 +1,25 @@
+NOW
+- Performance
+- SHOW songs you can't play.
+
+TODAY
+- SPOTIFY / APPLE MUSIC CROSS-PLATFORM
+    - Should have a cross-platform lookup service (SHARE / MIGRATE integrated)
+- (usability) NEW SEARCH => drives shares
+- (user engagement) ACTIVITY => drives listens
+- Performance
+- Cleanup & React native upgrade
+- SQLification 
+- https://sequelize.org/v5/
+
+TOMORROW
+- update npm, pods
+
+Cross-Platform Quality
+- Could be improved by more involved linkage algorithm (esp diff album, same song)
+- 
+
+
 # Next
 1. Specification for push notifications
     - particularly right now user engagement is a focus - can template notifications, like “{user} shared {songName} by {songArtist}”
@@ -5,12 +27,21 @@
 (loved) evolving playlist (loved)
 
 PRIORITIZATION!!!!
-HIGHEST.
+
     Start with why.
 - Profile screen : plan. frontend, backend, stats, refactorings.
 - DIAGRAMS!!
 
     // - api fails in production mode
+
+
+APple Music weirdnesses
+- Of course securiy, storage of tokens and stuff
+- Storefronts. Should there be a default (ca/us), or fallbacks
+  esp. for isrc resolution? Hardcoding CA or maybe US in some places rn
+
+Spotify
+- access token, refresh token storage?
 
 LOWEST
 
