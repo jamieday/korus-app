@@ -42,7 +42,7 @@ export const DiscoverFeed = ({
               <Button
                 title="Take me to Instagram."
                 onPress={() => {
-                  alert("That was a joke. Let's find some new music!");
+                  alert('That was a joke. haha!');
                   onFinishedTheGame();
                 }}
               />

@@ -101,10 +101,7 @@ export const Song = ({
       }}
       borderRadius={15}
     >
-      <DoubleTap
-        singleTap={() => (isPlaying ? pauseSong() : playSong())}
-        doubleTap={loveSong}
-      >
+      <DoubleTap doubleTap={loveSong}>
         <LinearGradient
           locations={[0, 0.1, 0.2, 0.3, 0.4, 0.45, 0.55, 0.6, 0.7, 0.8, 0.9, 1]}
           style={[styles.gradientContainer, { height }]}
@@ -128,30 +125,76 @@ export const Song = ({
               position: 'absolute',
               alignItems: 'center',
               justifyContent: 'center',
-              width: '100%',
-              height: '100%',
+              top: '50%',
+              left: '50%',
+              zIndex: 1,
             }}
           >
-            {(() => {
-              const ActionIcon = isPlaying ? PauseIcon : PlayIcon;
-              const size = 45;
-              return (
-                <ActionIcon
+            <View style={{ top: '-50%', left: '-50%' }}>
+              {player.canPlay(song) ? (
+                (() => {
+                  const [isPressing, setIsPressing] = React.useState(false);
+
+                  return (
+                    <TouchableOpacity
+                      onPressIn={() => {
+                        setIsPressing(true);
+                      }}
+                      onPressOut={() => {
+                        setIsPressing(false);
+                      }}
+                      activeOpacity={1}
+                      hitSlop={{ top: 80, right: 80, bottom: 80, left: 80 }}
+                      onPress={() => {
+                        if (isPlaying) pauseSong();
+                        else playSong();
+                      }}
+                    >
+                      {(() => {
+                        const ActionIcon = isPlaying ? PauseIcon : PlayIcon;
+                        const size = 45;
+                        return (
+                          <ActionIcon
+                            style={{
+                              // Box shadow
+                              shadowColor: '#000000DD',
+                              shadowOffset: {
+                                width: 2,
+                                height: 4,
+                              },
+                              shadowOpacity: 1.0,
+                            }}
+                            width={size}
+                            height={size}
+                            fill={isPressing ? colors.lightGray : colors.white}
+                          />
+                        );
+                      })()}
+                    </TouchableOpacity>
+                  );
+                })()
+              ) : (
+                <View
                   style={{
-                    // Box shadow
-                    shadowColor: '#000000DD',
-                    shadowOffset: {
-                      width: 2,
-                      height: 4,
-                    },
-                    shadowOpacity: 1.0,
+                    backgroundColor: '#000000a0',
+                    borderRadius: 5,
+                    padding: 5,
                   }}
-                  width={size}
-                  height={size}
-                  fill={colors.white}
-                />
-              );
-            })()}
+                >
+                  <Text
+                    style={{
+                      color: colors.white,
+                      fontSize: 14,
+                      textShadowColor: 'black',
+                      textShadowOffset: { width: 0, height: 0 },
+                      textShadowRadius: 2,
+                    }}
+                  >
+                    Playback not available
+                  </Text>
+                </View>
+              )}
+            </View>
           </View>
           <View
             style={[

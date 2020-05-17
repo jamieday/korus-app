@@ -1,103 +1,70 @@
-NOW
-- Performance
-- SHOW songs you can't play.
-
 TODAY
-- SPOTIFY / APPLE MUSIC CROSS-PLATFORM
-    - Should have a cross-platform lookup service (SHARE / MIGRATE integrated)
-- (usability) NEW SEARCH => drives shares
-- (user engagement) ACTIVITY => drives listens
-- Performance
-- Cleanup & React native upgrade
-- SQLification 
-- https://sequelize.org/v5/
+- User Engagement
+    - Drive shares
+        -  NEW SEARCH => drives shares
+            - Revamped share experience
+                * Recently played 
+                * Liked songs
+                * Playlists ...
+            - Preview song before sharing
+    - Drive listening
+        * Push notifications
+        * Activity page
+        * In-app playlisting
+    
+    - User experience
+        * Technical performance improvements
+- Performance & scalability
+    - SQLification 
+    - https://sequelize.org/v5/
+- update npm, pods & Cleanup & React native upgrade
 
-TOMORROW
-- update npm, pods
-
-Cross-Platform Quality
+Cross-Platform Remaining
 - Could be improved by more involved linkage algorithm (esp diff album, same song)
-- 
+- Cronjob needed?
+- Better code isolation
+    - Should have a cross-platform lookup service (SHARE / MIGRATE integrated)
 
+Maintenance
+- api fails in production mode
+    - performance is probably better in prod mode
+
+- React native typescript
+    https://reactnative.dev/docs/typescript
+
+- SQLification 
+    https://sequelize.org/v5/
+
+- AirBnb no like me research
+    https://softwareengineeringdaily.com/2018/09/24/show-summary-react-native-at-airbnb/ 
 
 # Next
-1. Specification for push notifications
-    - particularly right now user engagement is a focus - can template notifications, like “{user} shared {songName} by {songArtist}”
-- Love screen (track the songs you loved so you can  add to play list ? )
-(loved) evolving playlist (loved)
+User Engagement
+    - Push notifications (andrew)
+    - Listen in-app (alex)
+        - Jamie idea: should be always-up-to-date, good music (don't like a queue system, should be cyclical)
 
-PRIORITIZATION!!!!
+Existing functionality enhancement
+    Apple Music weirdnesses
+        - Of course securiy, storage of tokens and stuff
+        - Storefronts. Should there be a default (ca/us), or fallbacks
+        esp. for isrc resolution? Hardcoding CA or maybe US in some places rn
+        - Rate limiting
+        - Caching
 
-    Start with why.
-- Profile screen : plan. frontend, backend, stats, refactorings.
-- DIAGRAMS!!
+    Spotify
+        - access token, refresh token storage?
+        - Rate limiting
+        - Caching
 
-    // - api fails in production mode
-
-
-APple Music weirdnesses
-- Of course securiy, storage of tokens and stuff
-- Storefronts. Should there be a default (ca/us), or fallbacks
-  esp. for isrc resolution? Hardcoding CA or maybe US in some places rn
-
-Spotify
-- access token, refresh token storage?
-
-LOWEST
-
-- Performance improvements
-- Rate limiting and other misc things like caching for spotify/appmusic web appmusic
-   - read old technical design doc
-- Put calculation into command, not query   
-- Like right away... aggregate events into local storage then push?
-- React optimizations improvements (ComponentWillUpdate, read logs)
-
-Security / input validation analysis
+SECURITY / USER INPUT VALIDATION
 - Firebase/nodejs
-- any other user input or action.
+- any other user input or action. (req.*)
 
-Major
-
-- Spotify integration
-    Remaining:
-      - Cross-platform needed
-        Background job?
-
-- Groups
-    - Only valuable once we get more users.
-
-- Chorus playlists
-
-- Profile
-  Songs I shared
-  Songs I love
-
-Intermediary
-
-Lowish priority 
-
-- Share - preview song you share
-
-High-ish priority
-
-- Share - show existing music in there
-    1. songs i liked
-    2. songs i played recently
-    3. playlist
-    4. rest
-
-    Search still searches apple music
-    Possibly prioritize library then applemusic
-
-# Technical debt
-1. react native upgrade / port
-
-React native rebuild
-https://reactnative.dev/docs/typescript
-
-SQLification 
-https://sequelize.org/v5/
-
-AirBnb no like me research
-https://softwareengineeringdaily.com/2018/09/24/show-summary-react-native-at-airbnb/ 
-
+Sharing experience
+    - Preview song you share
+    - Show existing music in there
+        1. songs i liked
+        2. songs i played recently
+        3. playlists
+        4. rest

@@ -43,7 +43,7 @@ class AppleMusic: NSObject, MPMediaPickerControllerDelegate {
     }
   }
  
-  let myMediaPlayer = MPMusicPlayerController.applicationMusicPlayer
+  let myMediaPlayer = MPMusicPlayerController.systemMusicPlayer
 
   @objc func playSong(_ playbackStoreId: String) {
     if (myMediaPlayer.nowPlayingItem?.playbackStoreID != playbackStoreId) {

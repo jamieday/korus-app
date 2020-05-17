@@ -59,11 +59,11 @@ export default createBottomTabNavigator(
     Discover: {
       screen: DiscoverScreen,
     },
-    Share: {
-      screen: ShareScreen,
-    },
     People: {
       screen: GroupsScreen,
+    },
+    Share: {
+      screen: ShareScreen,
     },
     Profile: {
       screen: ProfileScreen,

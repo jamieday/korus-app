@@ -3,6 +3,7 @@ import { formatCount } from '../formatCount';
 test('numbers', () => {
   const expected = [
     [2, '2'],
+    [7, '7'],
     [400, '400'],
     [1021, '1.0k'],
     [1051, '1.0k'],

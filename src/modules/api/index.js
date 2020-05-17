@@ -10,7 +10,11 @@ import analytics from '@react-native-firebase/analytics';
 export const useAuthN = () => useContext(AuthNContext);
 
 // Header duplicated in backend {7d25eb5a-2c5a-431b-95a8-14f980c8f7e1}
-const userTokenHeader = 'X-Firebase-User-Token';
+const USER_TOKEN_HEADER = 'X-Firebase-User-Token';
+
+// Header duplicated 57A476A2-EF30-4CFD-896E-36CFB1E0A5A1
+const API_VERSION_HEADER = 'X-Api-Version';
+const API_VERSION = 2;
 
 axios.interceptors.request.use(async (config) => {
   console.debug(`[API] ${config.method.toUpperCase()} ${config.url}`);
@@ -109,7 +113,8 @@ export const useApi = () => {
         timeout: 8000,
         headers: {
           ...(method === 'POST' && { 'Content-Type': 'application/json' }),
-          [userTokenHeader]: userToken,
+          [USER_TOKEN_HEADER]: userToken,
+          [API_VERSION_HEADER]: API_VERSION,
           [service.header]: context.accessToken,
         },
         data: body,
