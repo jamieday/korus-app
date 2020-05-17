@@ -153,6 +153,8 @@ export const useApi = () => {
   const get = (url) => call(url, 'GET');
   const post = (url, body) => call(url, 'POST', body);
 
+  const listLikedSongs = () => get('/song/list-liked');
+
   const viewProfile = (username) => {
     if (username !== user.displayName) {
       analytics().logEvent('view_profile', { username });
@@ -172,6 +174,8 @@ export const useApi = () => {
   return {
     get,
     post,
+
+    listLikedSongs,
 
     viewProfile,
     followUser,

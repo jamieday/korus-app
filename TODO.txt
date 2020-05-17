@@ -10,13 +10,15 @@ TODAY
     - Drive listening
         * Push notifications
         * Activity page
-        * In-app playlisting
-    
+        * In-app plalisting
+    captiosn
     - User experience
         * Technical performance improvements
+
 - Performance & scalability
     - SQLification 
     - https://sequelize.org/v5/
+
 - update npm, pods & Cleanup & React native upgrade
 
 Cross-Platform Remaining

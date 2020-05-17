@@ -851,7 +851,7 @@
 				CODE_SIGN_ENTITLEMENTS = Chorus/Chorus.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.0;
+				CURRENT_PROJECT_VERSION = 2.0.0;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = X99CXJUGDH;
 				HEADER_SEARCH_PATHS = (
@@ -890,7 +890,7 @@
 				CODE_SIGN_ENTITLEMENTS = Chorus/Chorus.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.0;
+				CURRENT_PROJECT_VERSION = 2.0.0;
 				DEVELOPMENT_TEAM = X99CXJUGDH;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",

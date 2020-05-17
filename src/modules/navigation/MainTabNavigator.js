@@ -9,11 +9,13 @@ import { ShareScreenContainer as ShareScreen } from '../home/ShareViewContainer'
 import { DiscoverScreen } from '../discover/DiscoverScreen';
 import { GroupsScreen } from '../groups/GroupsScreen';
 import { ProfileScreen } from '../profile/ProfileScreen';
+import { LikedScreen } from '../liked/LikedScreen';
 
 import DiscoverIcon from '../../../assets/images/pages/discover.svg';
 import ShareIcon from '../../../assets/images/icons/share.svg';
 import GroupsIcon from '../../../assets/images/icons/groups.svg';
 import ProfileIcon from '../../../assets/images/pages/profile.svg';
+import LoveIcon from '../../../assets/images/icons/love.svg';
 
 const styles = StyleSheet.create({
   tabBarItemContainer: {
@@ -65,6 +67,9 @@ export default createBottomTabNavigator(
     Share: {
       screen: ShareScreen,
     },
+    Liked: {
+      screen: LikedScreen,
+    },
     Profile: {
       screen: ProfileScreen,
     },
@@ -81,6 +86,8 @@ export default createBottomTabNavigator(
               return { Icon: ShareIcon };
             case 'People':
               return { Icon: GroupsIcon };
+            case 'Liked':
+              return { Icon: LoveIcon };
             case 'Profile':
               return { Icon: ProfileIcon };
             default:

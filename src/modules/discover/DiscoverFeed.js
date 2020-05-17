@@ -1,7 +1,17 @@
 import colors from '../../styles/colors';
 import React from 'react';
-import { ActivityIndicator, FlatList, Text, View, Button } from 'react-native';
+import {
+  ActivityIndicator,
+  FlatList,
+  Text,
+  View,
+  Button,
+  DevSettings,
+} from 'react-native';
 import { Song } from './Song';
+import AsyncStorage from '@react-native-community/async-storage';
+import auth from '@react-native-firebase/auth';
+import { StreamingServiceContext } from '../streaming-service/StreamingServiceContext';
 
 export const DiscoverFeed = ({
   onRefresh,
@@ -19,6 +29,13 @@ export const DiscoverFeed = ({
 }) => {
   const keyExtractor = (item) => item.shareId;
 
+  let hideDev, setHideDev, resetStreamingService;
+  if (__DEV__) {
+    [hideDev, setHideDev] = React.useState(false);
+    const context = React.useContext(StreamingServiceContext);
+    resetStreamingService = context.reset;
+  }
+
   const ITEM_HEIGHT = 350;
 
   return (
@@ -28,6 +45,33 @@ export const DiscoverFeed = ({
       refreshing={isRefreshing}
       onEndReached={onEndReached}
       onEndReachedThreshold={0.4}
+      {...(__DEV__ &&
+        !hideDev && {
+          ListHeaderComponent: () => (
+            <View>
+              <Button
+                title="DEV - Switch streaming service"
+                onPress={() => {
+                  resetStreamingService();
+                }}
+              />
+
+              <Button
+                title="DEV - Sign-out"
+                onPress={() => {
+                  auth().signOut();
+                }}
+              />
+
+              <Button
+                title="DEV - Hide dev"
+                onPress={() => {
+                  setHideDev(true);
+                }}
+              />
+            </View>
+          ),
+        })}
       showsVerticalScrollIndicator={false}
       initialNumToRender={5}
       ListFooterComponent={() =>

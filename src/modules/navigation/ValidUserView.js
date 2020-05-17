@@ -143,6 +143,9 @@ export const ValidUserView = () => {
       value={{
         key: streamingServiceKey,
         accessToken,
+        reset: () => {
+          persistAccessToken(undefined);
+        },
         connectPlayer: async (playUri) => {
           if (streamingServiceKey !== Spotify.uniqueKey) {
             throw new Error('Temp spotify code');

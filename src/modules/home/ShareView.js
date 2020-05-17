@@ -28,8 +28,8 @@ export const ShareScreen = ({ navigation }) => {
     await api.post(`/share/publish`, {
       'song-name': song.name,
       'artist-name': song.artist,
-      ...(song.playbackStoreId && {
-        'playback-store-id': song.playbackStoreId,
+      ...(typeof song.appleMusic !== 'undefined' && {
+        'playback-store-id': song.appleMusic.playbackStoreId,
       }),
       ...(typeof song.spotify !== 'undefined' && {
         'spotify-id': song.spotify.id,
@@ -118,7 +118,7 @@ export const ShareScreen = ({ navigation }) => {
             ) : (
               <SelectionList
                 keyExtractor={(song) =>
-                  song.playbackStoreId ?? song.spotify?.id
+                  song.appleMusic?.playbackStoreId ?? song.spotify?.id
                 }
                 items={songs}
                 onItemPressed={shareSong}

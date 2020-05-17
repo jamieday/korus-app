@@ -16,6 +16,7 @@ export const SelectionList = ({
     style={{
       padding: 15,
     }}
+    ListFooterComponent={() => <View style={{ marginBottom: 18 }} />}
     refreshing={refreshing}
     onRefresh={onRefresh}
     data={items}
@@ -29,7 +30,7 @@ export const SelectionList = ({
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
-            padding: 20,
+            padding: 18,
           }}
           key={keyExtractor(item)}
         >
