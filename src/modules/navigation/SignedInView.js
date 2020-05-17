@@ -4,9 +4,9 @@
 /* eslint-disable no-alert */
 /* eslint-disable import/prefer-default-export */
 import React, { useState } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Button } from 'react-native';
+import { TextInput } from '../../components/TextInput';
 import { colors } from '../../styles';
-import { Button, TextInput } from '../../components';
 import { ValidUserView } from './ValidUserView';
 import { useAuthN } from '../api';
 
@@ -117,10 +117,10 @@ export const SignedInView = () => {
       </View>
       <Button
         onPress={captureUsername}
-        bgColor={colors.white}
-        textColor="white"
-        caption="Let's go"
-        bordered
+        // bgColor={colors.white}
+        // textColor="white"
+        title="Let's go"
+        // bordered
       />
     </View>
   );

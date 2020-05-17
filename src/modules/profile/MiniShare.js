@@ -197,25 +197,23 @@ const styles = StyleSheet.create({
 
   songName: {
     color: colors.white,
-    fontFamily: fonts.primaryBold,
+    fontWeight: 'bold',
     fontSize: 9,
   },
 
   recommenders: {
     color: colors.white,
-    fontFamily: fonts.primaryRegular,
     fontSize: 10,
   },
   artistDesc: {
     color: colors.lightGray,
-    fontFamily: fonts.primaryRegular,
     fontSize: 6,
     textTransform: 'uppercase',
   },
   unsupportedAction: {
     marginTop: 15,
     color: colors.white,
-    fontFamily: fonts.primaryBold,
+    fontWeight: 'bold',
     fontSize: 16,
     fontStyle: 'italic',
   },

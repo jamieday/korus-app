@@ -12,7 +12,7 @@ import {
   ActionSheetIOS,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { colors, fonts } from '../../styles';
+import { colors } from '../../styles';
 
 import { DoubleTap } from '../double-tap/DoubleTap';
 import { useIdentity } from '../identity';
@@ -339,25 +339,24 @@ const styles = StyleSheet.create({
 
   songName: {
     color: colors.white,
-    fontFamily: fonts.primaryBold,
+    fontWeight: 'bold',
     fontSize: 20,
   },
 
   recommenders: {
     color: colors.white,
-    fontFamily: fonts.primaryBold,
+    fontWeight: 'bold',
     fontSize: 14,
   },
   artistDesc: {
     color: colors.lightGray,
-    fontFamily: fonts.primaryRegular,
     fontSize: 14,
     textTransform: 'uppercase',
   },
   unsupportedAction: {
     marginTop: 15,
     color: colors.white,
-    fontFamily: fonts.primaryBold,
+    fontWeight: 'bold',
     fontSize: 16,
     fontStyle: 'italic',
   },

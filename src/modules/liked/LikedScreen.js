@@ -72,7 +72,11 @@ export const LikedScreen = ({ navigation }) => {
           song.id === playingSongId ? (
             <PauseIcon width={20} height={20} fill={colors.white} />
           ) : (
-            <PlayIcon width={20} height={20} fill={colors.white} />
+            <PlayIcon
+              width={20}
+              height={20}
+              fill={player.canPlay(song) ? colors.white : colors.gray}
+            />
           )
         }
         onItemPressed={(song) => {
@@ -80,8 +84,10 @@ export const LikedScreen = ({ navigation }) => {
             player.pauseSong(song);
             setPlayingSongId(undefined);
           } else {
-            player.playSong(song);
-            setPlayingSongId(song.id);
+            if (player.canPlay(song)) {
+              player.playSong(song);
+              setPlayingSongId(song.id);
+            }
           }
         }}
       />

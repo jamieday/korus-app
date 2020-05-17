@@ -1,15 +1,7 @@
-import colors from '../../styles/colors';
+import { colors } from '../../styles';
 import React from 'react';
-import {
-  ActivityIndicator,
-  FlatList,
-  Text,
-  View,
-  Button,
-  DevSettings,
-} from 'react-native';
+import { ActivityIndicator, FlatList, Text, View, Button } from 'react-native';
 import { Song } from './Song';
-import AsyncStorage from '@react-native-community/async-storage';
 import auth from '@react-native-firebase/auth';
 import { StreamingServiceContext } from '../streaming-service/StreamingServiceContext';
 
@@ -37,6 +29,22 @@ export const DiscoverFeed = ({
   }
 
   const ITEM_HEIGHT = 350;
+
+  const renderItem = React.useCallback(
+    ({ item }) => (
+      <Song
+        key={keyExtractor(item)}
+        height={ITEM_HEIGHT}
+        song={item}
+        isPlaying={playingSongId === item.id}
+        onPlay={() => setPlayingSongId(item.id)}
+        onPause={() => setPlayingSongId(undefined)}
+        didUnshare={onUnshare}
+        navigation={navigation}
+      />
+    ),
+    [ITEM_HEIGHT, playingSongId, navigation],
+  );
 
   return (
     <FlatList
@@ -100,18 +108,7 @@ export const DiscoverFeed = ({
         padding: 15,
       }}
       data={shares}
-      renderItem={({ item }) => (
-        <Song
-          key={keyExtractor(item)}
-          height={ITEM_HEIGHT}
-          song={item}
-          isPlaying={playingSongId === item.id}
-          onPlay={() => setPlayingSongId(item.id)}
-          onPause={() => setPlayingSongId(undefined)}
-          didUnshare={onUnshare}
-          navigation={navigation}
-        />
-      )}
+      renderItem={renderItem}
     />
   );
 };

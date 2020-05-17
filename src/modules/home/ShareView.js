@@ -6,8 +6,8 @@ import React from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
 
 import { colors } from '../../styles';
-import { TextInput } from '../../components';
 import { SelectionList } from '../../components/SelectionList';
+import { TextInput } from '../../components/TextInput';
 import ShareIcon from '../../../assets/images/icons/share.svg';
 import { useApi } from '../api';
 import analytics from '@react-native-firebase/analytics';

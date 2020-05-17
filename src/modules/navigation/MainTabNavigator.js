@@ -50,7 +50,6 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   headerCaption: {
-    fontFamily: fonts.primaryRegular,
     color: colors.white,
     fontSize: 18,
   },

@@ -31,7 +31,7 @@ const stackNavigator = createStackNavigator(
   {
     defaultNavigationOptions: () => ({
       titleStyle: {
-        fontFamily: fonts.primaryLight,
+        fontWeight: '100',
       },
       headerStyle: {
         backgroundColor: colors.black,

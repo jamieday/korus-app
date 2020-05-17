@@ -1,127 +1,22 @@
-/**
- * @flow
- */
-import { Typography, Colors, Assets } from 'react-native-ui-lib';
-import { Dimensions, Platform } from 'react-native';
-
-import colors from './colors';
-import fonts from './fonts';
-import commonStyles from './common';
-
-const { width } = Dimensions.get('window');
-
-// Guideline sizes are based on standard ~5" screen mobile device
-const guidelineBaseWidth: number = 350;
-
-Colors.loadColors(colors);
-
-Typography.loadTypographies({
-  title: {
-    fontSize: 35,
-    ...Platform.select({
-      ios: {
-        fontFamily: fonts.primary,
-        fontWeight: 'bold',
-      },
-      android: {
-        fontFamily: fonts.primaryBold,
-      },
-    }),
-  },
-  h1: {
-    fontSize: 34,
-    ...Platform.select({
-      ios: {
-        fontFamily: fonts.primary,
-        fontWeight: 'bold',
-      },
-      android: {
-        fontFamily: fonts.primaryBold,
-      },
-    }),
-  },
-  rubik18: {
-    fontFamily: fonts.primary,
-    fontSize: 18,
-    lineHeight: 22,
-  },
-  rubik20Bold: {
-    fontFamily: fonts.primary,
-    fontSize: 20,
-    lineHeight: 22,
-    fontWeight: 'bold',
-  },
-  rubik24Bold: {
-    fontFamily: fonts.primary,
-    fontSize: 24,
-    lineHeight: 22,
-    fontWeight: 'bold',
-  },
-  h1Rubik: {
-    fontSize: 28,
-    ...Platform.select({
-      ios: {
-        fontFamily: fonts.primary,
-        fontWeight: '500',
-      },
-      android: {
-        fontFamily: fonts.primaryBold,
-      },
-    }),
-  },
-  h2: {
-    fontSize: 18,
-    lineHeight: 22,
-    fontFamily: fonts.primaryBold,
-  },
-  h3: {
-    fontSize: 16,
-    lineHeight: 22,
-    ...Platform.select({
-      ios: {
-        fontFamily: fonts.primary,
-        fontWeight: 'bold',
-      },
-      android: {
-        fontFamily: fonts.primaryBold,
-      },
-    }),
-  },
-  h4: {
-    fontSize: 14,
-    lineHeight: 22,
-    fontFamily: fonts.primary,
-  },
-  p: {
-    fontSize: 14,
-    lineHeight: 20,
-    ...Platform.select({
-      ios: {
-        fontFamily: fonts.primary,
-        fontWeight: '400',
-      },
-      android: {
-        fontFamily: fonts.primaryAndroid,
-      },
-    }),
-  },
-  default: {
-    fontFamily: fonts.primary,
-    fontSize: 18,
-  },
-  defaultMedium: {
-    fontFamily: fonts.primaryMedium,
-    fontSize: 18,
-  },
-  defaultLight: {
-    fontFamily: fonts.primary,
-  },
-});
-
-Assets.loadAssetsGroup('images', {});
-
-Assets.loadAssetsGroup('icons', {});
-
-const scale = (size: number): number => (width / guidelineBaseWidth) * size;
-
-export { colors, fonts, scale, commonStyles };
+export const colors = {
+  primary: '#555CC4',
+  primaryLight: '#829BF8',
+  primaryGradientStart: '#4f44b6',
+  primaryGradientEnd: '#4f44b6',
+  secondaryGradientStart: '#FF1358',
+  secondaryGradientEnd: '#FF1358',
+  profileGradientStart: '#54CBF6',
+  profileGradientEnd: '#49D2D0',
+  secondary: '#FF1358',
+  grey: '#acacac',
+  gray: '#5f5f5f',
+  darkGray: '#4d4d4d',
+  lightGray: '#D8D8D8',
+  white: '#ffffff',
+  blue: '#5A81F7',
+  bluish: '#F1F1F7',
+  black: 'black',
+  lightBlack: '#0C0C0C',
+  green: '#6DD0A3',
+  yellow: '#ffc247',
+};

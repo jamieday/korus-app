@@ -1,5 +1,6 @@
 import React from 'react';
-import { FlatList, View, TouchableOpacity, Text, Image } from 'react-native';
+import { FlatList, View, TouchableOpacity, Text } from 'react-native';
+import { Image } from '../components/Image';
 import { colors } from '../styles';
 
 export const SelectionList = ({

@@ -8,26 +8,27 @@ export const apiConfig = {
   redirectURL: `chorusapp://spotify-login-callback`,
   tokenRefreshURL: `${API_HOST}/spotify/refresh`,
   tokenSwapURL: `${API_HOST}/spotify/swap`,
-  scope:
-    ApiScope.PlaylistReadPrivateScope |
-    ApiScope.PlaylistReadCollaborativeScope |
-    ApiScope.PlaylistModifyPublicScope |
-    ApiScope.PlaylistModifyPrivateScope |
-    ApiScope.UserFollowReadScope |
-    ApiScope.UserFollowModifyScope |
-    ApiScope.UserLibraryReadScope |
-    ApiScope.UserLibraryModifyScope |
-    // ApiScope.UserReadBirthDateScope |
-    ApiScope.UserReadEmailScope |
-    ApiScope.UserReadPrivateScope |
-    ApiScope.UserTopReadScope |
-    ApiScope.UGCImageUploadScope |
-    ApiScope.StreamingScope |
-    ApiScope.AppRemoteControlScope |
-    ApiScope.UserReadPlaybackStateScope |
-    ApiScope.UserModifyPlaybackStateScope |
-    ApiScope.UserReadCurrentlyPlayingScope |
+  scopes: [
+    ApiScope.PlaylistReadPrivateScope,
+    ApiScope.PlaylistReadCollaborativeScope,
+    ApiScope.PlaylistModifyPublicScope,
+    ApiScope.PlaylistModifyPrivateScope,
+    ApiScope.UserFollowReadScope,
+    ApiScope.UserFollowModifyScope,
+    ApiScope.UserLibraryReadScope,
+    ApiScope.UserLibraryModifyScope,
+    // ApiScope.UserReadBirthDateScope,
+    ApiScope.UserReadEmailScope,
+    ApiScope.UserReadPrivateScope,
+    ApiScope.UserTopReadScope,
+    ApiScope.UGCImageUploadScope,
+    ApiScope.StreamingScope,
+    ApiScope.AppRemoteControlScope,
+    ApiScope.UserReadPlaybackStateScope,
+    ApiScope.UserModifyPlaybackStateScope,
+    ApiScope.UserReadCurrentlyPlayingScope,
     ApiScope.UserReadRecentlyPlayedScope,
+  ],
 };
 
 export const uniqueKey = 'spotify';
@@ -38,15 +39,15 @@ const log = (msg) => console.debug(`[Spotify] ${msg}`);
 
 export const authenticate = async () => {
   try {
-    const session = await auth.getSession();
+    let session = await auth.getSession();
     if (session) {
       log('Already initialized.');
       return [session.accessToken, undefined];
     }
     log('Initializing...');
-    const token = await auth.initialize(apiConfig);
+    const { accessToken } = await auth.authorize(apiConfig);
     log('Initialized.');
-    return [token, undefined];
+    return [accessToken, undefined];
   } catch (e) {
     console.error(e);
     return [
@@ -65,10 +66,13 @@ export const connect = async (playUri) => {
     log('Ending session...');
     await auth.endSession(); // for some reason need this
     log('Initializing...');
-    const token = await auth.initialize({ ...apiConfig, playURI: playUri });
-    await remote.connect(token);
+    const { accessToken } = await auth.authorize({
+      ...apiConfig,
+      playURI: playUri,
+    });
+    await remote.connect(accessToken);
     log('Connected.');
-    return [token, undefined];
+    return [accessToken, undefined];
   } catch (e) {
     if (__DEV__) {
       console.error(e.message);

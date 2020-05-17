@@ -11,8 +11,8 @@ import {
   FlatList,
   TouchableOpacity,
   ActivityIndicator,
-  Image,
 } from 'react-native';
+import { Image } from '../../components/Image';
 import { colors } from '../../styles';
 import FollowIcon from '../../../assets/images/icons/follow.svg';
 import ProfileIcon from '../../../assets/images/pages/profile.svg';
