@@ -14,7 +14,7 @@ const USER_TOKEN_HEADER = 'X-Firebase-User-Token';
 
 // Header duplicated 57A476A2-EF30-4CFD-896E-36CFB1E0A5A1
 const API_VERSION_HEADER = 'X-Api-Version';
-const API_VERSION = 2;
+const API_VERSION = 3;
 
 axios.interceptors.request.use(async (config) => {
   console.debug(`[API] ${config.method.toUpperCase()} ${config.url}`);
@@ -128,8 +128,12 @@ export const useApi = () => {
             console.debug('Refreshing user token...');
             await refreshToken();
             console.debug('OK. Retrying that request.');
-            return await call(endpoint, method, body, true);
+            return call(endpoint, method, body, true);
           }
+          return [
+            undefined,
+            'It seems your session has expired. Try restarting the app and if you continue to experience problems contact support.',
+          ];
         case 503: // Service Unavailable
           return [
             undefined,
@@ -144,7 +148,7 @@ export const useApi = () => {
         default:
           return [
             undefined,
-            "Oops, we're having trouble connecting... or maybe it's you? Jk it's us. Maybe try again.",
+            "Having trouble connecting... it's not our fault. Probably!",
           ];
       }
     }

@@ -29,6 +29,7 @@ import ProfileIcon from '../../../assets/images/pages/profile.svg';
 import { useStreamingService } from '../streaming-service';
 import { useApi } from '../api';
 import analytics from '@react-native-firebase/analytics';
+import { formatCount } from '../profile/formatCount';
 
 const log = (message) => {
   console.debug(message);
@@ -46,8 +47,10 @@ export const Song = ({
 }) => {
   const api = useApi();
   const { player } = useStreamingService();
-  const [loves, setLoves] = React.useState(song.loves);
-  React.useEffect(() => setLoves(song.loves), [song.loves]);
+  const [totalLikes, setTotalLikes] = React.useState(song.totalLikes);
+  const [isLiked, setIsLiked] = React.useState(song.isLiked);
+  React.useEffect(() => setTotalLikes(song.totalLikes), [song.totalLikes]);
+  React.useEffect(() => setIsLiked(song.isLiked), [song.isLiked]);
   const username = useIdentity().displayName;
 
   const pauseSong = async () => {
@@ -72,25 +75,26 @@ export const Song = ({
     await player.playSong(song);
   };
 
-  const unloveSong = async () => {
-    if (loves.indexOf(username) === -1) {
+  const unlikeShare = async () => {
+    if (!isLiked) {
       return;
     }
     analytics().logEvent('unlike_song', song);
-    setLoves(loves.filter((lover) => lover !== username));
-    await api.post(`/share/${encodeURIComponent(song.shareId)}/unlove`);
+    setTotalLikes(totalLikes - 1);
+    setIsLiked(false);
+    await api.post(`/share/${encodeURIComponent(song.shareId)}/unlike`);
   };
 
-  const loveSong = async () => {
-    if (loves.indexOf(username) !== -1) {
+  const likeShare = async () => {
+    if (isLiked) {
       return;
     }
     analytics().logEvent('like_song', song);
-    setLoves([...new Set([...loves, username]).values()]);
-    await api.post(`/share/${encodeURIComponent(song.shareId)}/love`);
+    setTotalLikes(totalLikes + 1);
+    setIsLiked(true);
+    await api.post(`/share/${encodeURIComponent(song.shareId)}/like`);
   };
 
-  const isLoved = loves.indexOf(username) !== -1;
   const isMine = song.sharer === username;
 
   return (
@@ -101,7 +105,7 @@ export const Song = ({
       }}
       borderRadius={15}
     >
-      <DoubleTap doubleTap={loveSong}>
+      <DoubleTap doubleTap={likeShare}>
         <LinearGradient
           locations={[0, 0.1, 0.2, 0.3, 0.4, 0.45, 0.55, 0.6, 0.7, 0.8, 0.9, 1]}
           style={[styles.gradientContainer, { height }]}
@@ -285,16 +289,16 @@ export const Song = ({
               <TouchableOpacity
                 style={{ flexDirection: 'row', alignItems: 'center' }}
                 onPress={() => {
-                  if (isLoved) {
-                    unloveSong();
+                  if (isLiked) {
+                    unlikeShare();
                   } else {
-                    loveSong();
+                    likeShare();
                   }
                 }}
                 hitSlop={{ top: 20, left: 20 }}
               >
                 {(() => {
-                  const LoveStateIcon = isLoved ? LovedIcon : LoveableIcon;
+                  const LoveStateIcon = isLiked ? LovedIcon : LoveableIcon;
                   return (
                     <LoveStateIcon
                       style={{ marginRight: 5 }}
@@ -304,8 +308,10 @@ export const Song = ({
                     />
                   );
                 })()}
-                {loves.length > 0 && (
-                  <Text style={styles.recommenders}>{loves.length}</Text>
+                {totalLikes > 0 && (
+                  <Text style={styles.recommenders}>
+                    {formatCount(totalLikes)}
+                  </Text>
                 )}
               </TouchableOpacity>
             </View>
