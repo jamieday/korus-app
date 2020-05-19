@@ -5,15 +5,16 @@
 /* eslint-disable import/prefer-default-export */
 import React from 'react';
 import { Text, View, Button, Alert, AppState } from 'react-native';
+import { remote } from 'react-native-spotify-remote';
+import analytics from '@react-native-firebase/analytics';
 import AppNavigator from './RootNavigation';
 import { colors } from '../../styles';
 import * as AppleMusic from '../streaming-service/apple-music';
 import * as Spotify from '../streaming-service/spotify';
 import { findService } from '../streaming-service';
-import { StreamingServiceContext } from '../streaming-service/StreamingServiceContext';
+import { StreamingServiceContext } from '../streaming-service/StreamingServiceContext.ts';
 import { usePersistence } from '../persistence';
-import { remote } from 'react-native-spotify-remote';
-import analytics from '@react-native-firebase/analytics';
+import { StartupProgress } from './StartupProgress';
 // import auth from '@react-native-firebase/auth';
 // import AsyncStorage from '@react-native-community/async-storage';
 
@@ -47,6 +48,8 @@ export const ValidUserView = () => {
             if (await remote.isConnectedAsync()) {
               await remote.disconnect();
             }
+            break;
+          default:
             break;
         }
       } catch (e) {
@@ -104,7 +107,7 @@ export const ValidUserView = () => {
     streamingServiceKey === 'INITIALIZING' ||
     accessToken === 'INITIALIZING'
   ) {
-    return null;
+    return <StartupProgress />;
   }
 
   if (!streamingServiceKey || !accessToken) {

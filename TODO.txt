@@ -1,3 +1,19 @@
+1. Replan & Cleanup todo
+2. 
+
+
+
+
+
+
+
+
+
+https://en.wikipedia.org/wiki/List_of_Italian_musical_terms_used_in_English#Moods
+TODO tags
+* TODO OPENBETA - 
+
+
 TODAY
 - Performance & scalability
     - SQLification 
@@ -6,6 +22,9 @@ TODAY
 - update npm, pods & Cleanup & React native upgrade
 
 Cross-Platform Remaining
+- Spotify access token refresh
+- REACT HOOKS issue... 
+        happened after refresh feed after a change to feed. due to /migrate
 - Could be improved by more involved linkage algorithm (esp diff album, same song)
 - Cronjob needed?
 - Better code isolation

@@ -2,15 +2,15 @@
 /* eslint-disable import/prefer-default-export */
 import React, { useState, useEffect } from 'react';
 import { View, Text } from 'react-native';
-import messaging from '@react-native-firebase/messaging';
 import auth from '@react-native-firebase/auth';
 import appleAuth, {
   AppleButton,
 } from '@invertase/react-native-apple-authentication';
+import analytics from '@react-native-firebase/analytics';
+import { StartupProgress } from './StartupProgress';
 import { signInWithApple } from './packages/AppleSignIn';
 import { colors } from '../../styles';
 import { SignedInView } from './SignedInView';
-import analytics from '@react-native-firebase/analytics';
 
 import { AuthNContext } from '../auth';
 
@@ -28,12 +28,16 @@ export const AppView = () => {
   const onStateChanged = async (user) => {
     setUser(user);
 
-    analytics().setUserId(user.uid);
-    analytics().setUserProperty('username', user.displayName);
-
     if (user) {
       const userToken = await user.getIdToken();
       setUserToken(userToken);
+
+      try {
+        analytics().setUserId(user.uid);
+        analytics().setUserProperty('username', user.displayName);
+      } catch (e) {
+        // Analytics failure
+      }
     }
 
     if (initializing) {
@@ -49,7 +53,7 @@ export const AppView = () => {
   }, []);
 
   if (initializing) {
-    return null;
+    return <StartupProgress />;
   }
 
   if (!user) {
