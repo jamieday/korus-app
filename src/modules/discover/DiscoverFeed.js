@@ -1,9 +1,10 @@
-import { colors } from '../../styles';
+/* eslint-disable import/prefer-default-export */
 import React from 'react';
 import { ActivityIndicator, FlatList, Text, View, Button } from 'react-native';
-import { Song } from './Song';
 import auth from '@react-native-firebase/auth';
-import { StreamingServiceContext } from '../streaming-service/StreamingServiceContext';
+import { Song } from './Song';
+import { colors } from '../../styles';
+import { StreamingServiceContext } from '../streaming-service/StreamingServiceContext.ts';
 
 export const DiscoverFeed = ({
   onRefresh,
@@ -21,12 +22,10 @@ export const DiscoverFeed = ({
 }) => {
   const keyExtractor = (item) => item.shareId;
 
-  let hideDev, setHideDev, resetStreamingService;
-  if (__DEV__) {
-    [hideDev, setHideDev] = React.useState(false);
-    const context = React.useContext(StreamingServiceContext);
-    resetStreamingService = context.reset;
-  }
+  const [hideDev, setHideDev] = React.useState(false);
+  const { reset: resetStreamingService } = React.useContext(
+    StreamingServiceContext,
+  );
 
   const ITEM_HEIGHT = 350;
 
@@ -53,6 +52,7 @@ export const DiscoverFeed = ({
       refreshing={isRefreshing}
       onEndReached={onEndReached}
       onEndReachedThreshold={0.4}
+      // eslint-disable-next-line react/jsx-props-no-spreading,no-undef
       {...(__DEV__ &&
         !hideDev && {
           ListHeaderComponent: () => (

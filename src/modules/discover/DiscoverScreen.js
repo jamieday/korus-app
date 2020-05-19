@@ -9,11 +9,11 @@ import {
   Text,
   ActivityIndicator,
 } from 'react-native';
+import messaging from '@react-native-firebase/messaging';
+import { List } from 'immutable';
 import { colors } from '../../styles';
 import { useApi } from '../api';
-import messaging from '@react-native-firebase/messaging';
 import { ErrorView } from '../error/ErrorView';
-import { List } from 'immutable';
 import { DiscoverFeed } from './DiscoverFeed';
 
 export const DiscoverScreen = ({ navigation }) => {

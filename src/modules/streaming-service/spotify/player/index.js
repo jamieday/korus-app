@@ -1,6 +1,7 @@
+/* eslint-disable import/prefer-default-export */
 import React from 'react';
-import { StreamingServiceContext } from '../../StreamingServiceContext';
 import { remote, RepeatMode } from 'react-native-spotify-remote';
+import { StreamingServiceContext } from '../../StreamingServiceContext.ts';
 
 export const usePlayer = () => {
   const { connectPlayer } = React.useContext(StreamingServiceContext);

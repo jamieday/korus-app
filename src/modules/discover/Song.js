@@ -53,6 +53,8 @@ export const Song = ({
   React.useEffect(() => setIsLiked(song.isLiked), [song.isLiked]);
   const username = useIdentity().displayName;
 
+  const [isPressingPlayPause, setIsPressingPlayPause] = React.useState(false);
+
   const pauseSong = async () => {
     log('[Song] Pausing song.');
     analytics().logEvent('pause_song', {
@@ -136,47 +138,43 @@ export const Song = ({
           >
             <View style={{ top: '-50%', left: '-50%' }}>
               {player.canPlay(song) ? (
-                (() => {
-                  const [isPressing, setIsPressing] = React.useState(false);
-
-                  return (
-                    <TouchableOpacity
-                      onPressIn={() => {
-                        setIsPressing(true);
-                      }}
-                      onPressOut={() => {
-                        setIsPressing(false);
-                      }}
-                      activeOpacity={1}
-                      hitSlop={{ top: 80, right: 80, bottom: 80, left: 80 }}
-                      onPress={() => {
-                        if (isPlaying) pauseSong();
-                        else playSong();
-                      }}
-                    >
-                      {(() => {
-                        const ActionIcon = isPlaying ? PauseIcon : PlayIcon;
-                        const size = 45;
-                        return (
-                          <ActionIcon
-                            style={{
-                              // Box shadow
-                              shadowColor: '#000000DD',
-                              shadowOffset: {
-                                width: 2,
-                                height: 4,
-                              },
-                              shadowOpacity: 1.0,
-                            }}
-                            width={size}
-                            height={size}
-                            fill={isPressing ? colors.lightGray : colors.white}
-                          />
-                        );
-                      })()}
-                    </TouchableOpacity>
-                  );
-                })()
+                <TouchableOpacity
+                  onPressIn={() => {
+                    setIsPressingPlayPause(true);
+                  }}
+                  onPressOut={() => {
+                    setIsPressingPlayPause(false);
+                  }}
+                  activeOpacity={1}
+                  hitSlop={{ top: 80, right: 80, bottom: 80, left: 80 }}
+                  onPress={() => {
+                    if (isPlaying) pauseSong();
+                    else playSong();
+                  }}
+                >
+                  {(() => {
+                    const ActionIcon = isPlaying ? PauseIcon : PlayIcon;
+                    const size = 45;
+                    return (
+                      <ActionIcon
+                        style={{
+                          // Box shadow
+                          shadowColor: '#000000DD',
+                          shadowOffset: {
+                            width: 2,
+                            height: 4,
+                          },
+                          shadowOpacity: 1.0,
+                        }}
+                        width={size}
+                        height={size}
+                        fill={
+                          isPressingPlayPause ? colors.lightGray : colors.white
+                        }
+                      />
+                    );
+                  })()}
+                </TouchableOpacity>
               ) : (
                 <View
                   style={{
