@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import React from 'react';
-import { StreamingServiceContext } from './StreamingServiceContext';
+import { StreamingServiceContext } from './StreamingServiceContext.ts';
 import * as AppleMusic from './apple-music';
 import * as Spotify from './spotify';
 
@@ -17,6 +17,9 @@ export const findService = (key) => {
 
 export const useStreamingService = () => {
   const context = React.useContext(StreamingServiceContext);
+  if (!context) {
+    return undefined;
+  }
   const service = findService(context.key);
   const player = service.usePlayer();
   return {

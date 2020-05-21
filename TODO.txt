@@ -1,10 +1,28 @@
 1. Replan & Cleanup todo
 2. 
 
+NEXT:
+- add beta section to show known bugs
+- fix known bugs
+- reshare.
 
+samson idea:
+- reshare
 
+idea:
+refresh 
+- spotify add to playlist  ( select playlist to go to? )
+- name of person you got the song from (scope out the need for it, tech maybe weird for it if multiple share)
 
+urgent bugs
+- ADD TO PLAYLIST IN APPLE MUSIC
+- DOESNT GO TO LIKED TAB RIGHT AWAY
+- SHARE LIST DOESNT WORK WELL
 
+mild bugs
+- case when SPOTIFY doesn't play
+    => not connected -> connecting
+        & song playing already on Spotify
 
 
 

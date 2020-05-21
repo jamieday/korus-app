@@ -1,11 +1,11 @@
 /* eslint-disable default-case */
 import axios from 'axios';
 import { useContext } from 'react';
-import { AuthNContext } from '../auth';
-import { useStreamingService } from '../streaming-service';
 import { API_HOST } from 'react-native-dotenv';
 import perf from '@react-native-firebase/perf';
 import analytics from '@react-native-firebase/analytics';
+import { useStreamingService } from '../streaming-service';
+import { AuthNContext } from '../auth';
 
 export const useAuthN = () => useContext(AuthNContext);
 
@@ -19,6 +19,7 @@ const API_VERSION = 3;
 axios.interceptors.request.use(async (config) => {
   console.debug(`[API] ${config.method.toUpperCase()} ${config.url}`);
 
+  // eslint-disable-next-line no-param-reassign
   config.metadata.startTime = new Date().getTime();
 
   try {
@@ -26,6 +27,7 @@ axios.interceptors.request.use(async (config) => {
       config.url,
       config.method.toUpperCase(),
     );
+    // eslint-disable-next-line no-param-reassign
     config.metadata.httpMetric = httpMetric;
 
     httpMetric.putAttribute('userId', config.metadata.userId);
@@ -67,9 +69,7 @@ axios.interceptors.response.use(
     } else {
       console.debug(
         `[API] Failed with ${
-          error.response
-            ? `${error.response.status} ${error.response.statusText}`
-            : 'timeout'
+          error.response ? error.response.status : 'timeout'
         }`,
       );
     }
@@ -94,17 +94,10 @@ axios.interceptors.response.use(
 
 export const useApi = () => {
   const { user, userToken, refreshToken } = useAuthN();
-  const { service, context } = useStreamingService();
+  const streamingService = useStreamingService();
 
   const call = async (endpoint, method, body, isRetry = false) => {
     try {
-      if (!userToken || !service) {
-        return [
-          undefined,
-          'Hmm, I think we messed up. Can you restart the app & try again?',
-        ];
-      }
-
       const host = API_HOST;
       const path = `/api${endpoint}`;
       const url = host + path;
@@ -115,13 +108,19 @@ export const useApi = () => {
           ...(method === 'POST' && { 'Content-Type': 'application/json' }),
           [USER_TOKEN_HEADER]: userToken,
           [API_VERSION_HEADER]: API_VERSION,
-          [service.header]: context.accessToken,
+          ...(streamingService && {
+            [streamingService.service.header]:
+              streamingService.context.accessToken,
+          }),
         },
         data: body,
         metadata: { userId: user?.uid },
       });
       return [response.data, undefined];
     } catch (e) {
+      if (typeof e.response?.data?.message !== 'undefined') {
+        return [undefined, e.response.data.message];
+      }
       switch (e.response?.status) {
         case 401:
           if (!isRetry) {

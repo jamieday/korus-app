@@ -1,19 +1,21 @@
 /* eslint-disable no-shadow */
 /* eslint-disable no-console */
 /* eslint-disable no-undef */
-/* eslint-disable no-alert */
 /* eslint-disable import/prefer-default-export */
 import React, { useState } from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text, Button, ActivityIndicator } from 'react-native';
 import { TextInput } from '../../components/TextInput';
 import { colors } from '../../styles';
 import { ValidUserView } from './ValidUserView';
-import { useAuthN } from '../api';
+import { useApi, useAuthN } from '../api';
 
 export const SignedInView = () => {
   const { user } = useAuthN();
+  const api = useApi();
   const [usernameQueued, setUsernameQueued] = useState(undefined);
   const [enterUsernameMsg, setEnterUsernameMsg] = useState('Enter a username');
+  const [isLoading, setLoading] = useState(false);
+  const [error, setError] = useState();
 
   if (!user) {
     throw new Error('Must have a user account to reach this view.');
@@ -25,58 +27,24 @@ export const SignedInView = () => {
     }
 
     if (!usernameQueued) {
-      alert(enterUsernameMsg);
+      setError(enterUsernameMsg);
       setEnterUsernameMsg(
         'Seriously, just type in the box and put some letters in.',
       );
       return;
     }
 
-    const usernameRegex = /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/gi;
-    if (!usernameRegex.test(usernameQueued)) {
-      const hint =
-        usernameQueued.indexOf(' ') !== -1
-          ? ' (try without spaces)'
-          : '(invalid name)';
-      if (usernameQueued.length < 10) {
-        alert(
-          `We're not letting "${usernameQueued}" join the platform...${hint}`,
-        );
-      } else {
-        alert(
-          `I don't know how to break it to you, but you're not getting in with a username like that.${hint}`,
-        );
-      }
+    setLoading(true);
+    const [_, error] = await api.post('/people/user/set-username', {
+      username: usernameQueued,
+    });
+    setLoading(false);
+    if (error) {
+      setError(error);
       return;
     }
-    if (
-      [
-        'Callum',
-        'Connor',
-        'Kaijai',
-        'alex',
-        'andrew',
-        'megangreb',
-        'stephanie',
-      ].indexOf(usernameQueued) !== -1
-    ) {
-      const validationErrorMessage = [
-        "That name's taken. Try being original maybe?",
-        "Ever heard of creativity? Maybe mix a little of that in (name's taken).",
-        "We'd totally give you that name, but Elon Musk just reserved it for the name of his next child.",
-      ];
-      alert(
-        validationErrorMessage[
-          parseInt(Math.random() * validationErrorMessage.length, 10)
-        ],
-      );
-      return;
-    }
-
-    await (async () => {
-      await user.updateProfile({ displayName: usernameQueued });
-      await user.reload();
-    })();
+    setError(undefined);
+    await user.reload();
   };
 
   return user.displayName ? (
@@ -105,6 +73,8 @@ export const SignedInView = () => {
       <View style={{ width: '100%', marginBottom: 50, paddingHorizontal: 40 }}>
         <TextInput
           autoFocus
+          disabled={isLoading}
+          error={error}
           autoCapitalize="none"
           autoCorrect={false}
           autoCompleteType="username"
@@ -115,13 +85,11 @@ export const SignedInView = () => {
           placeholder="reserve a name"
         />
       </View>
-      <Button
-        onPress={captureUsername}
-        // bgColor={colors.white}
-        // textColor="white"
-        title="Let's go"
-        // bordered
-      />
+      {isLoading ? (
+        <ActivityIndicator />
+      ) : (
+        <Button onPress={captureUsername} title="Let's go" />
+      )}
     </View>
   );
 };

@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/prefer-default-export
 export const colors = {
   primary: '#555CC4',
   primaryLight: '#829BF8',
@@ -5,6 +6,7 @@ export const colors = {
   primaryGradientEnd: '#4f44b6',
   secondaryGradientStart: '#FF1358',
   secondaryGradientEnd: '#FF1358',
+  danger: '#B71C1C',
   profileGradientStart: '#54CBF6',
   profileGradientEnd: '#49D2D0',
   secondary: '#FF1358',
