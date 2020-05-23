@@ -1,13 +1,10 @@
 1. Replan & Cleanup todo
 2. 
 
-NEXT:
-- add beta section to show known bugs
-- fix known bugs
-- reshare.
+CHORUS => KORUS
 
-samson idea:
-- reshare
+NEXT:
+- fix known bugs
 
 idea:
 refresh 

@@ -5,12 +5,12 @@
 import React from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
 
+import analytics from '@react-native-firebase/analytics';
 import { colors } from '../../styles';
 import { SelectionList } from '../../components/SelectionList';
 import { TextInput } from '../../components/TextInput';
 import ShareIcon from '../../../assets/images/icons/share.svg';
 import { useApi } from '../api';
-import analytics from '@react-native-firebase/analytics';
 
 const log = (msg) => {
   console.debug(msg);
@@ -19,13 +19,12 @@ const log = (msg) => {
 export const ShareScreen = ({ navigation }) => {
   const api = useApi();
   const [searchQueryInput, setSearchQueryInput] = React.useState('');
-  const [lastSearch, setLastSearch] = React.useState();
   const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState();
   const [songs, setSongs] = React.useState(undefined);
 
   const shareSong = async (song) => {
-    analytics().logEvent('share_song', song);
-    await api.post(`/share/publish`, {
+    const [_, error] = await api.post(`/share/publish`, {
       'song-name': song.name,
       'artist-name': song.artist,
       ...(typeof song.appleMusic !== 'undefined' && {
@@ -36,12 +35,20 @@ export const ShareScreen = ({ navigation }) => {
       }),
     });
 
+    if (error) {
+      setError(error);
+      return;
+    }
+
+    analytics().logEvent('share_song', song);
+
     log(`Shared ${song.name} by ${song.artist}.`);
     navigation.navigate('Discover', { refresh: true });
 
     // Clear input
     setSearchQueryInput('');
     setSongs(undefined);
+    setError(undefined);
   };
 
   const search = async (input) => {
@@ -59,11 +66,8 @@ export const ShareScreen = ({ navigation }) => {
     );
 
     if (error) {
-      //TODO
+      setError(error);
       setLoading(false);
-      setSongs([]);
-      setLastSearch(undefined);
-      log(error);
       return;
     }
 
@@ -71,7 +75,11 @@ export const ShareScreen = ({ navigation }) => {
 
     setLoading(false);
     setSongs(songs);
-    setLastSearch(input);
+    if (songs.length === 0) {
+      setError(`We looked everywhere but couldn't find ${input}`);
+    } else {
+      setError(undefined);
+    }
   };
 
   return (
@@ -84,6 +92,7 @@ export const ShareScreen = ({ navigation }) => {
       <View>
         <View style={{ margin: 30, marginBottom: 0 }}>
           <TextInput
+            error={error}
             autoCapitalize="none"
             autoCorrect={false}
             returnKeyType="search"
@@ -94,44 +103,27 @@ export const ShareScreen = ({ navigation }) => {
           />
         </View>
         <View>
-          {songs !== undefined &&
-            (loading ? (
-              <View style={{ marginTop: 30 }}>
-                <ActivityIndicator />
-              </View>
-            ) : songs?.length === 0 ? (
-              lastSearch && (
-                <View style={{ marginTop: 30 }}>
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      textAlign: 'center',
-                      color: colors.white,
-                      fontStyle: 'italic',
-                    }}
-                  >
-                    Yea, so we tried but couldn't find anything remotely like '
-                    {lastSearch}'...
-                  </Text>
-                </View>
-              )
-            ) : (
-              <SelectionList
-                keyExtractor={(song) =>
-                  song.appleMusic?.playbackStoreId ?? song.spotify?.id
-                }
-                items={songs}
-                onItemPressed={shareSong}
-                getItemDetail={(song) => ({
-                  title: song.name,
-                  subtitle: song.artist,
-                  imageUrl: song.artworkUrl,
-                })}
-                actionIcon={
-                  <ShareIcon width={20} height={20} fill={colors.white} />
-                }
-              />
-            ))}
+          {loading ? (
+            <View style={{ marginTop: 30 }}>
+              <ActivityIndicator />
+            </View>
+          ) : (
+            <SelectionList
+              keyExtractor={(song) =>
+                song.appleMusic?.playbackStoreId ?? song.spotify?.id
+              }
+              items={songs ?? []}
+              onItemPressed={shareSong}
+              getItemDetail={(song) => ({
+                title: song.name,
+                subtitle: song.artist,
+                imageUrl: song.artworkUrl,
+              })}
+              actionIcon={
+                <ShareIcon width={20} height={20} fill={colors.white} />
+              }
+            />
+          )}
         </View>
       </View>
     </View>

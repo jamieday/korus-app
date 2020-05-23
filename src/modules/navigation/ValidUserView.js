@@ -166,6 +166,9 @@ export const ValidUserView = () => {
             return;
           }
 
+          console.debug('Token received:');
+          console.debug(accessToken);
+
           log('Persisting token...');
           await persistAccessToken(accessToken);
           log('Done.');
