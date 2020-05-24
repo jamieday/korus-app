@@ -24,7 +24,7 @@ mild bugs
 
 
 - Better analytics ( what streaming service are they using? maybe that's a user property? etc )
-https://en.wikipedia.org/wiki/List_of_Italian_musical_terms_used_in_English#Moods
+
 TODO tags
 * TODO OPENBETA - 
 
@@ -80,6 +80,7 @@ Existing functionality enhancement
 SECURITY / USER INPUT VALIDATION
 - Firebase/nodejs
 - any other user input or action. (req.*)
+- per-user quotas
 
 Sharing experience
     - Preview song you share

@@ -12,6 +12,7 @@ import {
   ActionSheetIOS,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import analytics from '@react-native-firebase/analytics';
 import { colors } from '../../styles';
 
 import { DoubleTap } from '../double-tap/DoubleTap';
@@ -28,7 +29,6 @@ import MoreOptions from '../../../assets/images/icons/more-options.svg';
 import ProfileIcon from '../../../assets/images/pages/profile.svg';
 import { useStreamingService } from '../streaming-service';
 import { useApi } from '../api';
-import analytics from '@react-native-firebase/analytics';
 import { formatCount } from '../profile/formatCount';
 
 const log = (message) => {

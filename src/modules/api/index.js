@@ -165,14 +165,10 @@ export const useApi = () => {
     return get(`/people/user/${encodeURIComponent(username)}/profile`);
   };
 
-  const followUser = (username) => {
-    analytics().logEvent('follow_user', { username });
-    return post(`/people/user/${encodeURIComponent(username)}/follow`);
-  };
-  const unfollowUser = (username) => {
-    analytics().logEvent('unfollow_user', { username });
-    return post(`/people/user/${encodeURIComponent(username)}/unfollow`);
-  };
+  const followUser = (id) =>
+    post(`/people/user/${encodeURIComponent(id)}/follow`);
+  const unfollowUser = (id) =>
+    post(`/people/user/${encodeURIComponent(id)}/unfollow`);
 
   return {
     get,

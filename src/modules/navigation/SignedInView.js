@@ -35,9 +35,12 @@ export const SignedInView = () => {
     }
 
     setLoading(true);
-    const [_, error] = await api.post('/people/user/set-username', {
-      username: usernameQueued,
-    });
+    const [_, error] = await api.post(
+      `/user/${encodeURIComponent(user.uid)}/register`,
+      {
+        username: usernameQueued,
+      },
+    );
     setLoading(false);
     if (error) {
       setError(error);

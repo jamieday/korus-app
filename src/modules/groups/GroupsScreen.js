@@ -4,13 +4,13 @@
 /* eslint-disable import/prefer-default-export */
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
+import { List } from 'immutable';
+import analytics from '@react-native-firebase/analytics';
 import { colors } from '../../styles';
 import { SelectionList } from '../../components/SelectionList';
 import FollowIcon from '../../../assets/images/icons/follow.svg';
 import SelectedIcon from '../../../assets/images/icons/selected.svg';
 import { useApi } from '../api';
-import analytics from '@react-native-firebase/analytics';
-import { List } from 'immutable';
 
 export const GroupsScreen = () => {
   const api = useApi();
@@ -36,7 +36,7 @@ export const GroupsScreen = () => {
       <SelectionList
         refreshing={isLoading}
         onRefresh={refresh}
-        keyExtractor={(user) => user.username}
+        keyExtractor={(user) => user.id}
         items={users.sort((a, b) => a.username > b.username).toArray()}
         getItemDetail={(user) => ({ title: user.username })}
         actionIcon={(user) =>
@@ -56,9 +56,11 @@ export const GroupsScreen = () => {
           );
 
           if (!targetUser.isFollowed) {
-            await api.followUser(targetUser.username);
+            analytics().logEvent('follow_user', targetUser);
+            await api.followUser(targetUser.id);
           } else {
-            await api.unfollowUser(targetUser.username);
+            analytics().logEvent('unfollow_user', targetUser);
+            await api.unfollowUser(targetUser.id);
           }
         }}
       />
