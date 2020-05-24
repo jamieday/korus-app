@@ -1,5 +1,6 @@
-import { appleMusicApi } from '../../../../react-native-apple-music/io/appleMusicApi';
+import { appleMusicApi } from '../appleMusicApi';
 
+// eslint-disable-next-line import/prefer-default-export
 export const usePlayer = () => ({
   canPlay: (song) => typeof song.appleMusic !== 'undefined',
   playSong: async (song) => {

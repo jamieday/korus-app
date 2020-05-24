@@ -41,7 +41,7 @@ export default function AppView() {
             marginBottom: 15,
           }}
         >
-          Chorus has new updates!
+          Korus has new updates!
         </Text>
         <Text style={{ color: 'white', textAlign: 'center', lineHeight: 25 }}>
           To continue the journey, update to the latest version. :)

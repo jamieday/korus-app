@@ -2,12 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:/Users/Jamie/Desktop/Projects/chorus/app/ios/Chorus.xcodeproj">
+      location = "group:Korus.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:Chorus.xcodeproj">
    </FileRef>
 </Workspace>

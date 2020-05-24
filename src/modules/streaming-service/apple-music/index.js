@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
-import { appleMusicApi } from '../../../react-native-apple-music/io/appleMusicApi';
 import { Linking } from 'react-native';
+import { appleMusicApi } from './appleMusicApi';
 
 export const uniqueKey = 'apple-music';
 // Header duplicated in backend {5998EFBB-47E5-4CE5-AB47-FA36DF822201}

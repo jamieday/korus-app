@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Chorus</string>
+	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -27,7 +27,7 @@
 			<string>net.chorusapp</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>chorusapp</string>
+				<string>korusapp</string>
 			</array>
 		</dict>
 	</array>

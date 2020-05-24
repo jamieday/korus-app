@@ -30,7 +30,7 @@
   
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
-                                                   moduleName:@"chorus-app"
+                                                   moduleName:@"korus-app"
                                             initialProperties:nil];
 
   rootView.backgroundColor = [[UIColor alloc] initWithRed: 0.01 green: 0.01 blue: 0.01 alpha: 1.00];

@@ -1,10 +1,5 @@
 1. Replan & Cleanup todo
-2. 
 
-CHORUS => KORUS
-
-- Deploy to the same gogoel cloud project, (and rename it)
-  so that postgres access is auto-handled.
 
 NEXT:
 - fix known bugs
@@ -33,30 +28,18 @@ TODO tags
 
 
 TODAY
-- Performance & scalability
-    - SQLification 
-    - https://sequelize.org/v5/
-
 - update npm, pods & Cleanup & React native upgrade
 
 Cross-Platform Remaining
 - Spotify access token refresh
-- REACT HOOKS issue... 
-        happened after refresh feed after a change to feed. due to /migrate
 - Could be improved by more involved linkage algorithm (esp diff album, same song)
 - Cronjob needed?
 - Better code isolation
     - Should have a cross-platform lookup service (SHARE / MIGRATE integrated)
 
 Maintenance
-- api fails in production mode
-    - performance is probably better in prod mode
-
 - React native typescript
     https://reactnative.dev/docs/typescript
-
-- SQLification 
-    https://sequelize.org/v5/
 
 - AirBnb no like me research
     https://softwareengineeringdaily.com/2018/09/24/show-summary-react-native-at-airbnb/ 
@@ -84,6 +67,7 @@ SECURITY / USER INPUT VALIDATION
 - Firebase/nodejs
 - any other user input or action. (req.*)
 - per-user quotas
+- The 0.0.0.0 for postgres
 
 Sharing experience
     - Preview song you share
