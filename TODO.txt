@@ -3,6 +3,9 @@
 
 CHORUS => KORUS
 
+- Deploy to the same gogoel cloud project, (and rename it)
+  so that postgres access is auto-handled.
+
 NEXT:
 - fix known bugs
 

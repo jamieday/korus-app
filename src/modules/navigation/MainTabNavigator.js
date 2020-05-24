@@ -3,7 +3,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from 'react-navigation';
 
-import { colors, fonts } from '../../styles';
+import { colors } from '../../styles';
 
 import { ShareScreenContainer as ShareScreen } from '../home/ShareViewContainer';
 import { DiscoverScreen } from '../discover/DiscoverScreen';
@@ -11,11 +11,20 @@ import { GroupsScreen } from '../groups/GroupsScreen';
 import { ProfileScreen } from '../profile/ProfileScreen';
 import { LikedScreen } from '../liked/LikedScreen';
 
-import DiscoverIcon from '../../../assets/images/pages/discover.svg';
-import ShareIcon from '../../../assets/images/icons/share.svg';
-import GroupsIcon from '../../../assets/images/icons/groups.svg';
-import ProfileIcon from '../../../assets/images/pages/profile.svg';
-import LoveIcon from '../../../assets/images/icons/love.svg';
+import FeedIcon from '../../../assets/images/icons/feed-simple.svg';
+import FeedSelectedIcon from '../../../assets/images/icons/feed-fancy.svg';
+
+import ShareIcon from '../../../assets/images/icons/plus-simple.svg';
+import ShareSelectedIcon from '../../../assets/images/icons/plus-fancy.svg';
+
+import SearchIcon from '../../../assets/images/icons/search-simple.svg';
+import SearchSelectedIcon from '../../../assets/images/icons/search-fancy.svg';
+
+import ProfileIcon from '../../../assets/images/icons/profile-simple.svg';
+import ProfileSelectedIcon from '../../../assets/images/icons/profile-fancy.svg';
+
+import LoveIcon from '../../../assets/images/icons/heart-simple.svg';
+import LoveSelectedIcon from '../../../assets/images/icons/heart-fancy.svg';
 
 const styles = StyleSheet.create({
   tabBarItemContainer: {
@@ -77,18 +86,24 @@ export default createBottomTabNavigator(
     defaultNavigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused }) => {
         const { routeName } = navigation.state;
-        const { Icon, size = 20 } = (() => {
+        const { Icon, size = 22 } = (() => {
           switch (routeName) {
             case 'Discover':
-              return { Icon: DiscoverIcon };
-            case 'Share':
-              return { Icon: ShareIcon };
+              return { Icon: !focused ? FeedIcon : FeedSelectedIcon, size: 20 };
             case 'People':
-              return { Icon: GroupsIcon };
+              return {
+                Icon: !focused ? SearchIcon : SearchSelectedIcon,
+                size: 25,
+              };
+            case 'Share':
+              return {
+                Icon: !focused ? ShareIcon : ShareSelectedIcon,
+                size: 32,
+              };
             case 'Liked':
-              return { Icon: LoveIcon };
+              return { Icon: !focused ? LoveIcon : LoveSelectedIcon };
             case 'Profile':
-              return { Icon: ProfileIcon };
+              return { Icon: !focused ? ProfileIcon : ProfileSelectedIcon };
             default:
               throw new Error("Can't find icon");
           }
@@ -98,24 +113,26 @@ export default createBottomTabNavigator(
             <Icon
               width={size}
               height={size}
-              fill={focused ? colors.white : colors.gray}
+              fill={
+                !focused &&
+                (routeName === 'People' ? 'transparent' : colors.darkGray)
+              }
             />
           </View>
         );
       },
+      title: undefined,
     }),
     tabBarPosition: 'bottom',
     animationEnabled: false,
     swipeEnabled: false,
     tabBarOptions: {
-      showLabel: true,
+      showLabel: false,
       style: {
-        backgroundColor: colors.black,
-        borderTopWidth: 0.5,
-        borderTopColor: '#666',
-      },
-      labelStyle: {
-        color: colors.grey,
+        backgroundColor: 'black',
+        padding: 10,
+        borderTopWidth: 1,
+        borderTopColor: '#dddddd50',
       },
     },
   },

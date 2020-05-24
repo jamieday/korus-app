@@ -85,7 +85,7 @@ export const ShareScreen = ({ navigation }) => {
   return (
     <View
       style={{
-        backgroundColor: colors.black,
+        backgroundColor: colors.lightBlack,
         height: '100%',
       }}
     >
