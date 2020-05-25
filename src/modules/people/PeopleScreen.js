@@ -1,0 +1,79 @@
+/* eslint-disable no-console */
+/* eslint-disable no-shadow */
+import React from 'react';
+import { View } from 'react-native';
+import { List } from 'immutable';
+import analytics from '@react-native-firebase/analytics';
+import { colors } from '../../styles';
+import { SelectionList } from '../../korui/selection/SelectionList';
+import FollowIcon from '../../../assets/images/icons/follow.svg';
+import SelectedIcon from '../../../assets/images/icons/selected.svg';
+import { useApi } from '../api';
+
+export const PeopleScreen = () => {
+  const api = useApi();
+  const [isLoading, setLoading] = React.useState(false);
+  const [users, setUsers] = React.useState(List());
+
+  const refresh = async () => {
+    console.debug('Fetch users to follow...');
+    setLoading(true);
+    const [usersR, error] = await api.get('/people/users/all');
+    const users = List(error ? [] : usersR);
+    console.debug(`Fetched ${users.size} users.`);
+    setUsers(users);
+    setLoading(false);
+  };
+
+  React.useEffect(() => {
+    refresh();
+  }, []);
+
+  return (
+    <View
+      style={{
+        backgroundColor: colors.lightBlack,
+        height: '100%',
+      }}
+    >
+      <View>
+        <SelectionList
+          style={{
+            paddingHorizontal: 30,
+          }}
+          refreshing={isLoading}
+          onRefresh={refresh}
+          keyExtractor={(user) => user.id}
+          items={users
+            .sort((a, b) => (a.username > b.username ? 1 : -1))
+            .toArray()}
+          getItemDetail={(user) => ({ title: user.username })}
+          actionIcon={(user) =>
+            user.isFollowed ? (
+              <SelectedIcon width={20} height={20} fill={colors.white} />
+            ) : (
+              <FollowIcon width={20} height={20} fill={colors.white} />
+            )
+          }
+          onItemPressed={async (targetUser) => {
+            setUsers(
+              users.map((user) =>
+                user.username === targetUser.username
+                  ? { ...targetUser, isFollowed: !targetUser.isFollowed }
+                  : user,
+              ),
+            );
+
+            if (!targetUser.isFollowed) {
+              analytics().logEvent('follow_user', targetUser);
+              await api.followUser(targetUser.id);
+            } else {
+              analytics().logEvent('unfollow_user', targetUser);
+              await api.unfollowUser(targetUser.id);
+            }
+          }}
+        />
+      </View>
+    </View>
+  );
+};

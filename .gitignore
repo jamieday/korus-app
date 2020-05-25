@@ -1,5 +1,5 @@
 # OSX
-#
+
 .DS_Store
 
 # Xcode
@@ -65,3 +65,9 @@ jest_coverage
 .vscode/.react
 .env
 .env.*
+
+# Yarn
+.yarn/*
+!.yarn/cache
+!.yarn/releases
+!.yarn/plugins

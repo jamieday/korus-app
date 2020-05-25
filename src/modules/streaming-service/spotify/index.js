@@ -38,23 +38,21 @@ export const header = 'X-Spotify-Access-Token';
 const log = (msg) => console.debug(`[Spotify] ${msg}`);
 
 export const authenticate = async () => {
-  try {
-    const session = await auth.getSession();
-    if (session) {
-      log('Already initialized.');
-      return [session.accessToken, undefined];
-    }
-    log('Initializing...');
-    const { accessToken } = await auth.authorize(apiConfig);
-    log('Initialized.');
-    return [accessToken, undefined];
-  } catch (e) {
-    console.error(e);
-    return [
-      undefined,
-      "We weren't able to connect to Spotify. Not sure who's fault it is. Ours? Theirs? Yours? Anyway can you try again?",
-    ];
-  }
+  return connect(undefined);
+  // try {
+  //   const session = await auth.getSession();
+  //   if (session) {
+  //     log('Already initialized.');
+  //     return [session.accessToken, undefined];
+  //   }
+  //   log('Initializing...');
+  //   const { accessToken } = await auth.authorize(apiConfig);
+  //   log('Initialized.');
+  //   return [accessToken, undefined];
+  // } catch (e) {
+  //   console.error(e);
+  //   return [undefined, "We weren't able to connect to Spotify. :("];
+  // }
 };
 
 export const connect = async (playUri) => {
@@ -65,23 +63,22 @@ export const connect = async (playUri) => {
     }
     log('Ending session...');
     await auth.endSession(); // for some reason need this
-    log('Initializing...');
+    log('Authorizing...');
     const { accessToken } = await auth.authorize({
       ...apiConfig,
       playURI: playUri,
     });
+    log('Authorized. Connecting...');
     await remote.connect(accessToken);
     log('Connected.');
     return [accessToken, undefined];
   } catch (e) {
+    // eslint-disable-next-line no-undef
     if (__DEV__) {
       console.error(e.message);
       return [undefined, e.message];
     }
-    return [
-      undefined,
-      "We weren't able to connect to Spotify. Not sure who's fault it is. Ours? Theirs? Yours? Anyway can you try again?",
-    ];
+    return [undefined, "We weren't able to connect to Spotify. :("];
   }
 };
 

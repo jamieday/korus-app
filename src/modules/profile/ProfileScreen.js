@@ -12,7 +12,6 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
-import { Image } from '../../components/Image';
 import { colors } from '../../styles';
 import FollowIcon from '../../../assets/images/icons/follow.svg';
 import ProfileIcon from '../../../assets/images/pages/profile.svg';
@@ -23,23 +22,28 @@ import { formatCount } from './formatCount';
 import { MiniShare } from './MiniShare';
 import { ErrorView } from '../error/ErrorView';
 
-export const ProfileScreen = ({ navigation }) => {
+export const ProfileScreen = ({ navigation, route }) => {
   const api = useApi();
-
   const { user } = useAuthN();
+
+  const profileUsername = route.params?.username ?? user.displayName;
+
   const [profile, setProfile] = React.useState('LOADING');
   const [isFollowing, setFollowing] = React.useState();
   const [playingSongId, setPlayingSongId] = React.useState();
+
   React.useEffect(() => {
     setFollowing(profile.isFollowing);
   }, [profile]);
 
+  React.useEffect(() => {
+    navigation.setOptions({ headerTitle: profileUsername });
+  }, [navigation, route]);
+
   const isMyProfile = user.displayName === profile.username;
 
   const loadProfile = async () => {
-    const [profile, error] = await api.viewProfile(
-      navigation.state.params?.username ?? user.displayName,
-    );
+    const [profile, error] = await api.viewProfile(profileUsername);
     if (error) {
       setProfile({ error });
       return;
@@ -210,12 +214,12 @@ export const ProfileScreen = ({ navigation }) => {
             }
             renderItem={({ item: share }) =>
               share === 'blank' ? (
-                <View style={{ width: songSize, height: songSize }}></View>
+                <View style={{ width: songSize, height: songSize }} />
               ) : (
                 <MiniShare
                   style={{ width: songSize, height: songSize }}
                   miniShareData={share}
-                  isPlaying={share.id == playingSongId}
+                  isPlaying={share.id === playingSongId}
                   onPlay={() => setPlayingSongId(share.id)}
                   onPause={() => setPlayingSongId(undefined)}
                 />

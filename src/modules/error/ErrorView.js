@@ -40,7 +40,9 @@ export const ErrorView = ({ error, refresh, isRefreshing = false }) => (
       {isRefreshing ? (
         <ActivityIndicator />
       ) : (
-        <Button disabled={isRefreshing} onPress={refresh} title="Refresh" />
+        refresh && (
+          <Button disabled={isRefreshing} onPress={refresh} title="Refresh" />
+        )
       )}
     </View>
   </View>

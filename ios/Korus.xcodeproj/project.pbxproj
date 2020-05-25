@@ -13,15 +13,11 @@
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		22D5EB217CB24ED3BD7999AE /* Lato-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DB47AE6058534E84A8C10F16 /* Lato-Semibold.ttf */; };
 		25D401E44D4C49679E8E0C00 /* Raleway-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 61F366F8B4E944CE88B4BAD3 /* Raleway-Thin.ttf */; };
-		38F9982229584B76A18AC230 /* Lato-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9BE56F6176C44163A8FC7956 /* Lato-Light.ttf */; };
-		391527F89E1C4B79A705DE04 /* Lato-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9BFC30A51FB94B4A881576AE /* Lato-Medium.ttf */; };
 		3BF0DD44044644168F819DCB /* Raleway-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84F08761C30146459B3EBE88 /* Raleway-SemiBoldItalic.ttf */; };
 		5332E3E90EFB4867A8A98AF5 /* Raleway-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 30AA9B0DC0DE43B7BB0F34F5 /* Raleway-Regular.ttf */; };
 		56062470F55C4E77B0537A0F /* Raleway-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 94766A7B136A4B368A2FD019 /* Raleway-Medium.ttf */; };
 		59732296B4E54F94BCC5B046 /* Raleway-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DBFBD7E038E7468BA43CE7E1 /* Raleway-Black.ttf */; };
-		597692039F7D4A87B63BD89C /* Lato-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 071D280AF6A542A8985DB20E /* Lato-LightItalic.ttf */; };
 		5AE2429F9E05EB3066E519D9 /* libPods-Korus.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B2118349A23D69487587250 /* libPods-Korus.a */; };
 		5B7A3C5E24DD49649B85B59E /* Raleway-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5E79F787E83042CD9106A73B /* Raleway-ExtraLight.ttf */; };
 		5C8EBF86135F4E2896F77556 /* Raleway-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 89CC34A807D741AB85FDBD13 /* Raleway-ExtraLightItalic.ttf */; };
@@ -34,22 +30,16 @@
 		8F71AFAC2FE64976BA7D7249 /* Raleway-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5847F22A609B4B6D9A4A273E /* Raleway-MediumItalic.ttf */; };
 		9B8685F935644179BED0A0D6 /* Raleway-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B2F63459C149496CAB490610 /* Raleway-Light.ttf */; };
 		A392AEFB4D8145818A888117 /* Raleway-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 05EF02E8EC574292829017C4 /* Raleway-LightItalic.ttf */; };
-		B0A7D913BBC54C44AF1698B1 /* Lato-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 28E289B344EA470BB95EE8B2 /* Lato-BoldItalic.ttf */; };
-		C27FBFDB12034472897F8CB9 /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF871DC00C4A468BB043F632 /* Lato-Regular.ttf */; };
-		CA5A7C8036FE47B0BDE01EA7 /* Lato-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FC477E0AC8F54F1BBC658478 /* Lato-Bold.ttf */; };
 		CFC4A80854A24858838555AF /* Raleway-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 759D594F89474403AF03C883 /* Raleway-BoldItalic.ttf */; };
 		D0487A769692435FA2CC3EEE /* Raleway-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A5FB6449490040D0B8CFFA8C /* Raleway-ExtraBoldItalic.ttf */; };
-		E35BD30ADBBE43FB97FE667C /* Lato-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A5B3ACF96CD341A8B1ED4CCB /* Lato-Italic.ttf */; };
 		ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
 		F0224C9F30D14A4597A1F48A /* Raleway-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F2F63A585D2547229D8377AC /* Raleway-ThinItalic.ttf */; };
 		F17789FFFA2B4F269BA75860 /* Raleway-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 958ED2219B98499FBDF39056 /* Raleway-ExtraBold.ttf */; };
-		F88F3BCDB0844DB38555CBF6 /* Lato-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3A2ED88A262A4903B3D7737C /* Lato-Thin.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		05EF02E8EC574292829017C4 /* Raleway-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-LightItalic.ttf"; path = "../assets/fonts/Raleway-LightItalic.ttf"; sourceTree = "<group>"; };
-		071D280AF6A542A8985DB20E /* Lato-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-LightItalic.ttf"; path = "../assets/fonts/Lato-LightItalic.ttf"; sourceTree = "<group>"; };
 		0CEBFA1D01249EAD1F4689A2 /* libPods-Korus-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Korus-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		132B6454729E49DD91A745D0 /* libRNLocalize.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNLocalize.a; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Korus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Korus.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -61,10 +51,8 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		219F5D48B8424050955A6450 /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
 		25737DBE6AF547DDBC2F6349 /* libBVLinearGradient.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libBVLinearGradient.a; sourceTree = "<group>"; };
-		28E289B344EA470BB95EE8B2 /* Lato-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-BoldItalic.ttf"; path = "../assets/fonts/Lato-BoldItalic.ttf"; sourceTree = "<group>"; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		30AA9B0DC0DE43B7BB0F34F5 /* Raleway-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-Regular.ttf"; path = "../assets/fonts/Raleway-Regular.ttf"; sourceTree = "<group>"; };
-		3A2ED88A262A4903B3D7737C /* Lato-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Thin.ttf"; path = "../assets/fonts/Lato-Thin.ttf"; sourceTree = "<group>"; };
 		3B15D39FBFF01F6A8D405881 /* Pods-Korus-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Korus-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-Korus-tvOSTests/Pods-Korus-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		3C97EC421C737479622EF6B9 /* Pods-KorusTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KorusTests.release.xcconfig"; path = "Target Support Files/Pods-KorusTests/Pods-KorusTests.release.xcconfig"; sourceTree = "<group>"; };
 		44B6890DACC1340976F42ED1 /* libPods-KorusTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-KorusTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -89,25 +77,19 @@
 		935E1B1D313D5DB382A7821C /* Pods-KorusTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KorusTests.debug.xcconfig"; path = "Target Support Files/Pods-KorusTests/Pods-KorusTests.debug.xcconfig"; sourceTree = "<group>"; };
 		94766A7B136A4B368A2FD019 /* Raleway-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-Medium.ttf"; path = "../assets/fonts/Raleway-Medium.ttf"; sourceTree = "<group>"; };
 		958ED2219B98499FBDF39056 /* Raleway-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-ExtraBold.ttf"; path = "../assets/fonts/Raleway-ExtraBold.ttf"; sourceTree = "<group>"; };
-		9BE56F6176C44163A8FC7956 /* Lato-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Light.ttf"; path = "../assets/fonts/Lato-Light.ttf"; sourceTree = "<group>"; };
-		9BFC30A51FB94B4A881576AE /* Lato-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Medium.ttf"; path = "../assets/fonts/Lato-Medium.ttf"; sourceTree = "<group>"; };
 		A00E81C9CB04444BB66120EB /* libreactnativeuilib.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libreactnativeuilib.a; sourceTree = "<group>"; };
-		A5B3ACF96CD341A8B1ED4CCB /* Lato-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Italic.ttf"; path = "../assets/fonts/Lato-Italic.ttf"; sourceTree = "<group>"; };
 		A5FB6449490040D0B8CFFA8C /* Raleway-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-ExtraBoldItalic.ttf"; path = "../assets/fonts/Raleway-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
 		AAAA3F1906574E769036A7F7 /* libRNVectorIcons-tvOS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = "libRNVectorIcons-tvOS.a"; sourceTree = "<group>"; };
 		B2F63459C149496CAB490610 /* Raleway-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-Light.ttf"; path = "../assets/fonts/Raleway-Light.ttf"; sourceTree = "<group>"; };
 		B639E2D1DB3E4103BCD0F47E /* Raleway-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-BlackItalic.ttf"; path = "../assets/fonts/Raleway-BlackItalic.ttf"; sourceTree = "<group>"; };
 		C7E17ECA47F24C99B0A41079 /* Raleway-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-SemiBold.ttf"; path = "../assets/fonts/Raleway-SemiBold.ttf"; sourceTree = "<group>"; };
-		CF871DC00C4A468BB043F632 /* Lato-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Regular.ttf"; path = "../assets/fonts/Lato-Regular.ttf"; sourceTree = "<group>"; };
 		D7181AC85485D8B649E733FA /* libPods-Korus-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Korus-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		DB47AE6058534E84A8C10F16 /* Lato-Semibold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Semibold.ttf"; path = "../assets/fonts/Lato-Semibold.ttf"; sourceTree = "<group>"; };
 		DBFBD7E038E7468BA43CE7E1 /* Raleway-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-Black.ttf"; path = "../assets/fonts/Raleway-Black.ttf"; sourceTree = "<group>"; };
 		E8546BAB6ECE91322250BF43 /* Pods-Korus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Korus.release.xcconfig"; path = "Target Support Files/Pods-Korus/Pods-Korus.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		F2F63A585D2547229D8377AC /* Raleway-ThinItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-ThinItalic.ttf"; path = "../assets/fonts/Raleway-ThinItalic.ttf"; sourceTree = "<group>"; };
 		F9DBE859E81164B232662CE8 /* Pods-Korus-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Korus-tvOS.release.xcconfig"; path = "Target Support Files/Pods-Korus-tvOS/Pods-Korus-tvOS.release.xcconfig"; sourceTree = "<group>"; };
-		FC477E0AC8F54F1BBC658478 /* Lato-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Bold.ttf"; path = "../assets/fonts/Lato-Bold.ttf"; sourceTree = "<group>"; };
 		FD07D260E2E448C4A0BE119D /* Raleway-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-Italic.ttf"; path = "../assets/fonts/Raleway-Italic.ttf"; sourceTree = "<group>"; };
 		FFD22297C96B3C39E1F4A4C2 /* Pods-Korus-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Korus-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-Korus-tvOS/Pods-Korus-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -148,15 +130,6 @@
 		1F0C21CDCEB64BC39FF5F603 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				FC477E0AC8F54F1BBC658478 /* Lato-Bold.ttf */,
-				28E289B344EA470BB95EE8B2 /* Lato-BoldItalic.ttf */,
-				A5B3ACF96CD341A8B1ED4CCB /* Lato-Italic.ttf */,
-				9BE56F6176C44163A8FC7956 /* Lato-Light.ttf */,
-				071D280AF6A542A8985DB20E /* Lato-LightItalic.ttf */,
-				9BFC30A51FB94B4A881576AE /* Lato-Medium.ttf */,
-				CF871DC00C4A468BB043F632 /* Lato-Regular.ttf */,
-				DB47AE6058534E84A8C10F16 /* Lato-Semibold.ttf */,
-				3A2ED88A262A4903B3D7737C /* Lato-Thin.ttf */,
 				DBFBD7E038E7468BA43CE7E1 /* Raleway-Black.ttf */,
 				B639E2D1DB3E4103BCD0F47E /* Raleway-BlackItalic.ttf */,
 				892F9A4D76B24DF8B8084773 /* Raleway-Bold.ttf */,
@@ -320,16 +293,7 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-				CA5A7C8036FE47B0BDE01EA7 /* Lato-Bold.ttf in Resources */,
-				B0A7D913BBC54C44AF1698B1 /* Lato-BoldItalic.ttf in Resources */,
-				E35BD30ADBBE43FB97FE667C /* Lato-Italic.ttf in Resources */,
 				7D5AE192243575930078051C /* GoogleService-Info.plist in Resources */,
-				38F9982229584B76A18AC230 /* Lato-Light.ttf in Resources */,
-				597692039F7D4A87B63BD89C /* Lato-LightItalic.ttf in Resources */,
-				391527F89E1C4B79A705DE04 /* Lato-Medium.ttf in Resources */,
-				C27FBFDB12034472897F8CB9 /* Lato-Regular.ttf in Resources */,
-				22D5EB217CB24ED3BD7999AE /* Lato-Semibold.ttf in Resources */,
-				F88F3BCDB0844DB38555CBF6 /* Lato-Thin.ttf in Resources */,
 				59732296B4E54F94BCC5B046 /* Raleway-Black.ttf in Resources */,
 				0A9739C3F064486FB69D3FB5 /* Raleway-BlackItalic.ttf in Resources */,
 				893C4136896F4D85A0C4C609 /* Raleway-Bold.ttf in Resources */,
@@ -466,7 +430,7 @@
 				CODE_SIGN_ENTITLEMENTS = Korus/Korus.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3.0.0;
+				CURRENT_PROJECT_VERSION = 3.1.0;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = X99CXJUGDH;
 				HEADER_SEARCH_PATHS = (
@@ -480,7 +444,7 @@
 				INFOPLIST_FILE = Korus/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 0.9.4;
+				MARKETING_VERSION = 3.1.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -505,7 +469,7 @@
 				CODE_SIGN_ENTITLEMENTS = Korus/Korus.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3.0.0;
+				CURRENT_PROJECT_VERSION = 3.1.0;
 				DEVELOPMENT_TEAM = X99CXJUGDH;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -518,7 +482,7 @@
 				INFOPLIST_FILE = Korus/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 0.9.4;
+				MARKETING_VERSION = 3.1.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -579,7 +543,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -625,7 +589,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;

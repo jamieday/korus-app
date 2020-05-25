@@ -1,3 +1,22 @@
+NEXT -> Playback experience
+
+- Apple Music top songs integrated. (can be an API patch after build released)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 1. Replan & Cleanup todo
 
 

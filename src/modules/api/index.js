@@ -94,7 +94,7 @@ axios.interceptors.response.use(
 
 export const useApi = () => {
   const { user, userToken, refreshToken } = useAuthN();
-  const streamingService = useStreamingService();
+  const { service, context } = useStreamingService();
 
   const call = async (endpoint, method, body, isRetry = false) => {
     try {
@@ -108,9 +108,8 @@ export const useApi = () => {
           ...(method === 'POST' && { 'Content-Type': 'application/json' }),
           [USER_TOKEN_HEADER]: userToken,
           [API_VERSION_HEADER]: API_VERSION,
-          ...(streamingService && {
-            [streamingService.service.header]:
-              streamingService.context.accessToken,
+          ...(context && {
+            [service.header]: context.accessToken,
           }),
         },
         data: body,
@@ -139,7 +138,6 @@ export const useApi = () => {
             "Wow we're popular and our servers are down. Check back in a bit?",
           ];
         case 504:
-        case undefined:
           return [
             undefined,
             'Oh... our servers are slow right now. Check back in a bit?',
@@ -157,6 +155,7 @@ export const useApi = () => {
   const post = (url, body) => call(url, 'POST', body);
 
   const listLikedSongs = () => get('/song/list-liked');
+  const listTopSongs = () => get('/song/top-songs/list');
 
   const viewProfile = (username) => {
     if (username !== user.displayName) {
@@ -175,9 +174,18 @@ export const useApi = () => {
     post,
 
     listLikedSongs,
+    listTopSongs,
 
     viewProfile,
     followUser,
     unfollowUser,
   };
+};
+
+export const toQuery = (apiMethod) => async () => {
+  const [data, error] = await apiMethod();
+  if (error) {
+    throw new Error(error);
+  }
+  return data;
 };

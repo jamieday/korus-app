@@ -10,23 +10,26 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
+import { useScrollToTop } from '@react-navigation/native';
 import { List } from 'immutable';
 import { colors } from '../../styles';
 import { useApi } from '../api';
 import { ErrorView } from '../error/ErrorView';
 import { DiscoverFeed } from './DiscoverFeed';
 
-export const DiscoverScreen = ({ navigation }) => {
+export const DiscoverScreen = ({ navigation, route }) => {
   const api = useApi();
   const [shares, setShares] = React.useState(undefined);
   const [isRefreshing, setRefreshing] = React.useState(true);
   const [isLoadingNextPage, setLoadingNextPage] = React.useState(false);
   const [reachedLastPage, setReachedLastPage] = React.useState(false);
-  const [playingSongId, setPlayingSongId] = React.useState(undefined);
   const [didPressRefresh, setDidPressRefresh] = React.useState(false);
   const [error, setError] = React.useState(undefined);
 
   const listRef = React.useRef();
+
+  useScrollToTop(listRef);
+
   const scrollToTop = () => {
     if (listRef.current) {
       listRef.current.scrollToOffset({ offset: 0 });
@@ -50,12 +53,12 @@ export const DiscoverScreen = ({ navigation }) => {
   }, []);
 
   React.useEffect(() => {
-    if (navigation.state.params?.refresh) {
+    if (route.params?.refresh) {
       refresh();
       scrollToTop();
       navigation.setParams({ refresh: false });
     }
-  }, [navigation.state.params?.refresh]);
+  }, [route.params?.refresh]);
 
   const listShares = async (oldestSharedAt = undefined) => {
     console.debug(
@@ -169,8 +172,6 @@ export const DiscoverScreen = ({ navigation }) => {
           }}
           isEndReached={isLoadingNextPage}
           isVeryEndReached={reachedLastPage}
-          playingSongId={playingSongId}
-          setPlayingSongId={setPlayingSongId}
           onUnshare={refresh}
           onFinishedTheGame={() => {
             scrollToTop();

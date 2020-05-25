@@ -2,9 +2,9 @@
 import React from 'react';
 import { ActivityIndicator, FlatList, Text, View, Button } from 'react-native';
 import auth from '@react-native-firebase/auth';
-import { Song } from './Song';
+import { SharedSong } from './SharedSong';
 import { colors } from '../../styles';
-import { StreamingServiceContext } from '../streaming-service/StreamingServiceContext.ts';
+import { StreamingServiceContext } from '../streaming-service/StreamingServiceContext';
 
 export const DiscoverFeed = ({
   onRefresh,
@@ -14,8 +14,6 @@ export const DiscoverFeed = ({
   isEndReached,
   isVeryEndReached,
   shares,
-  playingSongId,
-  setPlayingSongId,
   onUnshare,
   navigation,
   onFinishedTheGame,
@@ -31,18 +29,15 @@ export const DiscoverFeed = ({
 
   const renderItem = React.useCallback(
     ({ item }) => (
-      <Song
+      <SharedSong
         key={keyExtractor(item)}
         height={ITEM_HEIGHT}
         song={item}
-        isPlaying={playingSongId === item.id}
-        onPlay={() => setPlayingSongId(item.id)}
-        onPause={() => setPlayingSongId(undefined)}
         didUnshare={onUnshare}
         navigation={navigation}
       />
     ),
-    [ITEM_HEIGHT, playingSongId, navigation],
+    [ITEM_HEIGHT, navigation],
   );
 
   return (

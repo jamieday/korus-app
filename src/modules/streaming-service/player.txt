@@ -1,0 +1,6 @@
+/**
+* Note:
+*   - playSong does nothing if the song can't be played
+*   - playSong does nothing if the song is already playing
+*/
+playSong(song)

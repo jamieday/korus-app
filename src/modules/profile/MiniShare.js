@@ -11,12 +11,12 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import analytics from '@react-native-firebase/analytics';
 import { colors, fonts } from '../../styles';
 
 import LoveIcon from '../../../assets/images/icons/love.svg';
 
 import { useStreamingService } from '../streaming-service';
-import analytics from '@react-native-firebase/analytics';
 
 const log = (message) => {
   console.debug(message);
