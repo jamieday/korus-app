@@ -3,7 +3,7 @@
 /* eslint-disable no-shadow */
 /* eslint-disable import/prefer-default-export */
 import React from 'react';
-import { View, ActivityIndicator, FlatList } from 'react-native';
+import { View, ActivityIndicator } from 'react-native';
 import { List } from 'immutable';
 import { colors } from '../../styles';
 import PlayIcon from '../../../assets/images/icons/play.svg';
@@ -11,15 +11,14 @@ import PauseIcon from '../../../assets/images/icons/pause.svg';
 import { useApi } from '../api';
 import { ErrorView } from '../error/ErrorView';
 import { SelectionList } from '../../korui/selection/SelectionList';
-import { useStreamingService } from '../streaming-service';
+import { usePlayer } from '../streaming-service/usePlayer';
 
-export const LikedScreen = ({ navigation }) => {
+export const LikedScreen = () => {
   const api = useApi();
 
-  const { player } = useStreamingService();
+  const player = usePlayer();
 
   const [likedSongs, setLikedSongs] = React.useState('LOADING');
-  const [playingSongId, setPlayingSongId] = React.useState();
 
   const loadLikedSongs = async () => {
     const [likedSongsR, errorR] = await api.listLikedSongs();
@@ -53,6 +52,21 @@ export const LikedScreen = ({ navigation }) => {
     return <ErrorView error={likedSongs.error} refresh={loadLikedSongs} />;
   }
 
+  const isPlaying = (song) => {
+    const playbackState = player.state;
+    return (
+      playbackState.key === 'playing' &&
+      playbackState.songId.id ===
+        (playbackState.songId.service === 'spotify'
+          ? song.spotify?.id
+          : playbackState.songId.service === 'apple-music'
+          ? song.appleMusic?.playbackStoreId
+          : (() => {
+              throw new Error(`${playbackState.songId.service} not supported`);
+            })())
+    );
+  };
+
   return (
     <View
       style={{
@@ -73,7 +87,7 @@ export const LikedScreen = ({ navigation }) => {
             imageUrl: song.artworkUrl,
           })}
           actionIcon={(song) =>
-            song.id === playingSongId ? (
+            isPlaying(song) ? (
               <PauseIcon width={20} height={20} fill={colors.white} />
             ) : (
               <PlayIcon
@@ -84,12 +98,10 @@ export const LikedScreen = ({ navigation }) => {
             )
           }
           onItemPressed={(song) => {
-            if (song.id === playingSongId) {
+            if (isPlaying(song)) {
               player.pauseSong(song);
-              setPlayingSongId(undefined);
             } else if (player.canPlay(song)) {
               player.playSong(song);
-              setPlayingSongId(song.id);
             }
           }}
         />

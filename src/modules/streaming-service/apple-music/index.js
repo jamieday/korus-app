@@ -33,5 +33,3 @@ export const authenticate = async () => {
   }
   return [result.result, undefined];
 };
-
-export * from './player';

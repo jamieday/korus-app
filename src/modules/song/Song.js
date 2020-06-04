@@ -22,7 +22,7 @@ import PlayIcon from '../../../assets/images/icons/play.svg';
 
 import MoreOptions from '../../../assets/images/icons/more-options.svg';
 
-import { useStreamingService } from '../streaming-service';
+import { usePlayer } from '../streaming-service/usePlayer';
 
 const log = (message) => {
   console.debug(message);
@@ -37,7 +37,7 @@ export const Song = ({
   rightAction,
   options,
 }) => {
-  const { player, playbackState } = useStreamingService();
+  const player = usePlayer();
 
   // This is most certainly an anti-pattern
   // Since it will rerender all songs when you play one
@@ -46,14 +46,14 @@ export const Song = ({
   // useSelector(memoized(state => state.playback[song.id]))
   // See 242A1CC6-851F-45F7-8EE9-C3973349C5ED
   const isPlaying =
-    playbackState.key === 'playing' &&
-    playbackState.songId.id ===
-      (playbackState.songId.service === 'spotify'
+    player.state.key === 'playing' &&
+    player.state.songId.id ===
+      (player.state.songId.service === 'spotify'
         ? song.spotify?.id
-        : playbackState.songId.service === 'apple-music'
+        : player.state.songId.service === 'apple-music'
         ? song.appleMusic?.playbackStoreId
         : (() => {
-            throw new Error(`${playbackState.songId.service} not supported`);
+            throw new Error(`${player.state.songId.service} not supported`);
           })());
 
   // ui - should be extracted

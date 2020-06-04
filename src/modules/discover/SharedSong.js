@@ -12,10 +12,10 @@ import LovedIcon from '../../../assets/images/icons/loved.svg';
 import LoveableIcon from '../../../assets/images/icons/loveable.svg';
 
 import ProfileIcon from '../../../assets/images/pages/profile.svg';
-import { useStreamingService } from '../streaming-service';
 import { useApi } from '../api';
 import { formatCount } from '../profile/formatCount';
 import { Song } from '../song/Song';
+import { usePlayer } from '../streaming-service/usePlayer';
 
 const log = (message) => {
   console.debug(message);
@@ -23,7 +23,7 @@ const log = (message) => {
 
 export const SharedSong = ({ song, height, style, didUnshare, navigation }) => {
   const api = useApi();
-  const { player, playbackState } = useStreamingService();
+  const player = usePlayer();
   const [totalLikes, setTotalLikes] = React.useState(song.totalLikes);
   const [isLiked, setIsLiked] = React.useState(song.isLiked);
   React.useEffect(() => setTotalLikes(song.totalLikes), [song.totalLikes]);
@@ -34,14 +34,14 @@ export const SharedSong = ({ song, height, style, didUnshare, navigation }) => {
   // This is most certainly an anti-pattern
   // See 242A1CC6-851F-45F7-8EE9-C3973349C5ED
   const isPlaying =
-    playbackState.key === 'playing' &&
-    playbackState.songId.id ===
-      (playbackState.songId.service === 'spotify'
+    player.state.key === 'playing' &&
+    player.state.songId.id ===
+      (player.state.songId.service === 'spotify'
         ? song.spotify?.id
-        : playbackState.songId.service === 'apple-music'
+        : player.state.songId.service === 'apple-music'
         ? song.appleMusic?.playbackStoreId
         : (() => {
-            throw new Error(`${playbackState.songId.service} not supported`);
+            throw new Error(`${player.state.songId.service} not supported`);
           })());
 
   const unlikeShare = async () => {

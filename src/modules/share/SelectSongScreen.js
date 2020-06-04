@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import analytics from '@react-native-firebase/analytics';
 import { ActivityIndicator, View } from 'react-native';
-import { SectionHeader } from 'korus-app/src/korui/SectionHeader';
+import { SectionHeader } from '../../korui/SectionHeader';
 import { useApi } from '../api';
 import { log } from '../utils/log';
 import { colors } from '../../styles';

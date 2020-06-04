@@ -4,7 +4,7 @@ import { useContext } from 'react';
 import { API_HOST } from 'react-native-dotenv';
 import perf from '@react-native-firebase/perf';
 import analytics from '@react-native-firebase/analytics';
-import { useStreamingService } from '../streaming-service';
+import { useStreamingService } from '../streaming-service/StreamingServiceContext';
 import { AuthNContext } from '../auth';
 
 export const useAuthN = () => useContext(AuthNContext);
@@ -164,10 +164,15 @@ export const useApi = () => {
     return get(`/people/user/${encodeURIComponent(username)}/profile`);
   };
 
-  const followUser = (id) =>
-    post(`/people/user/${encodeURIComponent(id)}/follow`);
-  const unfollowUser = (id) =>
+  const followUser = (id) => {
+    analytics().logEvent('follow_user', { targetUserId: id });
+    return post(`/people/user/${encodeURIComponent(id)}/follow`);
+  };
+
+  const unfollowUser = (id) => {
+    analytics().logEvent('unfollow_user', { targetUserId: id });
     post(`/people/user/${encodeURIComponent(id)}/unfollow`);
+  };
 
   return {
     get,

@@ -3,14 +3,12 @@
 import React from 'react';
 import { View } from 'react-native';
 import { List } from 'immutable';
-import analytics from '@react-native-firebase/analytics';
 import { colors } from '../../styles';
 import { SelectionList } from '../../korui/selection/SelectionList';
-import FollowIcon from '../../../assets/images/icons/follow.svg';
-import SelectedIcon from '../../../assets/images/icons/selected.svg';
+import NextIcon from '../../../assets/images/icons/next.svg';
 import { useApi } from '../api';
 
-export const PeopleScreen = () => {
+export const PeopleScreen = ({ navigation }) => {
   const api = useApi();
   const [isLoading, setLoading] = React.useState(false);
   const [users, setUsers] = React.useState(List());
@@ -48,13 +46,9 @@ export const PeopleScreen = () => {
             .sort((a, b) => (a.username > b.username ? 1 : -1))
             .toArray()}
           getItemDetail={(user) => ({ title: user.username })}
-          actionIcon={(user) =>
-            user.isFollowed ? (
-              <SelectedIcon width={20} height={20} fill={colors.white} />
-            ) : (
-              <FollowIcon width={20} height={20} fill={colors.white} />
-            )
-          }
+          actionIcon={(user) => (
+            <NextIcon width={20} height={20} fill={colors.white} />
+          )}
           onItemPressed={async (targetUser) => {
             setUsers(
               users.map((user) =>
@@ -64,13 +58,7 @@ export const PeopleScreen = () => {
               ),
             );
 
-            if (!targetUser.isFollowed) {
-              analytics().logEvent('follow_user', targetUser);
-              await api.followUser(targetUser.id);
-            } else {
-              analytics().logEvent('unfollow_user', targetUser);
-              await api.unfollowUser(targetUser.id);
-            }
+            navigation.push('Profile', { username: targetUser.username });
           }}
         />
       </View>

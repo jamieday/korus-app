@@ -13,6 +13,7 @@ import { findService } from '.';
 import { StreamingServiceContext } from './StreamingServiceContext';
 import { usePersistence } from '../persistence';
 import { StartupProgress } from '../StartupProgress';
+
 // import auth from '@react-native-firebase/auth';
 // import AsyncStorage from '@react-native-community/async-storage';
 
@@ -176,7 +177,7 @@ export const StreamingServiceProvider = ({ children }) => {
 
           if (error) {
             // No session (shouldn't happen)
-            console.error('Refresh failed.');
+            console.debug('connectPlayer failed.');
             return;
           }
 

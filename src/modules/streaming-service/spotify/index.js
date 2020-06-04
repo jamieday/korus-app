@@ -75,11 +75,8 @@ export const connect = async (playUri) => {
   } catch (e) {
     // eslint-disable-next-line no-undef
     if (__DEV__) {
-      console.error(e.message);
-      return [undefined, e.message];
+      return [undefined, `Dev-only message: ${e.message}`];
     }
     return [undefined, "We weren't able to connect to Spotify. :("];
   }
 };
-
-export * from './player';

@@ -11,25 +11,52 @@ export const usePlayer = () => {
   const { playbackState, dispatch } = React.useContext(PlaybackContext);
 
   return {
+    supportsTracking: true,
     playbackState,
+    seek: async (positionMs) => {
+      dispatch({ type: 'seek', positionMs });
+      await remote.seek(positionMs);
+    },
     canPlay,
     playSong: async (song) => {
       if (!canPlay(song)) {
         console.debug("[Spotify] Can't play that song.");
         return;
       }
-      dispatch({
-        type: 'play',
-        songId: { service: 'spotify', id: song.spotify.id },
-      });
       console.debug(`[Spotify] Playing ${song.spotify.playUri}`);
       if (await remote.isConnectedAsync()) {
-        console.debug('[Spotify] Already connected. Playing directly.');
+        console.debug('[Spotify] Already connected.');
         // await remote.setRepeatMode(RepeatMode.Off);
-        await remote.playUri(song.spotify.playUri);
+        if (playbackState.song?.spotify?.playUri === song.spotify.playUri) {
+          console.debug('[Spotify] Song already playing. Resuming!');
+          dispatch({
+            type: 'resume',
+          });
+          if (playbackState.progress) {
+            await remote.seek(playbackState.progress.lastElapsedMs);
+          }
+          await remote.resume();
+        } else {
+          console.debug('[Spotify] Playing.');
+          dispatch({
+            type: 'play',
+            song,
+          });
+          if (
+            playbackState.song?.spotify?.playUri === song.spotify.playUri &&
+            playbackState.progress
+          ) {
+            await remote.seek(playbackState.progress.lastElapsedMs);
+          }
+          await remote.playUri(song.spotify.playUri);
+        }
         return;
       }
       console.debug('[Spotify] Not connected. Connecting & playing.');
+      dispatch({
+        type: 'play',
+        song,
+      });
       await connectPlayer(song.spotify.playUri);
       // await remote.setRepeatMode(RepeatMode.Off);
     },

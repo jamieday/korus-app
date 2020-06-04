@@ -4,14 +4,14 @@ import { useShareApi } from './useShareApi';
 import { colors } from '../../styles';
 import { StartupProgress } from '../StartupProgress';
 import { ErrorView } from '../error/ErrorView';
-import { useStreamingService } from '../streaming-service';
 import { Song } from '../song/Song';
+import { usePlayer } from '../streaming-service/usePlayer';
 
 export const ShareSongScreen = ({ navigation, route }) => {
   const { song } = route.params;
 
   const { share, error: shareError, status: shareStatus } = useShareApi();
-  const { player } = useStreamingService();
+  const player = usePlayer();
 
   React.useEffect(
     () =>

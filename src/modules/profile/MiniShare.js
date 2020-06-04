@@ -12,11 +12,11 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import analytics from '@react-native-firebase/analytics';
-import { colors, fonts } from '../../styles';
+import { colors } from '../../styles';
+import { SongTitle } from './SongTitle';
 
 import LoveIcon from '../../../assets/images/icons/love.svg';
-
-import { useStreamingService } from '../streaming-service';
+import { usePlayer } from '../streaming-service/usePlayer';
 
 const log = (message) => {
   console.debug(message);
@@ -29,7 +29,7 @@ export const MiniShare = ({
   onPlay,
   onPause,
 }) => {
-  const { player } = useStreamingService();
+  const player = usePlayer();
 
   const pauseSong = async () => {
     log('[Song] Pausing song.');
@@ -101,17 +101,12 @@ export const MiniShare = ({
                 flexDirection: 'column',
               }}
             >
-              <View style={{ flex: 1 }}>
-                <Text style={styles.artistDesc}>
-                  {miniShareData.artistName}
-                </Text>
-                <Text
-                  numberOfLines={1}
-                  style={[styles.songName, { marginBottom: 0 }]}
-                >
-                  {miniShareData.songName}
-                </Text>
-              </View>
+              <SongTitle
+                style={{ flex: 1 }}
+                size="small"
+                songName={miniShareData.songName}
+                artistName={miniShareData.artistName}
+              />
               {/* {isMine && (
                 <TouchableOpacity
                   style={{ padding: 15 }}
@@ -194,21 +189,9 @@ const styles = StyleSheet.create({
   gradientContainer: {
     borderRadius: 15,
   },
-
-  songName: {
-    color: colors.white,
-    fontWeight: 'bold',
-    fontSize: 9,
-  },
-
   recommenders: {
     color: colors.white,
     fontSize: 10,
-  },
-  artistDesc: {
-    color: colors.lightGray,
-    fontSize: 6,
-    textTransform: 'uppercase',
   },
   unsupportedAction: {
     marginTop: 15,

@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Button, Text, ActivityIndicator } from 'react-native';
+import Image from 'react-native-fast-image';
 import { colors } from '../../styles';
 
 export const ErrorView = ({ error, refresh, isRefreshing = false }) => (
@@ -12,16 +13,14 @@ export const ErrorView = ({ error, refresh, isRefreshing = false }) => (
         padding: 20,
       }}
     >
-      <Text
+      <Image
+        source={require('../../../assets/images/tech-difficulties.jpg')}
         style={{
-          textAlign: 'center',
-          color: colors.white,
           marginBottom: 15,
-          fontWeight: 'bold',
+          width: 320,
+          height: 150,
         }}
-      >
-        Oh.
-      </Text>
+      />
       <Text
         style={{
           textAlign: 'center',

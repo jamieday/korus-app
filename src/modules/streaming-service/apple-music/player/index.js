@@ -8,7 +8,11 @@ export const usePlayer = () => {
   const { dispatch } = useContext(PlaybackContext);
 
   return {
+    supportsTracking: false,
     canPlay,
+    seek: (positionMs) => {
+      // TODO implement.
+    },
     playSong: async (song) => {
       if (!canPlay(song)) {
         console.debug("[Apple Music] Can't play that song.");
@@ -16,7 +20,7 @@ export const usePlayer = () => {
       }
       dispatch({
         type: 'play',
-        songId: { service: 'apple-music', id: song.appleMusic.playbackStoreId },
+        song,
       });
       console.debug(
         `[Apple Music] Playing playbackStoreID ${song.appleMusic.playbackStoreId}`,
