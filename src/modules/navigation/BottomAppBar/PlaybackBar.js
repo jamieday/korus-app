@@ -70,8 +70,8 @@ const MiniPlayer = ({ onOpen }) => {
         </View>
         <View>
           <TouchableOpacity
-            style={{ paddingHorizontal: 15 }}
-            hitSlop={{ top: 10, left: 10, bottom: 10, right: 10 }}
+            style={{ paddingHorizontal: 15, zIndex: 6 }}
+            hitSlop={{ top: 20, left: 20, bottom: 20, right: 20 }}
             onPress={() => {
               if (player.state.key === 'playing') {
                 player.pauseSong();
@@ -161,6 +161,8 @@ const PlaybackProgressBarMini = () => {
         bottom: 0,
         left: 0,
         right: 0,
+        // zIndex: 1,
+        // backgroundColor: 'blue',
       }}
       trackStyle={{
         height: 2,
@@ -170,8 +172,8 @@ const PlaybackProgressBarMini = () => {
         height: thumbSize,
       }}
       thumbTouchSize={{
-        width: 100,
-        height: 40,
+        width: 50,
+        height: 50,
       }}
       minimumValue={0}
       minimumTrackTintColor={colors.white}

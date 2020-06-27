@@ -102,12 +102,12 @@ const TabIcon = ({ focused, screen }) => {
           Icon: !focused ? ShareIcon : ShareSelectedIcon,
           size: 32,
         };
-      case 'Liked':
+      case 'Activity':
         return { Icon: !focused ? LoveIcon : LoveSelectedIcon };
-      case 'Profile':
+      case 'MyProfile':
         return { Icon: !focused ? ProfileIcon : ProfileSelectedIcon };
       default:
-        throw new Error("Can't find icon");
+        throw new Error(`TAB_NAV_ICON: Can't find icon for screen ${screen}`);
     }
   })();
 

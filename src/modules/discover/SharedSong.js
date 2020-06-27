@@ -16,6 +16,7 @@ import { useApi } from '../api';
 import { formatCount } from '../profile/formatCount';
 import { Song } from '../song/Song';
 import { usePlayer } from '../streaming-service/usePlayer';
+import { refreshLikedSongs } from '../liked/LikedScreen';
 
 const log = (message) => {
   console.debug(message);
@@ -52,6 +53,7 @@ export const SharedSong = ({ song, height, style, didUnshare, navigation }) => {
     setTotalLikes(totalLikes - 1);
     setIsLiked(false);
     await api.post(`/share/${encodeURIComponent(song.shareId)}/unlike`);
+    await refreshLikedSongs(); // this could be a cache mutation
   };
 
   const likeShare = async () => {
@@ -62,6 +64,7 @@ export const SharedSong = ({ song, height, style, didUnshare, navigation }) => {
     setTotalLikes(totalLikes + 1);
     setIsLiked(true);
     await api.post(`/share/${encodeURIComponent(song.shareId)}/like`);
+    await refreshLikedSongs(); // this could be a cache mutation
   };
 
   const isMine = song.sharer === myUsername;

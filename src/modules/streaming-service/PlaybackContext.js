@@ -127,9 +127,6 @@ export const PlaybackContextProvider = ({ children }) => {
             artworkUrl:
               'https://www.oca.org/Images/About/Worship/ascension.jpg',
           },
-          licensedOperations: new Set([
-            ...(spotifyPlaybackState.playbackRestrictions.canSeek && 'seek'),
-          ]),
         },
       });
     };

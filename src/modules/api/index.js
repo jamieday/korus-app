@@ -171,7 +171,11 @@ export const useApi = () => {
 
   const unfollowUser = (id) => {
     analytics().logEvent('unfollow_user', { targetUserId: id });
-    post(`/people/user/${encodeURIComponent(id)}/unfollow`);
+    return post(`/people/user/${encodeURIComponent(id)}/unfollow`);
+  };
+
+  const getMyActivity = () => {
+    return get('/activity/get');
   };
 
   return {
@@ -184,6 +188,8 @@ export const useApi = () => {
     viewProfile,
     followUser,
     unfollowUser,
+
+    getMyActivity,
   };
 };
 

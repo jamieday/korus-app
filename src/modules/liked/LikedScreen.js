@@ -5,35 +5,39 @@
 import React from 'react';
 import { View, ActivityIndicator } from 'react-native';
 import { List } from 'immutable';
+import { useQuery, queryCache } from 'react-query';
 import { colors } from '../../styles';
 import PlayIcon from '../../../assets/images/icons/play.svg';
 import PauseIcon from '../../../assets/images/icons/pause.svg';
-import { useApi } from '../api';
+import { toQuery, useApi } from '../api';
 import { ErrorView } from '../error/ErrorView';
 import { SelectionList } from '../../korui/selection/SelectionList';
 import { usePlayer } from '../streaming-service/usePlayer';
 
+const LIKED_SONGS_QUERY_KEY = 'liked-songs';
+
+export const refreshLikedSongs = () => {
+  // one - want to refresh liked songs
+  // two - activity
+  return queryCache.refetchQueries(LIKED_SONGS_QUERY_KEY);
+};
+
 export const LikedScreen = () => {
   const api = useApi();
 
+  const { data: likedSongsArray, error, status, refetch } = useQuery(
+    LIKED_SONGS_QUERY_KEY,
+    toQuery(api.listLikedSongs),
+    {
+      retry: false,
+      refetchOnWindowFocus: true,
+    },
+  );
+  const likedSongs = List(likedSongsArray);
+
   const player = usePlayer();
 
-  const [likedSongs, setLikedSongs] = React.useState('LOADING');
-
-  const loadLikedSongs = async () => {
-    const [likedSongsR, errorR] = await api.listLikedSongs();
-    if (errorR) {
-      setLikedSongs({ error: errorR });
-      return;
-    }
-    setLikedSongs(List(likedSongsR));
-  };
-
-  React.useEffect(() => {
-    loadLikedSongs();
-  }, []);
-
-  if (likedSongs === 'LOADING') {
+  if (status === 'loading') {
     return (
       <View
         style={{
@@ -48,8 +52,8 @@ export const LikedScreen = () => {
     );
   }
 
-  if (typeof likedSongs.error !== 'undefined') {
-    return <ErrorView error={likedSongs.error} refresh={loadLikedSongs} />;
+  if (error) {
+    return <ErrorView error={error.message} refresh={refetch} />;
   }
 
   const isPlaying = (song) => {

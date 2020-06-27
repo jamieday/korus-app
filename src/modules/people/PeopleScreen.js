@@ -31,7 +31,7 @@ export const PeopleScreen = ({ navigation }) => {
     <View
       style={{
         backgroundColor: colors.lightBlack,
-        height: '100%',
+        flex: 1,
       }}
     >
       <View>

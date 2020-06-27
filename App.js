@@ -10,32 +10,20 @@ import { SetUsernameGuard } from './src/modules/auth/SetUsernameGuard';
 import { NavigationProvider } from './src/modules/navigation/NavigationProvider';
 import { RootStack } from './src/modules/navigation/RootStack';
 import { PlaybackContextProvider } from './src/modules/streaming-service/PlaybackContext';
-
-// const api = useApi();
-
-// const registerToken = (token) =>
-//   api.post('/push-notifications/register', {
-//     deviceToken: token,
-//   });
-
-// React.useEffect(() => {
-//   // ask for push notification permission
-//   messaging().requestPermission({ provisional: true });
-//   messaging().getToken().then(registerToken);
-
-//   return messaging().onTokenRefresh(registerToken);
-// }, []);
+import { PushNotificationProvider } from './src/modules/notification/PushNotificationProvider';
 
 export default () => (
   <NavigationProvider>
     <VersionGuard>
       <AuthenticationProvider>
         <SetUsernameGuard>
-          <StreamingServiceProvider>
-            <PlaybackContextProvider>
-              <RootStack />
-            </PlaybackContextProvider>
-          </StreamingServiceProvider>
+          <PushNotificationProvider>
+            <StreamingServiceProvider>
+              <PlaybackContextProvider>
+                <RootStack />
+              </PlaybackContextProvider>
+            </StreamingServiceProvider>
+          </PushNotificationProvider>
         </SetUsernameGuard>
       </AuthenticationProvider>
     </VersionGuard>

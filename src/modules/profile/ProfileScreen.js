@@ -1,7 +1,3 @@
-/* eslint-disable react/jsx-curly-newline */
-/* eslint-disable no-console */
-/* eslint-disable no-shadow */
-/* eslint-disable import/prefer-default-export */
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {
@@ -12,6 +8,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { colors } from '../../styles';
 import FollowIcon from '../../../assets/images/icons/follow.svg';
 import ProfileIcon from '../../../assets/images/pages/profile.svg';
@@ -21,6 +18,24 @@ import { useApi, useAuthN } from '../api';
 import { formatCount } from './formatCount';
 import { MiniShare } from './MiniShare';
 import { ErrorView } from '../error/ErrorView';
+import DiscoverIcon from '../../../assets/images/pages/discover.svg';
+
+import { LikedScreen } from '../liked/LikedScreen';
+
+const Tab = createMaterialTopTabNavigator();
+
+export const MyProfileScreen = () => (
+  <Tab.Navigator
+    screenOptions={{
+      tabBarIcon: ({ color, focused }) => (
+        <DiscoverIcon width={50} height={50} fill={colors.black} />
+      ),
+    }}
+  >
+    <Tab.Screen name="Profile" component={ProfileScreen} />
+    <Tab.Screen name="Liked" component={LikedScreen} />
+  </Tab.Navigator>
+);
 
 export const ProfileScreen = ({ navigation, route }) => {
   const api = useApi();
@@ -162,14 +177,14 @@ export const ProfileScreen = ({ navigation, route }) => {
                         IconComponent: SelectedIcon,
                         onPress: () => {
                           setFollowing(false);
-                          api.unfollowUser(profile.username);
+                          api.unfollowUser(profile.userId);
                         },
                       }
                     : {
                         IconComponent: FollowIcon,
                         onPress: () => {
                           setFollowing(true);
-                          api.followUser(profile.username);
+                          api.followUser(profile.userId);
                         },
                       })(isFollowing);
 

@@ -18,7 +18,7 @@ export const SelectionList = ({
     style={style}
     keyExtractor={keyExtractor}
     ListFooterComponent={() =>
-      !discrete && <View style={{ marginBottom: 18 }} />
+      !refreshing && !discrete && <View style={{ marginBottom: 18 }} />
     }
     refreshing={refreshing}
     onRefresh={onRefresh}

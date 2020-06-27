@@ -8,53 +8,54 @@ import { colors } from '../../styles';
 
 import { DiscoverScreen } from '../discover/DiscoverScreen';
 import { PeopleScreen } from '../people/PeopleScreen';
-import { ProfileScreen } from '../profile/ProfileScreen';
-import { LikedScreen } from '../liked/LikedScreen';
+import { MyProfileScreen } from '../profile/ProfileScreen';
 
 import CloseIcon from '../../../assets/images/icons/close.svg';
 import { LogoHeader } from './LogoHeader';
 import { SelectSongScreen } from '../share/SelectSongScreen';
 import { ShareSongScreen } from '../share/ShareSongScreen';
 import { BottomAppBar } from './BottomAppBar/BottomAppBar';
-import { PlayerScreen } from '../share/PlayerScreen';
+import { ActivityScreen } from '../activity/ActivityScreen';
 
-const Stack = createStackNavigator();
+const ModalStack = createStackNavigator();
 
 const Tab = createBottomTabNavigator();
 
-export const MainAppNavigator = () => (
-  <Stack.Navigator mode="modal">
-    <Stack.Screen
-      name="Main"
+export const MainAppNavigator = () => <ModalNavigator />;
+
+const ModalNavigator = () => (
+  <ModalStack.Navigator mode="modal">
+    <ModalStack.Screen
+      name="App"
       component={TabNavigator}
       options={{
         header: LogoHeader,
       }}
     />
 
-    <Stack.Screen
-      name="Player"
-      component={PlayerScreen}
-      options={{
-        // 213c8fe5-5146-4e97-83d4-ddc63dcd7070
-        headerBackTitleVisible: false,
-        headerTintColor: colors.white,
-        headerTitle: '',
-        headerBackImage: ({ tintColor }) => (
-          <View style={{ padding: 20 }}>
-            <CloseIcon width={15} height={15} fill={tintColor} />
-          </View>
-        ),
-        headerStyle: {
-          backgroundColor: colors.black,
-          shadowOffset: {
-            height: 0,
-          },
-        },
-      }}
-    />
+    {/* <ModalStack.Screen */}
+    {/*  name="Player" */}
+    {/*  component={PlayerScreen} */}
+    {/*  options={{ */}
+    {/*    // 213c8fe5-5146-4e97-83d4-ddc63dcd7070 */}
+    {/*    headerBackTitleVisible: false, */}
+    {/*    headerTintColor: colors.white, */}
+    {/*    headerTitle: '', */}
+    {/*    headerBackImage: ({ tintColor }) => ( */}
+    {/*      <View style={{ padding: 20 }}> */}
+    {/*        <CloseIcon width={15} height={15} fill={tintColor} /> */}
+    {/*      </View> */}
+    {/*    ), */}
+    {/*    headerStyle: { */}
+    {/*      backgroundColor: colors.black, */}
+    {/*      shadowOffset: { */}
+    {/*        height: 0, */}
+    {/*      }, */}
+    {/*    }, */}
+    {/*  }} */}
+    {/* /> */}
 
-    <Stack.Screen
+    <ModalStack.Screen
       name="Select a song"
       component={SelectSongScreen}
       options={{
@@ -74,7 +75,7 @@ export const MainAppNavigator = () => (
         },
       }}
     />
-  </Stack.Navigator>
+  </ModalStack.Navigator>
 );
 
 export const TabNavigator = () => (
@@ -94,7 +95,7 @@ export const TabNavigator = () => (
         },
       })}
     />
-    <Tab.Screen name="Liked" component={LikedScreen} />
-    <Tab.Screen name="Profile" component={ProfileScreen} />
+    <Tab.Screen name="Activity" component={ActivityScreen} />
+    <Tab.Screen name="MyProfile" component={MyProfileScreen} />
   </Tab.Navigator>
 );
