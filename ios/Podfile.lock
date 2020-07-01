@@ -1,4 +1,22 @@
 PODS:
+  - appcenter-analytics (3.0.3):
+    - AppCenter/Analytics
+    - AppCenterReactNativeShared
+    - React
+  - appcenter-core (3.0.3):
+    - AppCenterReactNativeShared
+    - React
+  - appcenter-crashes (3.0.3):
+    - AppCenter/Crashes
+    - AppCenterReactNativeShared
+    - React
+  - AppCenter/Analytics (3.2.0):
+    - AppCenter/Core
+  - AppCenter/Core (3.2.0)
+  - AppCenter/Crashes (3.2.0):
+    - AppCenter/Core
+  - AppCenterReactNativeShared (3.0.3):
+    - AppCenter/Core (= 3.2.0)
   - boost-for-react-native (1.63.0)
   - BVLinearGradient (2.5.6):
     - React
@@ -433,6 +451,9 @@ PODS:
   - Yoga (1.14.0)
 
 DEPENDENCIES:
+  - appcenter-analytics (from `../node_modules/appcenter-analytics/ios`)
+  - appcenter-core (from `../node_modules/appcenter/ios`)
+  - appcenter-crashes (from `../node_modules/appcenter-crashes/ios`)
   - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
@@ -486,6 +507,8 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - AppCenter
+    - AppCenterReactNativeShared
     - boost-for-react-native
     - Crashlytics
     - Fabric
@@ -517,6 +540,12 @@ SPEC REPOS:
     - SDWebImageWebPCoder
 
 EXTERNAL SOURCES:
+  appcenter-analytics:
+    :path: "../node_modules/appcenter-analytics/ios"
+  appcenter-core:
+    :path: "../node_modules/appcenter/ios"
+  appcenter-crashes:
+    :path: "../node_modules/appcenter-crashes/ios"
   BVLinearGradient:
     :path: "../node_modules/react-native-linear-gradient"
   DoubleConversion:
@@ -613,6 +642,11 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
+  AppCenter: ca66175050d538b157959382dd43f1ab96cdab84
+  appcenter-analytics: 4fdc885acb8a3bfac835515a8b9610d054ba8b9f
+  appcenter-core: 84a1c69361d10272bf08b2ff906c37f4e422b940
+  appcenter-crashes: e9008710be7612c585c39f3dc2cf3894172dc6e2
+  AppCenterReactNativeShared: d1218878427a69d4b76f73883256455ed20f12b3
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
   Crashlytics: 540b7e5f5da5a042647227a5e3ac51d85eed06df

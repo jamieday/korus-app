@@ -26,6 +26,7 @@
 		7D9A02AA241D636600E0F9E6 /* MediaPickerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9A02A9241D636600E0F9E6 /* MediaPickerDelegate.swift */; };
 		7DDBF77C2415DB0A006EDBE7 /* AppleMusic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DDBF77A2415DB0A006EDBE7 /* AppleMusic.swift */; };
 		7DDBF77D2415DB0A006EDBE7 /* AppleMusicBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DDBF77B2415DB0A006EDBE7 /* AppleMusicBridge.m */; };
+		7DEA426324AD504F007F5BDA /* AppCenter-Config.plist in Sources */ = {isa = PBXBuildFile; fileRef = 7DEA426224AD504F007F5BDA /* AppCenter-Config.plist */; };
 		893C4136896F4D85A0C4C609 /* Raleway-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 892F9A4D76B24DF8B8084773 /* Raleway-Bold.ttf */; };
 		8F71AFAC2FE64976BA7D7249 /* Raleway-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5847F22A609B4B6D9A4A273E /* Raleway-MediumItalic.ttf */; };
 		9B8685F935644179BED0A0D6 /* Raleway-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B2F63459C149496CAB490610 /* Raleway-Light.ttf */; };
@@ -70,6 +71,7 @@
 		7DDBF7792415DB09006EDBE7 /* Korus-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Korus-Bridging-Header.h"; path = "../Korus-Bridging-Header.h"; sourceTree = "<group>"; };
 		7DDBF77A2415DB0A006EDBE7 /* AppleMusic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppleMusic.swift; sourceTree = "<group>"; };
 		7DDBF77B2415DB0A006EDBE7 /* AppleMusicBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppleMusicBridge.m; sourceTree = "<group>"; };
+		7DEA426224AD504F007F5BDA /* AppCenter-Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "AppCenter-Config.plist"; path = "../AppCenter-Config.plist"; sourceTree = "<group>"; };
 		84F08761C30146459B3EBE88 /* Raleway-SemiBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-SemiBoldItalic.ttf"; path = "../assets/fonts/Raleway-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		892F9A4D76B24DF8B8084773 /* Raleway-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-Bold.ttf"; path = "../assets/fonts/Raleway-Bold.ttf"; sourceTree = "<group>"; };
 		89CC34A807D741AB85FDBD13 /* Raleway-ExtraLightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-ExtraLightItalic.ttf"; path = "../assets/fonts/Raleway-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				7D5AE191243575930078051C /* GoogleService-Info.plist */,
+				7DEA426224AD504F007F5BDA /* AppCenter-Config.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				7DDBF7792415DB09006EDBE7 /* Korus-Bridging-Header.h */,
@@ -452,6 +455,7 @@
 				7DDBF77D2415DB0A006EDBE7 /* AppleMusicBridge.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				7D9A02AA241D636600E0F9E6 /* MediaPickerDelegate.swift in Sources */,
+				7DEA426324AD504F007F5BDA /* AppCenter-Config.plist in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -479,7 +483,7 @@
 				CODE_SIGN_ENTITLEMENTS = Korus/Korus.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3.2.0;
+				CURRENT_PROJECT_VERSION = 3.2.1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = X99CXJUGDH;
 				HEADER_SEARCH_PATHS = (
@@ -518,7 +522,7 @@
 				CODE_SIGN_ENTITLEMENTS = Korus/Korus.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3.2.0;
+				CURRENT_PROJECT_VERSION = 3.2.1;
 				DEVELOPMENT_TEAM = X99CXJUGDH;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
