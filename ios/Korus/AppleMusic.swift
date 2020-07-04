@@ -16,6 +16,8 @@ class AppleMusic: NSObject, MPMediaPickerControllerDelegate {
       case .denied: resolve("denied")
       case .notDetermined: resolve("not determined")
       case .restricted: resolve("restricted")
+      @unknown default:
+        resolve("not determined")
       }
     }
   }
