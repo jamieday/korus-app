@@ -1,11 +1,6 @@
 NEXT -> Playback experience
 
-- Apple Music top songs integrated. (can be an API patch after build released)
-
-
-
-
-
+- Apple Music top songs integrated
 
 
 
@@ -27,24 +22,7 @@ idea:
 refresh 
 - spotify add to playlist  ( select playlist to go to? )
 - name of person you got the song from (scope out the need for it, tech maybe weird for it if multiple share)
-
-urgent bugs
-- ADD TO PLAYLIST IN APPLE MUSIC
-- DOESNT GO TO LIKED TAB RIGHT AWAY
-- SHARE LIST DOESNT WORK WELL
-
-mild bugs
-- case when SPOTIFY doesn't play
-    => not connected -> connecting
-        & song playing already on Spotify
-
-
-
 - Better analytics ( what streaming service are they using? maybe that's a user property? etc )
-
-TODO tags
-* TODO OPENBETA - 
-
 
 TODAY
 - update npm, pods & Cleanup & React native upgrade
@@ -60,12 +38,8 @@ Maintenance
 - React native typescript
     https://reactnative.dev/docs/typescript
 
-- AirBnb no like me research
-    https://softwareengineeringdaily.com/2018/09/24/show-summary-react-native-at-airbnb/ 
-
 # Next
 User Engagement
-    - Push notifications (andrew)
     - Listen in-app (alex)
         - Jamie idea: should be always-up-to-date, good music (don't like a queue system, should be cyclical)
 

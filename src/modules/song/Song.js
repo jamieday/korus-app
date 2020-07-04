@@ -210,7 +210,7 @@ export const Song = ({
                   onPress={() => {
                     const fullOptions = options.concat({
                       label: 'Cancel',
-                      action: () => {},
+                      execute: () => {},
                     });
                     const actionOptions = fullOptions.map(
                       (option) => option.label,
