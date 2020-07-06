@@ -1,4 +1,3 @@
-/* eslint-disable default-case */
 import axios from 'axios';
 import { useContext } from 'react';
 import { API_HOST } from 'react-native-dotenv';

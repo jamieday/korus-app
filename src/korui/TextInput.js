@@ -2,8 +2,10 @@ import React from 'react';
 import { TextInput as RNTextInput, View, Text } from 'react-native';
 import { colors } from '../styles';
 
-// eslint-disable-next-line import/prefer-default-export
-export const TextInput = ({ style, error, ...otherProps }) => {
+export const TextInput = ({ style, error, characterLimit, ...otherProps }) => {
+  const charactersRemaining =
+    characterLimit && characterLimit - otherProps.value.length;
+
   return (
     <View>
       <RNTextInput
@@ -25,7 +27,7 @@ export const TextInput = ({ style, error, ...otherProps }) => {
         // eslint-disable-next-line react/jsx-props-no-spreading
         {...otherProps}
       />
-      {error && (
+      {error ? (
         <Text
           style={{
             fontSize: 12,
@@ -36,6 +38,19 @@ export const TextInput = ({ style, error, ...otherProps }) => {
         >
           {error}
         </Text>
+      ) : (
+        characterLimit && (
+          <Text
+            style={{
+              fontSize: 12,
+              marginTop: 8,
+              paddingHorizontal: 5,
+              color: charactersRemaining < 0 ? colors.danger : colors.gray,
+            }}
+          >
+            {charactersRemaining} characters remaining
+          </Text>
+        )
       )}
     </View>
   );

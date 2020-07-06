@@ -172,8 +172,8 @@ const PlaybackProgressBarMini = () => {
         height: thumbSize,
       }}
       thumbTouchSize={{
-        width: 50,
-        height: 50,
+        width: 80,
+        height: 80,
       }}
       minimumValue={0}
       minimumTrackTintColor={colors.white}

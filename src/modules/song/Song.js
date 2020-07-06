@@ -1,6 +1,3 @@
-/* eslint-disable no-shadow */
-/* eslint-disable default-case */
-/* eslint-disable import/prefer-default-export */
 import React from 'react';
 
 import {
@@ -33,6 +30,7 @@ export const Song = ({
   height,
   style,
   onDoubleTap,
+  description,
   leftAction,
   rightAction,
   options,
@@ -183,82 +181,103 @@ export const Song = ({
               { height },
               {
                 padding: 15,
-                justifyContent: 'space-between',
               },
             ]}
           >
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}
-            >
-              <View style={{ flex: 1 }}>
-                <Text style={styles.artistDesc}>{song.artist}</Text>
-                <Text
-                  numberOfLines={1}
-                  style={[styles.songName, { marginBottom: 0 }]}
-                >
-                  {song.name}
-                </Text>
+            <View style={{ flex: 1 }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
+              >
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.artistDesc}>{song.artist}</Text>
+                  <Text
+                    numberOfLines={1}
+                    style={[styles.songName, { marginBottom: 0 }]}
+                  >
+                    {song.name}
+                  </Text>
+                </View>
+                {options && (
+                  <TouchableOpacity
+                    style={{ padding: 15 }}
+                    hitSlop={{ left: 10, bottom: 20 }}
+                    onPress={() => {
+                      const fullOptions = options.concat({
+                        label: 'Cancel',
+                        execute: () => {},
+                      });
+                      const actionOptions = fullOptions.map(
+                        (option) => option.label,
+                      );
+                      ActionSheetIOS.showActionSheetWithOptions(
+                        {
+                          options: actionOptions,
+                          cancelButtonIndex: actionOptions.indexOf('Cancel'),
+                          // TODO breaks encapsulation
+                          destructiveButtonIndex: actionOptions.indexOf(
+                            'Unshare',
+                          ),
+                        },
+                        (selectedIndex) => {
+                          const action = fullOptions.filter(
+                            (option) =>
+                              option.label === actionOptions[selectedIndex],
+                          )[0];
+                          action.execute();
+                        },
+                      );
+                    }}
+                  >
+                    <MoreOptions width={17} height={17} fill={colors.white} />
+                  </TouchableOpacity>
+                )}
               </View>
-              {options && (
-                <TouchableOpacity
-                  style={{ padding: 15 }}
-                  hitSlop={{ left: 10, bottom: 20 }}
-                  onPress={() => {
-                    const fullOptions = options.concat({
-                      label: 'Cancel',
-                      execute: () => {},
-                    });
-                    const actionOptions = fullOptions.map(
-                      (option) => option.label,
-                    );
-                    ActionSheetIOS.showActionSheetWithOptions(
-                      {
-                        options: actionOptions,
-                        cancelButtonIndex: actionOptions.indexOf('Cancel'),
-                        // TODO breaks encapsulation
-                        destructiveButtonIndex: actionOptions.indexOf(
-                          'Unshare',
-                        ),
-                      },
-                      (selectedIndex) => {
-                        const action = fullOptions.filter(
-                          (option) =>
-                            option.label === actionOptions[selectedIndex],
-                        )[0];
-                        action.execute();
-                      },
-                    );
-                  }}
-                >
-                  <MoreOptions width={17} height={17} fill={colors.white} />
-                </TouchableOpacity>
-              )}
             </View>
             <View
               style={{
                 flexDirection: 'row',
-                alignItems: 'center',
+                alignItems: 'flex-end',
                 justifyContent: 'space-between',
               }}
             >
-              {leftAction && (
-                <TouchableOpacity
-                  style={{ flexDirection: 'row', alignItems: 'center' }}
-                  onPress={() => {
-                    leftAction.execute();
-                  }}
-                  hitSlop={{ top: 50, right: 50 }}
-                >
-                  {leftAction.icon}
-                  {leftAction.detail && (
-                    <Text style={styles.recommenders}>{leftAction.detail}</Text>
-                  )}
-                </TouchableOpacity>
-              )}
+              <View style={{ flexShrink: 1 }}>
+                {description && (
+                  <View>
+                    <Text
+                      style={{
+                        color: colors.white,
+                        // fontWeight: 'bold',
+                        marginBottom: 5,
+                        fontSize: 14,
+                      }}
+                      adjustsFontSizeToFit={true}
+                      numberOfLines={1}
+                    >
+                      {description}
+                    </Text>
+                  </View>
+                )}
+                {leftAction && (
+                  <TouchableOpacity
+                    style={{ flexDirection: 'row', alignItems: 'center' }}
+                    onPress={() => {
+                      leftAction.execute();
+                    }}
+                    hitSlop={{ top: 50, right: 50 }}
+                  >
+                    {leftAction.icon}
+                    {leftAction.detail && (
+                      <Text style={styles.recommenders}>
+                        {leftAction.detail}
+                      </Text>
+                    )}
+                  </TouchableOpacity>
+                )}
+              </View>
               {rightAction && (
                 <TouchableOpacity
                   style={{ flexDirection: 'row', alignItems: 'center' }}

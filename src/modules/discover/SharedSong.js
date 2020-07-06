@@ -1,7 +1,5 @@
-/* eslint-disable no-shadow */
-/* eslint-disable default-case */
-/* eslint-disable import/prefer-default-export */
 import React from 'react';
+import { Text } from 'react-native';
 
 import analytics from '@react-native-firebase/analytics';
 import { colors } from '../../styles';
@@ -75,6 +73,7 @@ export const SharedSong = ({ song, height, style, didUnshare, navigation }) => {
       song={song}
       height={height}
       onDoubleTap={likeShare}
+      description={song.caption ? `“${song.caption}”` : undefined}
       leftAction={{
         execute: () => {
           navigation.push('Profile', { username: song.sharer });
@@ -82,7 +81,7 @@ export const SharedSong = ({ song, height, style, didUnshare, navigation }) => {
         icon: (
           <ProfileIcon
             style={{ marginRight: 5 }}
-            width={25}
+            width={20}
             fill={colors.white}
           />
         ),

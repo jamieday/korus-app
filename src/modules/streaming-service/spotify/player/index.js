@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import React from 'react';
 import { remote } from 'react-native-spotify-remote';
 import { StreamingServiceContext } from '../../StreamingServiceContext';
@@ -15,6 +14,10 @@ export const usePlayer = () => {
     playbackState,
     seek: async (positionMs) => {
       dispatch({ type: 'seek', positionMs });
+      if (!(await remote.isConnectedAsync())) {
+        console.debug('[Spotify] Not connected.');
+        await connectPlayer();
+      }
       await remote.seek(positionMs);
     },
     canPlay,

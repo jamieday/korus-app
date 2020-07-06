@@ -1,10 +1,5 @@
-/* eslint-disable no-shadow */
-/* eslint-disable no-console */
-/* eslint-disable no-undef */
-/* eslint-disable no-alert */
-/* eslint-disable import/prefer-default-export */
 import React from 'react';
-import { Text, View, Button, Alert, AppState } from 'react-native';
+import { Text, View, Button, DevSettings, Alert, AppState } from 'react-native';
 import { remote } from 'react-native-spotify-remote';
 import { colors } from '../../styles';
 import * as AppleMusic from './apple-music';
@@ -13,17 +8,6 @@ import { findService } from '.';
 import { StreamingServiceContext } from './StreamingServiceContext';
 import { usePersistence } from '../persistence';
 import { StartupProgress } from '../StartupProgress';
-
-// import auth from '@react-native-firebase/auth';
-// import AsyncStorage from '@react-native-community/async-storage';
-
-// // DevSettings.addMenuItem('Clear storage', () => {
-// //   AsyncStorage.clear();
-// // });
-
-// // DevSettings.addMenuItem('Sign out', () => {
-// //   auth().signOut();
-// // });
 
 export const StreamingServiceProvider = ({ children }) => {
   const [streamingServiceKey, persistStreamingServiceKey] = usePersistence(
@@ -81,6 +65,15 @@ export const StreamingServiceProvider = ({ children }) => {
       AppState.removeEventListener('change', onAppStateChange);
     };
   }, []);
+
+  const reset = () => persistAccessToken(undefined);
+
+  React.useEffect(() => {
+    const switchStreamingServiceOptionLabel = 'Korus: Switch streaming service';
+    DevSettings.addMenuItem(switchStreamingServiceOptionLabel, () => {
+      reset();
+    });
+  }, [reset]);
 
   const connectToStreamingService = async (key) => {
     const service = findService(key);
@@ -162,9 +155,7 @@ export const StreamingServiceProvider = ({ children }) => {
       value={{
         key: streamingServiceKey,
         accessToken,
-        reset: () => {
-          persistAccessToken(undefined);
-        },
+        reset,
         connectPlayer: async (playUri) => {
           if (streamingServiceKey !== Spotify.uniqueKey) {
             throw new Error('Temp spotify code');

@@ -1,7 +1,5 @@
-/* eslint-disable no-shadow */
-/* eslint-disable import/prefer-default-export */
 import React, { useState, useEffect } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, DevSettings } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import appleAuth, {
   AppleButton,
@@ -12,6 +10,10 @@ import { signInWithApple } from '../navigation/packages/AppleSignIn';
 import { colors } from '../../styles';
 
 import { AuthNContext } from '.';
+
+DevSettings.addMenuItem('Korus: Sign out', () => {
+  auth().signOut();
+});
 
 export const AuthenticationProvider = ({ children }) => {
   const [initializing, setInitializing] = useState(true);

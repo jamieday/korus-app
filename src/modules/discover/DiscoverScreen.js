@@ -1,6 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/jsx-curly-newline */
-/* eslint-disable import/prefer-default-export */
 import React from 'react';
 import {
   Button,
@@ -40,11 +37,9 @@ export const DiscoverScreen = ({ navigation, route }) => {
     console.debug('Discover screen setting up...');
     refresh();
 
-    if (!__DEV__) {
-      messaging().onNotificationOpenedApp((_remoteMessage) => {
-        refresh();
-      });
-    }
+    messaging().onNotificationOpenedApp((_remoteMessage) => {
+      refresh();
+    });
 
     return () => {
       console.debug('TODO cancel refresh here.'); // TODO

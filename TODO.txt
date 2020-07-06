@@ -1,16 +1,10 @@
-NEXT -> Playback experience
+- Find out who liked your song
 
+
+
+AppleMusic
+- Playback experience
 - Apple Music top songs integrated
-
-
-
-
-
-
-
-
-
-
 
 1. Replan & Cleanup todo
 
@@ -25,7 +19,7 @@ refresh
 - Better analytics ( what streaming service are they using? maybe that's a user property? etc )
 
 TODAY
-- update npm, pods & Cleanup & React native upgrade
+- update npm, pods
 
 Cross-Platform Remaining
 - Spotify access token refresh

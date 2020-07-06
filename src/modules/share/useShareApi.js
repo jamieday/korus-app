@@ -12,17 +12,16 @@ export const useShareApi = (options) => {
   const [error, setError] = useState(undefined);
   const [status, setStatus] = useState('ready');
 
-  const share = async (song) => {
+  const share = async ({ song, caption }) => {
     setStatus('loading');
     const [data, apiError] = await api.post(`/share/publish`, {
-      'song-name': song.name,
-      'artist-name': song.artist,
       ...(typeof song.appleMusic !== 'undefined' && {
         'playback-store-id': song.appleMusic.playbackStoreId,
       }),
       ...(typeof song.spotify !== 'undefined' && {
         'spotify-id': song.spotify.id,
       }),
+      caption,
     });
 
     if (apiError) {

@@ -1,17 +1,21 @@
-import React from 'react';
-import { Button, View, Text } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, Button, View } from 'react-native';
 import { useShareApi } from './useShareApi';
 import { colors } from '../../styles';
-import { StartupProgress } from '../StartupProgress';
-import { ErrorView } from '../error/ErrorView';
 import { Song } from '../song/Song';
 import { usePlayer } from '../streaming-service/usePlayer';
+import { TextInput } from '../../korui/TextInput';
 
 export const ShareSongScreen = ({ navigation, route }) => {
   const { song } = route.params;
 
   const { share, error: shareError, status: shareStatus } = useShareApi();
+  const [error, setError] = useState(shareError);
+  useEffect(() => setError(shareError), [shareError]);
+
   const player = usePlayer();
+  const [captionInput, setCaptionInput] = useState('');
+  const caption = captionInput.length > 0 ? captionInput : undefined;
 
   React.useEffect(
     () =>
@@ -31,13 +35,9 @@ export const ShareSongScreen = ({ navigation, route }) => {
     [navigation],
   );
 
-  if (shareStatus === 'loading') {
-    return <StartupProgress />;
-  }
-
-  if (shareError) {
-    return <ErrorView error={shareError} />;
-  }
+  const processShare = () => {
+    share({ song, caption });
+  };
 
   return (
     <View
@@ -46,24 +46,34 @@ export const ShareSongScreen = ({ navigation, route }) => {
         backgroundColor: colors.lightBlack,
       }}
     >
-      <Song height={400} song={song} />
-      <View
-        style={{
-          marginHorizontal: 30,
-        }}
-      >
-        <Button
-          onPress={() => {
-            share(song);
-          }}
-          title="Share"
-        />
-        <Text
-          style={{ color: colors.gray, textAlign: 'center', marginTop: 15 }}
-        >
-          You might have noticed there's not much going on here. Don't worry -
-          you'll see changes coming soon.
-        </Text>
+      <View style={{ marginHorizontal: 15 }}>
+        <Song height={300} song={song} />
+        <View>
+          <View style={{ minHeight: 80 }}>
+            <TextInput
+              error={error}
+              onChangeText={(value) => {
+                setCaptionInput(value);
+                setError(undefined);
+              }}
+              characterLimit={45}
+              value={captionInput}
+              placeholder="add a caption (optional)"
+            />
+          </View>
+          <View
+            style={{
+              height: 50,
+              justifyContent: 'center',
+            }}
+          >
+            {shareStatus === 'loading' ? (
+              <ActivityIndicator />
+            ) : (
+              <Button onPress={processShare} title="Share" />
+            )}
+          </View>
+        </View>
       </View>
     </View>
   );

@@ -1,10 +1,7 @@
-/* eslint-disable import/prefer-default-export */
 import React from 'react';
 import { ActivityIndicator, FlatList, Text, View, Button } from 'react-native';
-import auth from '@react-native-firebase/auth';
 import { SharedSong } from './SharedSong';
 import { colors } from '../../styles';
-import { StreamingServiceContext } from '../streaming-service/StreamingServiceContext';
 
 export const DiscoverFeed = ({
   onRefresh,
@@ -19,11 +16,6 @@ export const DiscoverFeed = ({
   onFinishedTheGame,
 }) => {
   const keyExtractor = (item) => item.shareId;
-
-  const [hideDev, setHideDev] = React.useState(false);
-  const { reset: resetStreamingService } = React.useContext(
-    StreamingServiceContext,
-  );
 
   const ITEM_HEIGHT = 350;
 
@@ -47,34 +39,6 @@ export const DiscoverFeed = ({
       refreshing={isRefreshing}
       onEndReached={onEndReached}
       onEndReachedThreshold={0.4}
-      // eslint-disable-next-line react/jsx-props-no-spreading,no-undef
-      {...(__DEV__ &&
-        !hideDev && {
-          ListHeaderComponent: () => (
-            <View>
-              <Button
-                title="DEV - Switch streaming service"
-                onPress={() => {
-                  resetStreamingService();
-                }}
-              />
-
-              <Button
-                title="DEV - Sign-out"
-                onPress={() => {
-                  auth().signOut();
-                }}
-              />
-
-              <Button
-                title="DEV - Hide dev"
-                onPress={() => {
-                  setHideDev(true);
-                }}
-              />
-            </View>
-          ),
-        })}
       showsVerticalScrollIndicator={false}
       initialNumToRender={5}
       ListFooterComponent={() =>
