@@ -13,8 +13,28 @@ import { colors } from '../../styles';
 import { useApi } from '../api';
 import { ErrorView } from '../error/ErrorView';
 import { DiscoverFeed } from './DiscoverFeed';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import DiscoverIcon from '../../../assets/images/pages/discover.svg';
+import { LikedScreen } from '../liked/LikedScreen';
+import { ProfileScreen } from '../profile/ProfileScreen';
+import { GroupsScreen } from './GroupsScreen';
 
-export const DiscoverScreen = ({ navigation, route }) => {
+const Tab = createMaterialTopTabNavigator();
+
+export const DiscoverScreen = () => (
+  <Tab.Navigator
+    screenOptions={{
+      tabBarIcon: ({ color, focused }) => (
+        <DiscoverIcon width={50} height={50} fill={colors.black} />
+      ),
+    }}
+  >
+    <Tab.Screen name="Global" component={DiscoverGlobalScreen} />
+    <Tab.Screen name="Groups" component={GroupsScreen} />
+  </Tab.Navigator>
+);
+
+const DiscoverGlobalScreen = ({ navigation, route }) => {
   const api = useApi();
   const [shares, setShares] = React.useState(undefined);
   const [isRefreshing, setRefreshing] = React.useState(true);
@@ -107,7 +127,12 @@ export const DiscoverScreen = ({ navigation, route }) => {
   }
 
   return (
-    <View style={styles.container}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: colors.lightBlack,
+      }}
+    >
       {shares && !shares.size ? (
         <View
           style={{
@@ -178,10 +203,3 @@ export const DiscoverScreen = ({ navigation, route }) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.black,
-  },
-});
