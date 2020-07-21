@@ -1,7 +1,5 @@
-/* eslint-disable no-bitwise */
-/* eslint-disable import/prefer-default-export */
 import { auth, remote, ApiScope } from 'react-native-spotify-remote';
-import { API_HOST } from 'react-native-dotenv';
+import { API_HOST } from '@env';
 
 export const apiConfig = {
   clientID: '478eb84f217c4dd79145a565bffd07ee',
