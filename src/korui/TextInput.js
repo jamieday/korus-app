@@ -42,6 +42,7 @@ export const TextInput = ({ style, error, characterLimit, ...otherProps }) => {
         characterLimit && (
           <Text
             style={{
+              bottom: 0,
               fontSize: 12,
               marginTop: 8,
               paddingHorizontal: 5,

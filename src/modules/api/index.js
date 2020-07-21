@@ -5,6 +5,7 @@ import perf from '@react-native-firebase/perf';
 import analytics from '@react-native-firebase/analytics';
 import { useStreamingService } from '../streaming-service/StreamingServiceContext';
 import { AuthNContext } from '../auth';
+import { create } from 'react-native/jest/renderer';
 
 export const useAuthN = () => useContext(AuthNContext);
 
@@ -142,10 +143,7 @@ export const useApi = () => {
             'Oh... our servers are slow right now. Check back in a bit?',
           ];
         default:
-          return [
-            undefined,
-            "Having trouble connecting... it's not our fault. Probably!",
-          ];
+          return [undefined, 'Having trouble connecting right now.'];
       }
     }
   };
@@ -153,8 +151,21 @@ export const useApi = () => {
   const get = (url) => call(url, 'GET');
   const post = (url, body) => call(url, 'POST', body);
 
+  const listMyGroups = () => get('/groups/my-groups');
+  const createGroup = (createGroupPayload) =>
+    post('/groups/create', createGroupPayload);
+
+  const listShares = (scope, olderThan, limit) =>
+    get(
+      `/share/list?scopeType=${scope.type}${
+        scope.id ? `&scopeId=${scope.id}` : ''
+      }&limit=${limit}${olderThan ? `&olderThan=${olderThan}` : ''}`,
+    );
+
   const listLikedSongs = () => get('/song/list-liked');
   const listTopSongs = () => get('/song/top-songs/list');
+
+  const listUsers = () => get('/people/users/all');
 
   const viewProfile = (username) => {
     if (username !== user.displayName) {
@@ -181,8 +192,15 @@ export const useApi = () => {
     get,
     post,
 
+    listShares,
+
+    listMyGroups,
+    createGroup,
+
     listLikedSongs,
     listTopSongs,
+
+    listUsers,
 
     viewProfile,
     followUser,

@@ -16,6 +16,7 @@ import { SelectSongScreen } from '../share/SelectSongScreen';
 import { ShareSongScreen } from '../share/ShareSongScreen';
 import { BottomAppBar } from './BottomAppBar/BottomAppBar';
 import { ActivityScreen } from '../activity/ActivityScreen';
+import { CreateGroupScreen } from '../discover/CreateGroupScreen';
 
 const ModalStack = createStackNavigator();
 
@@ -33,27 +34,26 @@ const ModalNavigator = () => (
       }}
     />
 
-    {/* <ModalStack.Screen */}
-    {/*  name="Player" */}
-    {/*  component={PlayerScreen} */}
-    {/*  options={{ */}
-    {/*    // 213c8fe5-5146-4e97-83d4-ddc63dcd7070 */}
-    {/*    headerBackTitleVisible: false, */}
-    {/*    headerTintColor: colors.white, */}
-    {/*    headerTitle: '', */}
-    {/*    headerBackImage: ({ tintColor }) => ( */}
-    {/*      <View style={{ padding: 20 }}> */}
-    {/*        <CloseIcon width={15} height={15} fill={tintColor} /> */}
-    {/*      </View> */}
-    {/*    ), */}
-    {/*    headerStyle: { */}
-    {/*      backgroundColor: colors.black, */}
-    {/*      shadowOffset: { */}
-    {/*        height: 0, */}
-    {/*      }, */}
-    {/*    }, */}
-    {/*  }} */}
-    {/* /> */}
+    <ModalStack.Screen
+      name="Create new group"
+      component={CreateGroupScreen}
+      options={{
+        // 213c8fe5-5146-4e97-83d4-ddc63dcd7070
+        headerBackTitleVisible: false,
+        headerTintColor: colors.white,
+        headerBackImage: ({ tintColor }) => (
+          <View style={{ padding: 20 }}>
+            <CloseIcon width={15} height={15} fill={tintColor} />
+          </View>
+        ),
+        headerStyle: {
+          backgroundColor: colors.black,
+          shadowOffset: {
+            height: 0,
+          },
+        },
+      }}
+    />
 
     <ModalStack.Screen
       name="Select a song"

@@ -15,10 +15,6 @@ import { Song } from '../song/Song';
 import { usePlayer } from '../streaming-service/usePlayer';
 import { refreshLikedSongs } from '../liked/LikedScreen';
 
-const log = (message) => {
-  console.debug(message);
-};
-
 export const SharedSong = ({
   song: share,
   height,

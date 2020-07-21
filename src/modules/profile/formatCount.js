@@ -1,6 +1,6 @@
 const symbolByTier = ['', 'k', 'm', 'b', 't', 'p', 'e'];
 
-export function formatCount(number) {
+export const formatCount = (number) => {
   const tier = (Math.log10(number) / 3) | 0;
 
   if (tier == 0) return number.toString();
@@ -16,4 +16,4 @@ export function formatCount(number) {
       : (Math.floor(scaled * 10) / 10).toFixed(1);
 
   return shortNum + suffix;
-}
+};

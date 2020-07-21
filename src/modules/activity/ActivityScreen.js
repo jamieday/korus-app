@@ -52,6 +52,7 @@ export const ActivityScreen = ({ navigation }) => {
     },
   );
 
+  // 1B41B39B-3379-4399-B95C-F70FC7D113B5
   const [isRefreshing, setRefreshing] = useState(false);
   const refresh = async () => {
     setRefreshing(true);
@@ -169,7 +170,7 @@ const hashCode = (str) => {
   }
   return hash;
 };
-const getFallbackProfileImageSource = (userId) => {
+export const getFallbackProfileImageSource = (userId) => {
   return funny[Math.abs(hashCode(userId) % funny.length)];
 };
 // -----FUNNY---------FUNNY---------FUNNY---------FUNNY---------FUNNY---------FUNNY----

@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-/* eslint-disable no-shadow */
 import React from 'react';
 import { View } from 'react-native';
 import { List } from 'immutable';
@@ -16,7 +14,7 @@ export const PeopleScreen = ({ navigation }) => {
   const refresh = async () => {
     console.debug('Fetch users to follow...');
     setLoading(true);
-    const [usersR, error] = await api.get('/people/users/all');
+    const [usersR, error] = await api.listUsers();
     const users = List(error ? [] : usersR);
     console.debug(`Fetched ${users.size} users.`);
     setUsers(users);
@@ -42,9 +40,7 @@ export const PeopleScreen = ({ navigation }) => {
           refreshing={isLoading}
           onRefresh={refresh}
           keyExtractor={(user) => user.id}
-          items={users
-            .sort((a, b) => (a.username > b.username ? 1 : -1))
-            .toArray()}
+          items={users.toArray()}
           getItemDetail={(user) => ({ title: user.username })}
           actionIcon={(user) => (
             <NextIcon width={20} height={20} fill={colors.white} />

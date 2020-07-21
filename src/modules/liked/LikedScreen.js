@@ -15,7 +15,7 @@ const LIKED_SONGS_QUERY_KEY = 'liked-songs';
 export const refreshLikedSongs = () => {
   // one - want to refresh liked songs
   // two - activity
-  return queryCache.refetchQueries(LIKED_SONGS_QUERY_KEY);
+  return queryCache.invalidateQueries(LIKED_SONGS_QUERY_KEY);
 };
 
 export const LikedScreen = () => {

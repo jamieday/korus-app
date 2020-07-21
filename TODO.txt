@@ -1,3 +1,24 @@
+----------------------- Groups -------------------------
+
+* List groups I'm a member of
+
+* Create a group
+    * Group name
+    * Group profile, cover photos
+    * Members
+        * Friends + search
+
+* View group
+    * top-down feed of shares
+
+* Share to group
+
+Share
+    songId
+    recipientId
+
+--------------------------------------------------------
+
 - Find out who liked your song
 
 arseny apple music some songs dont play
@@ -51,6 +72,9 @@ Existing functionality enhancement
         - access token, refresh token storage?
         - Rate limiting
         - Caching
+
+    Elasticsearch
+        - The share list is too slow for scale
 
 SECURITY / USER INPUT VALIDATION
 - Firebase/nodejs
