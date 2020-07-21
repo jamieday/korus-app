@@ -41,8 +41,6 @@ export const ProfileScreen = ({ navigation, route }) => {
   const api = useApi();
   const { user } = useAuthN();
 
-  const profileUsername = route.params?.username ?? user.displayName;
-
   const [profile, setProfile] = React.useState('LOADING');
   const [isFollowing, setFollowing] = React.useState();
   const [playingSongId, setPlayingSongId] = React.useState();
@@ -52,13 +50,17 @@ export const ProfileScreen = ({ navigation, route }) => {
   }, [profile]);
 
   React.useEffect(() => {
-    navigation.setOptions({ headerTitle: profileUsername });
-  }, [navigation, route]);
+    navigation.setOptions({ headerTitle: profile?.username ?? '' });
+  }, [profile, navigation]);
 
   const isMyProfile = user.displayName === profile.username;
 
   const loadProfile = async () => {
-    const [profile, error] = await api.viewProfile(profileUsername);
+    const [profile, error] = await api.viewProfile(
+      route.params?.id ??
+        // weird "me" thing {F4355E59-9F78-400B-BA86-5517B5CF2116}
+        'me',
+    );
     if (error) {
       setProfile({ error });
       return;

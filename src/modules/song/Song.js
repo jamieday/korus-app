@@ -60,7 +60,7 @@ export const Song = ({
   const pauseSong = async () => {
     log('[Song] Pausing song.');
     analytics().logEvent('pause_song', {
-      id: song.id,
+      id: song.songId,
       name: song.name,
       artist: song.artist,
     });
@@ -70,7 +70,7 @@ export const Song = ({
   const playSong = async () => {
     log('[Song] Playing song.');
     analytics().logEvent('play_song', {
-      id: song.id,
+      id: song.songId,
       name: song.name,
       artist: song.artist,
     });

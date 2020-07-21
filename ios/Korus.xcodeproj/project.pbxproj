@@ -23,10 +23,10 @@
 		5C8EBF86135F4E2896F77556 /* Raleway-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 89CC34A807D741AB85FDBD13 /* Raleway-ExtraLightItalic.ttf */; };
 		78269646C601403CA82CE8D8 /* Raleway-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FD07D260E2E448C4A0BE119D /* Raleway-Italic.ttf */; };
 		7D5AE192243575930078051C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7D5AE191243575930078051C /* GoogleService-Info.plist */; };
+		7D72057F24C685FC000BC201 /* AppCenter-Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7D72057E24C685FC000BC201 /* AppCenter-Config.plist */; };
 		7D9A02AA241D636600E0F9E6 /* MediaPickerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9A02A9241D636600E0F9E6 /* MediaPickerDelegate.swift */; };
 		7DDBF77C2415DB0A006EDBE7 /* AppleMusic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DDBF77A2415DB0A006EDBE7 /* AppleMusic.swift */; };
 		7DDBF77D2415DB0A006EDBE7 /* AppleMusicBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DDBF77B2415DB0A006EDBE7 /* AppleMusicBridge.m */; };
-		7DEA426324AD504F007F5BDA /* AppCenter-Config.plist in Sources */ = {isa = PBXBuildFile; fileRef = 7DEA426224AD504F007F5BDA /* AppCenter-Config.plist */; };
 		893C4136896F4D85A0C4C609 /* Raleway-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 892F9A4D76B24DF8B8084773 /* Raleway-Bold.ttf */; };
 		8F71AFAC2FE64976BA7D7249 /* Raleway-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5847F22A609B4B6D9A4A273E /* Raleway-MediumItalic.ttf */; };
 		9B8685F935644179BED0A0D6 /* Raleway-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B2F63459C149496CAB490610 /* Raleway-Light.ttf */; };
@@ -66,11 +66,11 @@
 		759D594F89474403AF03C883 /* Raleway-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-BoldItalic.ttf"; path = "../assets/fonts/Raleway-BoldItalic.ttf"; sourceTree = "<group>"; };
 		7D5AE191243575930078051C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7D6EA733243D89CD00AB5DB3 /* Korus.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Korus.entitlements; sourceTree = "<group>"; };
+		7D72057E24C685FC000BC201 /* AppCenter-Config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AppCenter-Config.plist"; sourceTree = "<group>"; };
 		7D9A02A9241D636600E0F9E6 /* MediaPickerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MediaPickerDelegate.swift; path = ../MediaPickerDelegate.swift; sourceTree = "<group>"; };
 		7DDBF7792415DB09006EDBE7 /* Korus-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Korus-Bridging-Header.h"; path = "../Korus-Bridging-Header.h"; sourceTree = "<group>"; };
 		7DDBF77A2415DB0A006EDBE7 /* AppleMusic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppleMusic.swift; sourceTree = "<group>"; };
 		7DDBF77B2415DB0A006EDBE7 /* AppleMusicBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppleMusicBridge.m; sourceTree = "<group>"; };
-		7DEA426224AD504F007F5BDA /* AppCenter-Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "AppCenter-Config.plist"; path = "../AppCenter-Config.plist"; sourceTree = "<group>"; };
 		84F08761C30146459B3EBE88 /* Raleway-SemiBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-SemiBoldItalic.ttf"; path = "../assets/fonts/Raleway-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		892F9A4D76B24DF8B8084773 /* Raleway-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-Bold.ttf"; path = "../assets/fonts/Raleway-Bold.ttf"; sourceTree = "<group>"; };
 		89CC34A807D741AB85FDBD13 /* Raleway-ExtraLightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-ExtraLightItalic.ttf"; path = "../assets/fonts/Raleway-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
@@ -120,7 +120,7 @@
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				7D5AE191243575930078051C /* GoogleService-Info.plist */,
-				7DEA426224AD504F007F5BDA /* AppCenter-Config.plist */,
+				7D72057E24C685FC000BC201 /* AppCenter-Config.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				7DDBF7792415DB09006EDBE7 /* Korus-Bridging-Header.h */,
@@ -303,6 +303,7 @@
 				CFC4A80854A24858838555AF /* Raleway-BoldItalic.ttf in Resources */,
 				F17789FFFA2B4F269BA75860 /* Raleway-ExtraBold.ttf in Resources */,
 				D0487A769692435FA2CC3EEE /* Raleway-ExtraBoldItalic.ttf in Resources */,
+				7D72057F24C685FC000BC201 /* AppCenter-Config.plist in Resources */,
 				5B7A3C5E24DD49649B85B59E /* Raleway-ExtraLight.ttf in Resources */,
 				5C8EBF86135F4E2896F77556 /* Raleway-ExtraLightItalic.ttf in Resources */,
 				78269646C601403CA82CE8D8 /* Raleway-Italic.ttf in Resources */,
@@ -473,7 +474,6 @@
 				7DDBF77D2415DB0A006EDBE7 /* AppleMusicBridge.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				7D9A02AA241D636600E0F9E6 /* MediaPickerDelegate.swift in Sources */,
-				7DEA426324AD504F007F5BDA /* AppCenter-Config.plist in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -501,7 +501,7 @@
 				CODE_SIGN_ENTITLEMENTS = Korus/Korus.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3.2.1;
+				CURRENT_PROJECT_VERSION = 4.00;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = X99CXJUGDH;
 				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = (
@@ -519,7 +519,7 @@
 				INFOPLIST_FILE = Korus/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 3.1.0;
+				MARKETING_VERSION = 4.0.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -544,7 +544,7 @@
 				CODE_SIGN_ENTITLEMENTS = Korus/Korus.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3.2.1;
+				CURRENT_PROJECT_VERSION = 4.00;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = X99CXJUGDH;
 				HEADER_SEARCH_PATHS = (
@@ -558,7 +558,7 @@
 				INFOPLIST_FILE = Korus/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 3.1.0;
+				MARKETING_VERSION = 4.0.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

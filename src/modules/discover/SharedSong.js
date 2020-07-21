@@ -1,5 +1,4 @@
 import React from 'react';
-import { Text } from 'react-native';
 
 import analytics from '@react-native-firebase/analytics';
 import { colors } from '../../styles';
@@ -20,13 +19,19 @@ const log = (message) => {
   console.debug(message);
 };
 
-export const SharedSong = ({ song, height, style, didUnshare, navigation }) => {
+export const SharedSong = ({
+  song: share,
+  height,
+  style,
+  didUnshare,
+  navigation,
+}) => {
   const api = useApi();
   const player = usePlayer();
-  const [totalLikes, setTotalLikes] = React.useState(song.totalLikes);
-  const [isLiked, setIsLiked] = React.useState(song.isLiked);
-  React.useEffect(() => setTotalLikes(song.totalLikes), [song.totalLikes]);
-  React.useEffect(() => setIsLiked(song.isLiked), [song.isLiked]);
+  const [totalLikes, setTotalLikes] = React.useState(share.totalLikes);
+  const [isLiked, setIsLiked] = React.useState(share.isLiked);
+  React.useEffect(() => setTotalLikes(share.totalLikes), [share.totalLikes]);
+  React.useEffect(() => setIsLiked(share.isLiked), [share.isLiked]);
 
   const myUsername = useIdentity().displayName;
 
@@ -36,9 +41,9 @@ export const SharedSong = ({ song, height, style, didUnshare, navigation }) => {
     player.state.key === 'playing' &&
     player.state.songId.id ===
       (player.state.songId.service === 'spotify'
-        ? song.spotify?.id
+        ? share.spotify?.id
         : player.state.songId.service === 'apple-music'
-        ? song.appleMusic?.playbackStoreId
+        ? share.appleMusic?.playbackStoreId
         : (() => {
             throw new Error(`${player.state.songId.service} not supported`);
           })());
@@ -47,10 +52,10 @@ export const SharedSong = ({ song, height, style, didUnshare, navigation }) => {
     if (!isLiked) {
       return;
     }
-    analytics().logEvent('unlike_song', song);
+    analytics().logEvent('unlike_share', share);
     setTotalLikes(totalLikes - 1);
     setIsLiked(false);
-    await api.post(`/share/${encodeURIComponent(song.shareId)}/unlike`);
+    await api.post(`/share/${encodeURIComponent(share.id)}/unlike`);
     await refreshLikedSongs(); // this could be a cache mutation
   };
 
@@ -58,25 +63,25 @@ export const SharedSong = ({ song, height, style, didUnshare, navigation }) => {
     if (isLiked) {
       return;
     }
-    analytics().logEvent('like_song', song);
+    analytics().logEvent('like_share', share);
     setTotalLikes(totalLikes + 1);
     setIsLiked(true);
-    await api.post(`/share/${encodeURIComponent(song.shareId)}/like`);
+    await api.post(`/share/${encodeURIComponent(share.id)}/like`);
     await refreshLikedSongs(); // this could be a cache mutation
   };
 
-  const isMine = song.sharer === myUsername;
+  const isMine = share.sharer === myUsername;
 
   return (
     <Song
       style={style}
-      song={song}
+      song={share}
       height={height}
       onDoubleTap={likeShare}
-      description={song.caption ? `“${song.caption}”` : undefined}
+      description={share.caption}
       leftAction={{
         execute: () => {
-          navigation.push('Profile', { username: song.sharer });
+          navigation.push('Profile', { id: share.sharerId });
         },
         icon: (
           <ProfileIcon
@@ -85,7 +90,7 @@ export const SharedSong = ({ song, height, style, didUnshare, navigation }) => {
             fill={colors.white}
           />
         ),
-        detail: song.sharer,
+        detail: share.sharer,
       }}
       rightAction={{
         execute: () => {
@@ -115,15 +120,15 @@ export const SharedSong = ({ song, height, style, didUnshare, navigation }) => {
                 label: 'Unshare',
                 execute: () => {
                   (async () => {
-                    analytics().logEvent('unshare_song', song);
+                    analytics().logEvent('unshare_song', share);
                     const [, error] = await api.post(
-                      `/share/${encodeURIComponent(song.shareId)}/unshare`,
+                      `/share/${encodeURIComponent(share.id)}/unshare`,
                     );
                     if (error) {
                       console.error(error);
                     }
                     didUnshare();
-                    if (isPlaying) await player.pauseSong(song);
+                    if (isPlaying) await player.pauseSong(share);
                   })();
                 },
               },

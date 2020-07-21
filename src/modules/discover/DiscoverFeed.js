@@ -15,7 +15,7 @@ export const DiscoverFeed = ({
   navigation,
   onFinishedTheGame,
 }) => {
-  const keyExtractor = (item) => item.shareId;
+  const keyExtractor = (item) => item.id;
 
   const ITEM_HEIGHT = 350;
 

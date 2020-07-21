@@ -58,7 +58,7 @@ export const PeopleScreen = ({ navigation }) => {
               ),
             );
 
-            navigation.push('Profile', { username: targetUser.username });
+            navigation.push('Profile', { id: targetUser.id });
           }}
         />
       </View>

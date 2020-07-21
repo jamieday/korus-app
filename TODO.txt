@@ -5,6 +5,8 @@ arseny apple music some songs dont play
 AppleMusic
 - Playback experience
 - Apple Music top songs integrated
+- Firebase access token refresh
+
 
 1. Replan & Cleanup todo
 
