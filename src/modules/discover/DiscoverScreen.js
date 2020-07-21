@@ -21,18 +21,21 @@ import { GroupsScreen } from './GroupsScreen';
 
 const Tab = createMaterialTopTabNavigator();
 
-export const DiscoverScreen = () => (
-  <Tab.Navigator
-    screenOptions={{
-      tabBarIcon: ({ color, focused }) => (
-        <DiscoverIcon width={50} height={50} fill={colors.black} />
-      ),
-    }}
-  >
-    <Tab.Screen name="Global" component={DiscoverGlobalScreen} />
-    <Tab.Screen name="Groups" component={GroupsScreen} />
-  </Tab.Navigator>
-);
+export const DiscoverScreen = ({ navigation, route }) =>
+  __DEV__ ? (
+    <Tab.Navigator
+      screenOptions={{
+        tabBarIcon: ({ color, focused }) => (
+          <DiscoverIcon width={50} height={50} fill={colors.black} />
+        ),
+      }}
+    >
+      <Tab.Screen name="Global" component={DiscoverGlobalScreen} />
+      <Tab.Screen name="Groups" component={GroupsScreen} />
+    </Tab.Navigator>
+  ) : (
+    <DiscoverGlobalScreen navigation={navigation} route={route} />
+  );
 
 const DiscoverGlobalScreen = ({ navigation, route }) => {
   const api = useApi();

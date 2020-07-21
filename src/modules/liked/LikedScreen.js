@@ -1,7 +1,3 @@
-/* eslint-disable react/jsx-curly-newline */
-/* eslint-disable no-console */
-/* eslint-disable no-shadow */
-/* eslint-disable import/prefer-default-export */
 import React from 'react';
 import { View, ActivityIndicator } from 'react-native';
 import { List } from 'immutable';

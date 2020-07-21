@@ -188,7 +188,7 @@ const UserEvent = ({ navigation, style, userEvent }) => {
           style={{ padding: 5 }}
           activeOpacity={0.75}
           onPress={() =>
-            navigation.push('Profile', { username: userEvent.actor.username })
+            navigation.push('Profile', { id: userEvent.actor.userId })
           }
         >
           <Image
