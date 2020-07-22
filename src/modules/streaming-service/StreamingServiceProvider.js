@@ -69,10 +69,13 @@ export const StreamingServiceProvider = ({ children }) => {
   const reset = () => persistAccessToken(undefined);
 
   React.useEffect(() => {
-    const switchStreamingServiceOptionLabel = 'Korus: Switch streaming service';
-    DevSettings.addMenuItem(switchStreamingServiceOptionLabel, () => {
-      reset();
-    });
+    if (__DEV__) {
+      const switchStreamingServiceOptionLabel =
+        'Korus: Switch streaming service';
+      DevSettings.addMenuItem(switchStreamingServiceOptionLabel, () => {
+        reset();
+      });
+    }
   }, [reset]);
 
   const connectToStreamingService = async (key) => {

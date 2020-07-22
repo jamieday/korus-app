@@ -11,9 +11,11 @@ import { colors } from '../../styles';
 
 import { AuthNContext } from '.';
 
-DevSettings.addMenuItem('Korus: Sign out', () => {
-  auth().signOut();
-});
+if (__DEV__) {
+  DevSettings.addMenuItem('Korus: Sign out', () => {
+    auth().signOut();
+  });
+}
 
 export const AuthenticationProvider = ({ children }) => {
   const [initializing, setInitializing] = useState(true);
