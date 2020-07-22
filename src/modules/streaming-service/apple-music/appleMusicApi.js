@@ -25,5 +25,5 @@ export class AppleMusicApi {
 
 export const appleMusicApi = new AppleMusicApi({
   developerToken:
-    'eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Iks2RDJIWkc5VEIifQ.eyJpYXQiOjE1ODQ5MTg5NjUsImV4cCI6MTU5NTI4Njk2NSwiaXNzIjoiWDk5Q1hKVUdESCJ9.xvnwF49hVhuBQz4mi8OqEIbBDOBG9t4HNj_Q4qiLh8KKgmBR28T6bIcq0ZxnKvGFQ-NeyJX4_rxkGAVIMFDF-w',
+    'eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Iks2RDJIWkc5VEIifQ.eyJpYXQiOjE1OTUzODQ2ODEsImV4cCI6MTYwNTc1MjY4MSwiaXNzIjoiWDk5Q1hKVUdESCJ9.GdTDZdLZ0a-lP9Q6edIz69Eu307fuuCkj86WFr-vsEdKlcHejzPCMesCDbL4SvStlV7x7cul_KUFBu-T0CaSCQ',
 });
