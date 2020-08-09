@@ -120,7 +120,7 @@ export const SharesFeed = ({ scope, navigation, route }) => {
         <Button
           color={colors.turquoise}
           title={'Get things started'}
-          onPress={() => navigation.push('Select a song')}
+          onPress={() => navigation.navigate('Select a song')}
         />
       </View>
     );

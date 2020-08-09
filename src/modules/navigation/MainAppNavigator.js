@@ -91,7 +91,7 @@ export const TabNavigator = () => (
       listeners={({ navigation, route }) => ({
         tabPress: (e) => {
           e.preventDefault();
-          navigation.push('Select a song');
+          navigation.navigate('Select a song');
         },
       })}
     />

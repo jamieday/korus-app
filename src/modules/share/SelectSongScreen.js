@@ -28,7 +28,7 @@ export const SelectSongScreen = ({ navigation }) => {
       return;
     }
     setIsNavigating(true);
-    navigation.push('Share a song', { song });
+    navigation.navigate('Share a song', { song });
   };
 
   const [searchQueryInput, setSearchQueryInput] = React.useState('');

@@ -77,7 +77,9 @@ export const SharedSong = ({
       description={share.caption}
       leftAction={{
         execute: () => {
-          navigation.push('Profile', { id: share.sharerId });
+          navigation.navigate('Profile', {
+            id: share.sharerId,
+          });
         },
         icon: (
           <ProfileIcon

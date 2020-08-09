@@ -74,7 +74,7 @@ export const MyGroupsScreen = ({ navigation }) => {
     <Container>
       <TouchableOpacity
         onPress={() => {
-          navigation.push('Create new group');
+          navigation.navigate('Create new group');
         }}
         activeOpacity={0.7}
       >
@@ -117,7 +117,9 @@ export const MyGroupsScreen = ({ navigation }) => {
                   ]),
             ]}
             onPress={() => {
-              navigation.push('Group', { id: group.id });
+              navigation.navigate('Group', {
+                id: group.id,
+              });
             }}
           >
             <ImageBackground
