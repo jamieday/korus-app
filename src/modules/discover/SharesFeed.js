@@ -111,7 +111,7 @@ export const SharesFeed = ({ scope, navigation, route }) => {
     );
   }
 
-  if (shares.size === 0) {
+  if (!isRefreshing && shares.size === 0) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text style={{ color: colors.white, fontSize: 24, marginBottom: 20 }}>
@@ -151,7 +151,8 @@ export const SharesFeed = ({ scope, navigation, route }) => {
         isLoadingNextPage ? (
           <ActivityIndicator style={{ marginTop: 15, marginBottom: 40 }} />
         ) : (
-          didReachLastPage && (
+          didReachLastPage &&
+          scope.type === 'global' && (
             <View style={{ marginBottom: 30 }}>
               <Text style={{ color: colors.white, textAlign: 'center' }}>
                 You're all done! You beat KORUS 😊.

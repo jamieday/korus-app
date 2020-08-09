@@ -14,7 +14,7 @@ const USER_TOKEN_HEADER = 'X-Firebase-User-Token';
 
 // Header duplicated 57A476A2-EF30-4CFD-896E-36CFB1E0A5A1
 const API_VERSION_HEADER = 'X-Api-Version';
-const API_VERSION = 4;
+const API_VERSION = 5;
 
 axios.interceptors.request.use(async (config) => {
   console.debug(`[API] ${config.method.toUpperCase()} ${config.url}`);

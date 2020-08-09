@@ -13,32 +13,28 @@ import { useProfile } from '../identity/useProfile';
 const Stack = createStackNavigator();
 const Tab = createMaterialTopTabNavigator();
 
-export const DiscoverScreen = ({ navigation, route }) =>
-  __DEV__ ? (
-    <Stack.Navigator>
-      <Stack.Screen name="Discover">
-        {() => (
-          <Tab.Navigator
-            screenOptions={{
-              tabBarIcon: ({ color, focused }) => (
-                <DiscoverIcon width={50} height={50} fill={color} />
-              ),
-            }}
-          >
-            <Tab.Screen name="Global" component={DiscoverGlobalScreen} />
-            <Tab.Screen name="Groups" component={MyGroupsScreen} />
-          </Tab.Navigator>
-        )}
-      </Stack.Screen>
+export const DiscoverScreen = ({ navigation, route }) => (
+  <Stack.Navigator>
+    <Stack.Screen name="Discover">
+      {() => (
+        <Tab.Navigator
+          screenOptions={{
+            tabBarIcon: ({ color, focused }) => (
+              <DiscoverIcon width={50} height={50} fill={color} />
+            ),
+          }}
+        >
+          <Tab.Screen name="Global" component={DiscoverGlobalScreen} />
+          <Tab.Screen name="Groups" component={MyGroupsScreen} />
+        </Tab.Navigator>
+      )}
+    </Stack.Screen>
 
-      <Stack.Screen name="Group" component={GroupScreen} />
-    </Stack.Navigator>
-  ) : (
-    <DiscoverGlobalScreen navigation={navigation} route={route} />
-  );
+    <Stack.Screen name="Group" component={GroupScreen} />
+  </Stack.Navigator>
+);
 
 const DiscoverGlobalScreen = ({ navigation, route }) => {
-  const api = useApi();
   const profile = useProfile();
 
   return (
