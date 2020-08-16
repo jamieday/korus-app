@@ -52,21 +52,6 @@ export const LikedScreen = () => {
     return <ErrorView error={error.message} refresh={refetch} />;
   }
 
-  const isPlaying = (song) => {
-    const playbackState = player.state;
-    return (
-      playbackState.key === 'playing' &&
-      playbackState.songId.id ===
-        (playbackState.songId.service === 'spotify'
-          ? song.spotify?.id
-          : playbackState.songId.service === 'apple-music'
-          ? song.appleMusic?.playbackStoreId
-          : (() => {
-              throw new Error(`${playbackState.songId.service} not supported`);
-            })())
-    );
-  };
-
   return (
     <View
       style={{
@@ -87,7 +72,7 @@ export const LikedScreen = () => {
             imageUrl: song.artworkUrl,
           })}
           actionIcon={(song) =>
-            isPlaying(song) ? (
+            isSongPlaying(song, player.state) ? (
               <PauseIcon width={20} height={20} fill={colors.white} />
             ) : (
               <PlayIcon
@@ -98,7 +83,7 @@ export const LikedScreen = () => {
             )
           }
           onItemPressed={(song) => {
-            if (isPlaying(song)) {
+            if (isSongPlaying(song, player.state)) {
               player.pauseSong(song);
             } else if (player.canPlay(song)) {
               player.playSong(song);
@@ -107,5 +92,25 @@ export const LikedScreen = () => {
         />
       </View>
     </View>
+  );
+};
+
+// This is most certainly an anti-pattern
+// Since it will rerender all songs when you play one
+// But the alternative would be to have a React context
+// for each song? Maybe this is where redux comes in.
+// useSelector(memoized(state => state.playback[song.id]))
+// See 242A1CC6-851F-45F7-8EE9-C3973349C5ED
+export const isSongPlaying = (song, playbackState) => {
+  return (
+    playbackState.key === 'playing' &&
+    playbackState.songId.id ===
+      (playbackState.songId.service === 'spotify'
+        ? song.spotify?.id
+        : playbackState.songId.service === 'apple-music'
+        ? song.appleMusic?.playbackStoreId
+        : (() => {
+            throw new Error(`${playbackState.songId.service} not supported`);
+          })())
   );
 };

@@ -24,7 +24,7 @@ import { queryCache } from 'react-query';
 export const CreateGroupScreen = ({ navigation }) => {
   const api = useApi();
   const [error, setError] = useState();
-  const [users, setUsers] = useState(new Map());
+  const [users, setUsers] = useState([]);
   const [isLoading, setLoading] = useState(false);
 
   const [groupName, setGroupName] = useState('');

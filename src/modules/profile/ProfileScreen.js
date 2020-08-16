@@ -67,7 +67,7 @@ export const ProfileScreen = ({ navigation, route }) => {
     setFollowing(profile.isFollowing);
   }, [profile]);
 
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     navigation.setOptions({ headerTitle: profile?.username ?? '' });
   }, [profile, navigation]);
 

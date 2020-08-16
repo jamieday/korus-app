@@ -5,7 +5,6 @@ import perf from '@react-native-firebase/perf';
 import analytics from '@react-native-firebase/analytics';
 import { useStreamingService } from '../streaming-service/StreamingServiceContext';
 import { AuthNContext } from '../auth';
-import { create } from 'react-native/jest/renderer';
 
 export const useAuthN = () => useContext(AuthNContext);
 

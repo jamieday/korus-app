@@ -65,13 +65,26 @@ export const MyGroupsScreen = ({ navigation }) => {
   if (groups.length === 0) {
     return (
       <Container>
-        <NoGroupsYet />
+        <NoGroupsYet navigation={navigation} />
       </Container>
     );
   }
 
   return (
     <Container>
+      <View>
+        {/* In construction: 555A7833-26E2-4AE4-AFAF-7DCD44038DB7 */}
+        <Text
+          style={{
+            textAlign: 'center',
+            color: colors.yellow,
+            paddingBottom: 15,
+          }}
+        >
+          This feature is experimental & in early stages. It is possible your
+          groups will be completely deleted in a future version. Good luck!
+        </Text>
+      </View>
       <TouchableOpacity
         onPress={() => {
           navigation.navigate('Create new group');
@@ -101,7 +114,10 @@ export const MyGroupsScreen = ({ navigation }) => {
         </View>
       </TouchableOpacity>
       <FlatList
+        style={{ height: '100%' }}
         data={groups}
+        onRefresh={refresh}
+        refreshing={isRefreshing}
         showsVerticalScrollIndicator={false}
         renderItem={({ index, item: group }) => (
           <TouchableOpacity
@@ -187,7 +203,7 @@ export const MyGroupsScreen = ({ navigation }) => {
   );
 };
 
-const NoGroupsYet = () => (
+const NoGroupsYet = ({ navigation }) => (
   <View
     style={{
       height: '100%',
@@ -195,6 +211,16 @@ const NoGroupsYet = () => (
       alignItems: 'center',
     }}
   >
+    <Text
+      style={{
+        color: colors.white,
+        fontSize: 26,
+        fontWeight: 'bold',
+        marginBottom: 20,
+      }}
+    >
+      Introducing Groups
+    </Text>
     <Image
       source={require('../../../assets/images/squad.png')}
       resizeMode={'cover'}
@@ -211,17 +237,19 @@ const NoGroupsYet = () => (
         color: colors.lightGray,
         fontSize: 14,
         paddingHorizontal: 20,
+        marginTop: 15,
         marginBottom: 30,
 
         textAlign: 'center',
       }}
     >
-      Get the squad together.
+      Marketing onboarding stuff goes here.
     </Text>
     <Button
       title="Create a group"
+      color={colors.turquoise}
       onPress={() => {
-        alert('hi');
+        navigation.navigate('Create new group');
       }}
     />
   </View>

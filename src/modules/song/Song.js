@@ -20,6 +20,7 @@ import PlayIcon from '../../../assets/images/icons/play.svg';
 import MoreOptions from '../../../assets/images/icons/more-options.svg';
 
 import { usePlayer } from '../streaming-service/usePlayer';
+import { isSongPlaying } from '../liked/LikedScreen';
 
 const log = (message) => {
   console.debug(message);
@@ -32,27 +33,12 @@ export const Song = ({
   onDoubleTap,
   description,
   leftAction,
+  shareAction,
   rightAction,
   options,
 }) => {
   const player = usePlayer();
-
-  // This is most certainly an anti-pattern
-  // Since it will rerender all songs when you play one
-  // But the alternative would be to have a React context
-  // for each song? Maybe this is where redux comes in.
-  // useSelector(memoized(state => state.playback[song.id]))
-  // See 242A1CC6-851F-45F7-8EE9-C3973349C5ED
-  const isPlaying =
-    player.state.key === 'playing' &&
-    player.state.songId.id ===
-      (player.state.songId.service === 'spotify'
-        ? song.spotify?.id
-        : player.state.songId.service === 'apple-music'
-        ? song.appleMusic?.playbackStoreId
-        : (() => {
-            throw new Error(`${player.state.songId.service} not supported`);
-          })());
+  const isPlaying = isSongPlaying(song, player.state);
 
   // ui - should be extracted
   const [isPressingPlayPause, setIsPressingPlayPause] = React.useState(false);
@@ -278,22 +264,48 @@ export const Song = ({
                   </TouchableOpacity>
                 )}
               </View>
-              {rightAction && (
-                <TouchableOpacity
-                  style={{ flexDirection: 'row', alignItems: 'center' }}
-                  onPress={() => {
-                    rightAction.execute();
-                  }}
-                  hitSlop={{ top: 20, left: 20 }}
-                >
-                  {rightAction.icon}
-                  {rightAction.detail && (
-                    <Text style={styles.recommenders}>
-                      {rightAction.detail}
-                    </Text>
-                  )}
-                </TouchableOpacity>
-              )}
+              <View style={{ flexDirection: 'row' }}>
+                {shareAction && (
+                  <TouchableOpacity
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      paddingLeft: 20,
+                    }}
+                    onPress={() => {
+                      shareAction.execute();
+                    }}
+                    hitSlop={{ top: 20 }}
+                  >
+                    {shareAction.icon}
+                    {shareAction.detail && (
+                      <Text style={styles.recommenders}>
+                        {shareAction.detail}
+                      </Text>
+                    )}
+                  </TouchableOpacity>
+                )}
+                {rightAction && (
+                  <TouchableOpacity
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      paddingLeft: 10,
+                    }}
+                    onPress={() => {
+                      rightAction.execute();
+                    }}
+                    hitSlop={{ top: 20 }}
+                  >
+                    {rightAction.icon}
+                    {rightAction.detail && (
+                      <Text style={styles.recommenders}>
+                        {rightAction.detail}
+                      </Text>
+                    )}
+                  </TouchableOpacity>
+                )}
+              </View>
             </View>
           </View>
         </LinearGradient>

@@ -81,6 +81,9 @@ export const SharesFeed = ({ scope, navigation, route }) => {
   const appendPage = async () => {
     const oldestSharedAt = shares.last().sharedAt;
     const additionalItems = await listShares(oldestSharedAt);
+    if (!additionalItems) {
+      return;
+    }
     if (additionalItems.size === 0) {
       setReachedLastPage(true);
       return;

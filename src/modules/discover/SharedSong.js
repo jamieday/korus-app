@@ -7,13 +7,14 @@ import { useIdentity } from '../identity';
 
 import LovedIcon from '../../../assets/images/icons/loved.svg';
 import LoveableIcon from '../../../assets/images/icons/loveable.svg';
+import ReshareIcon from '../../../assets/images/icons/reshare.svg';
 
 import ProfileIcon from '../../../assets/images/pages/profile.svg';
 import { useApi } from '../api';
 import { formatCount } from '../profile/formatCount';
 import { Song } from '../song/Song';
 import { usePlayer } from '../streaming-service/usePlayer';
-import { refreshLikedSongs } from '../liked/LikedScreen';
+import { isSongPlaying, refreshLikedSongs } from '../liked/LikedScreen';
 
 export const SharedSong = ({
   song: share,
@@ -30,19 +31,7 @@ export const SharedSong = ({
   React.useEffect(() => setIsLiked(share.isLiked), [share.isLiked]);
 
   const myUsername = useIdentity().displayName;
-
-  // This is most certainly an anti-pattern
-  // See 242A1CC6-851F-45F7-8EE9-C3973349C5ED
-  const isPlaying =
-    player.state.key === 'playing' &&
-    player.state.songId.id ===
-      (player.state.songId.service === 'spotify'
-        ? share.spotify?.id
-        : player.state.songId.service === 'apple-music'
-        ? share.appleMusic?.playbackStoreId
-        : (() => {
-            throw new Error(`${player.state.songId.service} not supported`);
-          })());
+  const isPlaying = isSongPlaying(share, player.state);
 
   const unlikeShare = async () => {
     if (!isLiked) {
@@ -90,6 +79,26 @@ export const SharedSong = ({
         ),
         detail: share.sharer,
       }}
+      shareAction={
+        isMine
+          ? undefined
+          : {
+              execute: () => {
+                navigation.navigate('Share a song', {
+                  song: share,
+                  reshareOf: share,
+                });
+              },
+              icon: (
+                <ReshareIcon
+                  style={{ paddingHorizontal: 20 }}
+                  width={15}
+                  height={15}
+                  fill={colors.white}
+                />
+              ),
+            }
+      }
       rightAction={{
         execute: () => {
           if (isLiked) {

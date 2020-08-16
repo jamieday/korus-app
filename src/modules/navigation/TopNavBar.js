@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { View, TouchableOpacity } from 'react-native';
-import Animated, { interpolate } from 'react-native-reanimated';
+import Animated, { Extrapolate, interpolate } from 'react-native-reanimated';
 import { colors } from '../../styles';
 
 export const TopNavBar = ({ state, descriptors, navigation, position }) => {
@@ -10,6 +10,7 @@ export const TopNavBar = ({ state, descriptors, navigation, position }) => {
     outputRange: state.routes.map(
       (_, i) => (navWidth.current * i) / state.routes.length,
     ),
+    extrapolate: Extrapolate.CLAMP,
   });
   return (
     <View>

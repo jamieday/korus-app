@@ -6,15 +6,14 @@ import VersionNumber from 'react-native-version-number';
 import { isSupported } from './isSupported';
 
 export const VersionGuard = ({ children }) => {
-  const minSupportedVersion = remoteConfig().getValue('min_supported_version')
-    .value;
+  const minSupportedVersion = remoteConfig()
+    .getValue('min_supported_version')
+    .asString();
 
   useEffect(() => {
     (async () => {
       await remoteConfig().setConfigSettings({
-        // eslint-disable-next-line no-undef
-        isDeveloperModeEnabled: __DEV__,
-        minimumFetchInterval: 300,
+        minimumFetchIntervalMillis: 300,
       });
       await remoteConfig().fetchAndActivate();
     })();
