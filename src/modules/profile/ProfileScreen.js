@@ -19,21 +19,39 @@ import { formatCount } from './formatCount';
 import { MiniShare } from './MiniShare';
 import { ErrorView } from '../error/ErrorView';
 import DiscoverIcon from '../../../assets/images/pages/discover.svg';
-
 import { LikedScreen } from '../liked/LikedScreen';
+import { TopNavBar } from '../navigation/TopNavBar';
+import { ProfileTopNavBar } from './ProfileTopNavBar';
 
 const Tab = createMaterialTopTabNavigator();
 
 export const MyProfileScreen = () => (
   <Tab.Navigator
-    screenOptions={{
-      tabBarIcon: ({ color, focused }) => (
-        <DiscoverIcon width={50} height={50} fill={colors.black} />
-      ),
+    tabBar={(props) => <ProfileTopNavBar {...props} />}
+    tabBarOptions={{
+      showIcon: true,
+      activeTintColor: colors.black,
+      showLabel: false,
     }}
   >
-    <Tab.Screen name="Profile" component={ProfileScreen} />
-    <Tab.Screen name="Liked" component={LikedScreen} />
+    <Tab.Screen
+      name="Profile"
+      component={ProfileScreen}
+      options={{
+        tabBarIcon: ({ color, focused }) => (
+          <DiscoverIcon width={25} height={25} fill={color} />
+        ),
+      }}
+    />
+    <Tab.Screen
+      name="Liked"
+      component={LikedScreen}
+      options={{
+        tabBarIcon: ({ color, focused }) => (
+          <LoveIcon width={25} height={25} fill={color} />
+        ),
+      }}
+    />
   </Tab.Navigator>
 );
 

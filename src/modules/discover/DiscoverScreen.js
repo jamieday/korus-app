@@ -3,12 +3,13 @@ import { Button, View, Text } from 'react-native';
 import { colors } from '../../styles';
 import { SharesFeed } from './SharesFeed';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import DiscoverIcon from '../../../assets/images/pages/discover.svg';
+import GlobeIcon from '../../../assets/images/icons/globe.svg';
+import GroupsIcon from '../../../assets/images/icons/groups.svg';
 import { MyGroupsScreen } from './MyGroupsScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 import { GroupScreen } from './GroupScreen';
-import { useApi } from '../api';
 import { useProfile } from '../identity/useProfile';
+import { TopNavBar } from '../navigation/TopNavBar';
 
 const Stack = createStackNavigator();
 const Tab = createMaterialTopTabNavigator();
@@ -18,14 +19,31 @@ export const DiscoverScreen = ({ navigation, route }) => (
     <Stack.Screen name="Discover">
       {() => (
         <Tab.Navigator
-          screenOptions={{
-            tabBarIcon: ({ color, focused }) => (
-              <DiscoverIcon width={50} height={50} fill={color} />
-            ),
+          tabBar={(props) => <TopNavBar {...props} />}
+          tabBarOptions={{
+            showIcon: true,
+            activeTintColor: colors.black,
+            showLabel: false,
           }}
         >
-          <Tab.Screen name="Global" component={DiscoverGlobalScreen} />
-          <Tab.Screen name="Groups" component={MyGroupsScreen} />
+          <Tab.Screen
+            name="Global"
+            component={DiscoverGlobalScreen}
+            options={{
+              tabBarIcon: ({ color, focused }) => (
+                <GlobeIcon width={25} height={25} fill={color} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Groups"
+            component={MyGroupsScreen}
+            options={{
+              tabBarIcon: ({ color, focused }) => (
+                <GroupsIcon width={25} height={25} fill={color} />
+              ),
+            }}
+          />
         </Tab.Navigator>
       )}
     </Stack.Screen>
@@ -68,7 +86,7 @@ const DiscoverGlobalScreen = ({ navigation, route }) => {
             onPress={() => {
               navigation.navigate('People');
             }}
-            title={'Find some friends'}
+            title="Find some friends"
           />
         </View>
       ) : (
