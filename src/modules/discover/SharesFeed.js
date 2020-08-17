@@ -1,5 +1,12 @@
 import React, { useCallback, useRef } from 'react';
-import { ActivityIndicator, FlatList, Text, View, Button } from 'react-native';
+import {
+  Animated,
+  ActivityIndicator,
+  FlatList,
+  Text,
+  View,
+  Button,
+} from 'react-native';
 import { SharedSong } from './SharedSong';
 import { colors } from '../../styles';
 import messaging from '@react-native-firebase/messaging';
@@ -7,7 +14,15 @@ import { List } from 'immutable';
 import { ErrorView } from '../error/ErrorView';
 import { useApi } from '../api';
 
-export const SharesFeed = ({ scope, navigation, route }) => {
+export const SharesFeed = ({
+  style,
+  scope,
+  navigation,
+  route,
+  onScroll,
+  scrollEventThrottle,
+  ListHeaderComponent,
+}) => {
   const api = useApi();
   const [shares, setShares] = React.useState(List());
   const [isRefreshing, setRefreshing] = React.useState(true);
@@ -130,9 +145,18 @@ export const SharesFeed = ({ scope, navigation, route }) => {
   }
 
   return (
-    <FlatList
+    <Animated.FlatList
+      contentContainerStyle={[
+        style,
+        {
+          backgroundColor: colors.lightBlack,
+          padding: 15,
+        },
+      ]}
       ref={listRef}
       onRefresh={refresh}
+      onScroll={onScroll}
+      scrollEventThrottle={scrollEventThrottle}
       refreshing={isRefreshing}
       onEndReached={() => {
         (async () => {
@@ -150,6 +174,7 @@ export const SharesFeed = ({ scope, navigation, route }) => {
       onEndReachedThreshold={0.4}
       showsVerticalScrollIndicator={false}
       initialNumToRender={5}
+      ListHeaderComponent={ListHeaderComponent}
       ListFooterComponent={() =>
         isLoadingNextPage ? (
           <ActivityIndicator style={{ marginTop: 15, marginBottom: 40 }} />
@@ -173,10 +198,6 @@ export const SharesFeed = ({ scope, navigation, route }) => {
         )
       }
       keyExtractor={keyExtractor}
-      style={{
-        backgroundColor: colors.lightBlack,
-        padding: 15,
-      }}
       data={shares.toArray()}
       renderItem={renderItem}
     />
