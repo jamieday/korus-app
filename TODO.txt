@@ -1,21 +1,23 @@
+- Following separated from find new friends in the SEARCH view?
+- See gdoc for next steps https://docs.google.com/document/d/15mdps0KFU8DyEG1QuMT_uammV-uZHdzcGIxbT_TvlDA
+
+
+
+- Share to individual
+- Comments
+
+
 ----------------------- Groups -------------------------
 
-* List groups I'm a member of
+Remaining list of things
 
-* Create a group
-    * Group name
-    * Group profile, cover photos
-    * Members
-        * Friends + search
+ - Group management
+    - Role-based permissions
+    - Rename group, add members, remove members.
+ - View the members of a group
+ - Invite process
+ - Member search to find members to invite
 
-* View group
-    * top-down feed of shares
-
-* Share to group
-
-Share
-    songId
-    recipientId
 
 --------------------------------------------------------
 

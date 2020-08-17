@@ -13,18 +13,14 @@ import { formatCount } from '../profile/formatCount';
 import BackIcon from '../../../assets/images/icons/back.svg';
 import { useQuery } from 'react-query';
 import { toQuery, useApi } from '../api';
+import { ListDialog } from '../../korui/modal/ListDialog';
 
 const useGroupDetails = (groupId) => {
   const api = useApi();
-  const { data: groups, error, status, refetch } = useQuery(
-    'my-groups',
-    toQuery(api.listMyGroups),
+  const { data: group, error, status, refetch } = useQuery(
+    ['group-summary', groupId],
+    toQuery(() => api.getGroupSummary(groupId)),
   );
-
-  const group = useMemo(() => {
-    const candidates = groups.filter((group) => group.id === groupId);
-    return candidates.length === 1 ? candidates[0] : undefined;
-  }, [groups]);
 
   return {
     data: group,
@@ -33,6 +29,7 @@ const useGroupDetails = (groupId) => {
     refetch,
   };
 };
+
 export const GroupScreen = ({ navigation, route }) => {
   const groupId = route.params.id;
   const { data: group } = useGroupDetails(groupId);
@@ -40,7 +37,11 @@ export const GroupScreen = ({ navigation, route }) => {
   const [y, _] = useState(new Animated.Value(0));
 
   if (!group) {
-    return <ActivityIndicator />;
+    return (
+      <View style={{ flex: 1, backgroundColor: colors.lightBlack }}>
+        <ActivityIndicator style={{ marginTop: 15 }} />
+      </View>
+    );
   }
 
   return (
@@ -90,11 +91,7 @@ export const GroupScreen = ({ navigation, route }) => {
 
 const HEADER_HEIGHT = 150;
 const HEADER_MINIMIZED_Y = HEADER_HEIGHT;
-const GroupHeader = ({
-  y,
-  style,
-  group: { name, profilePicUrl, numMembers },
-}) => {
+const GroupHeader = ({ y, style, group: { name, profilePicUrl, members } }) => {
   const translateY = y.interpolate({
     inputRange: [0, HEADER_MINIMIZED_Y],
     outputRange: [0, -100],
@@ -165,12 +162,22 @@ const GroupHeader = ({
       >
         {name}
       </Animated.Text>
+      {/*<AnimatedTouchableOpacity*/}
+      {/*  style={{ move the style here- opacity: miscInfoOpacity }}*/}
+      {/*  disabled={true}*/}
+      {/*  // onPress={() => setMembersDialogVisible(true)}*/}
+      {/*>*/}
       <Animated.Text
-        style={{ opacity: miscInfoOpacity, color: colors.gray }}
+        style={{ color: colors.gray, opacity: miscInfoOpacity }}
         numberOfLines={1}
       >
-        {formatCount(numMembers)} members
+        {formatCount(members.length)} members
       </Animated.Text>
+      {/*</AnimatedTouchableOpacity>*/}
     </Animated.View>
   );
 };
+
+// const AnimatedTouchableOpacity = Animated.createAnimatedComponent(
+//   TouchableOpacity,
+// );

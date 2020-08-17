@@ -150,6 +150,8 @@ export const useApi = () => {
   const get = (url) => call(url, 'GET');
   const post = (url, body) => call(url, 'POST', body);
 
+  const getGroupSummary = (groupId) =>
+    get(`/groups/group/${encodeURIComponent(groupId)}/summary`);
   const listMyGroups = () => get('/groups/my-groups');
   const createGroup = (createGroupPayload) =>
     post('/groups/create', createGroupPayload);
@@ -193,6 +195,7 @@ export const useApi = () => {
 
     listShares,
 
+    getGroupSummary,
     listMyGroups,
     createGroup,
 
