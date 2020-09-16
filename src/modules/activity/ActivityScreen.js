@@ -150,31 +150,6 @@ export const ActivityScreen = ({ navigation }) => {
 
 const keyExtractor = ({ id }) => id;
 
-// -----FUNNY---------FUNNY---------FUNNY---------FUNNY---------FUNNY---------FUNNY----
-const funny = [
-  require('../../../assets/images/funny-1.jpg'),
-  require('../../../assets/images/funny-2.jpg'),
-  require('../../../assets/images/funny-3.jpg'),
-  require('../../../assets/images/funny-4.jpg'),
-  require('../../../assets/images/funny-5.gif'),
-  require('../../../assets/images/funny-6.png'),
-];
-const hashCode = (str) => {
-  let hash = 0,
-    i,
-    chr;
-  for (i = 0; i < str.length; i++) {
-    chr = str.charCodeAt(i);
-    hash = (hash << 5) - hash + chr;
-    hash |= 0; // Convert to 32bit integer
-  }
-  return hash;
-};
-export const getFallbackProfileImageSource = (userId) => {
-  return funny[Math.abs(hashCode(userId) % funny.length)];
-};
-// -----FUNNY---------FUNNY---------FUNNY---------FUNNY---------FUNNY---------FUNNY----
-
 const UserEvent = ({ navigation, style, userEvent }) => {
   return (
     <View style={style}>
@@ -199,7 +174,7 @@ const UserEvent = ({ navigation, style, userEvent }) => {
                 ? {
                     uri: userEvent.actor.profilePicUrl,
                   }
-                : getFallbackProfileImageSource(userEvent.actor.userId)
+                : require('../../../assets/images/default-profile.png')
             }
             style={{
               borderColor: colors.white,

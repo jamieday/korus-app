@@ -30,7 +30,7 @@ const ModalNavigator = () => (
       name="App"
       component={TabNavigator}
       options={{
-        header: LogoHeader,
+        headerShown: false,
       }}
     />
 
@@ -78,13 +78,20 @@ const ModalNavigator = () => (
   </ModalStack.Navigator>
 );
 
+const withLogoHeader = (Component) => (props) => (
+  <>
+    <LogoHeader />
+    <Component {...props} />
+  </>
+);
+
 export const TabNavigator = () => (
   <Tab.Navigator
     tabBar={(props) => <BottomAppBar {...props} />}
     initialRouteName="Discover"
   >
     <Tab.Screen name="Discover" component={DiscoverScreen} />
-    <Tab.Screen name="People" component={PeopleScreen} />
+    <Tab.Screen name="People" component={withLogoHeader(PeopleScreen)} />
     <Tab.Screen
       name="Share"
       component={ShareSongScreen}
@@ -95,7 +102,7 @@ export const TabNavigator = () => (
         },
       })}
     />
-    <Tab.Screen name="Activity" component={ActivityScreen} />
+    <Tab.Screen name="Activity" component={withLogoHeader(ActivityScreen)} />
     <Tab.Screen name="MyProfile" component={MyProfileScreen} />
   </Tab.Navigator>
 );

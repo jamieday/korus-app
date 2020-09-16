@@ -22,46 +22,11 @@ const log = (message) => {
   console.debug(message);
 };
 
-export const MiniShare = ({
-  style,
-  miniShareData,
-  isPlaying,
-  onPlay,
-  onPause,
-}) => {
-  const player = usePlayer();
-
-  const pauseSong = async () => {
-    log('[Song] Pausing song.');
-    analytics().logEvent('pause_song', {
-      shareId: miniShareData.id,
-      songName: miniShareData.songName,
-      artistName: miniShareData.artistName,
-    });
-    if (onPause) onPause();
-    await player.pauseSong();
-  };
-
-  const playSong = async () => {
-    log('[Song] Playing song.');
-    analytics().logEvent('play_song', {
-      shareId: miniShareData.id,
-      songName: miniShareData.songName,
-      artistName: miniShareData.artistName,
-    });
-    if (onPlay) onPlay();
-    await player.playSong(miniShareData);
-  };
-
+export const MiniShare = ({ style, miniShareData, onSelectSong }) => {
   const height = '100%';
 
   return (
-    <TouchableOpacity
-      disabled={!player.canPlay(miniShareData)}
-      onPress={() => {
-        isPlaying ? pauseSong() : playSong();
-      }}
-    >
+    <TouchableOpacity onPress={onSelectSong}>
       <ImageBackground
         style={[styles.container, style]}
         source={{

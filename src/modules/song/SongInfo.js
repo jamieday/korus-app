@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { Image } from '../../korui/Image';
+import { Image } from '../../korui/image/Image';
 import { colors } from '../../styles';
 import { usePlayer } from '../streaming-service/usePlayer';
 import { isSongPlaying } from '../liked/LikedScreen';

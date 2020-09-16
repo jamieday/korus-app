@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, View, Text, ActivityIndicator } from 'react-native';
+import { Button, View, Text } from 'react-native';
 import { colors } from '../../styles';
 import { SharesFeed } from './SharesFeed';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -10,15 +10,15 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { GroupScreen } from './GroupScreen';
 import { useProfile } from '../identity/useProfile';
 import { TopNavBar } from '../navigation/TopNavBar';
-import { useAuthN } from '../api';
 import { StartupProgress } from '../StartupProgress';
+import { LogoHeader } from '../navigation/LogoHeader';
 
 const Stack = createStackNavigator();
 const Tab = createMaterialTopTabNavigator();
 
 export const DiscoverScreen = ({ navigation, route }) => (
   <Stack.Navigator>
-    <Stack.Screen name="Discover">
+    <Stack.Screen name="Discover" options={{ header: LogoHeader }}>
       {() => (
         <Tab.Navigator
           tabBar={(props) => <TopNavBar {...props} />}
@@ -50,7 +50,13 @@ export const DiscoverScreen = ({ navigation, route }) => (
       )}
     </Stack.Screen>
 
-    <Stack.Screen name="Group" component={GroupScreen} />
+    <Stack.Screen
+      name="Group"
+      component={GroupScreen}
+      options={{
+        header: LogoHeader,
+      }}
+    />
   </Stack.Navigator>
 );
 

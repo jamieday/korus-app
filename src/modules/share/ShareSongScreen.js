@@ -18,8 +18,6 @@ import GroupsIcon from '../../../assets/images/icons/groups.svg';
 import GlobeIcon from '../../../assets/images/icons/globe.svg';
 import { SongInfo } from '../song/SongInfo';
 import { SelectionIndicator } from '../../korui/form/SelectionIndicator';
-import { Image } from '../../korui/Image';
-import { CircleView } from '../../korui/layout/CircleView';
 
 export const ShareSongScreen = ({ navigation, route }) => {
   const api = useApi();

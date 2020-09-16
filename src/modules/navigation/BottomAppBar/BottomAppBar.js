@@ -1,7 +1,8 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, SafeAreaView } from 'react-native';
 import { PlaybackBar } from './PlaybackBar';
 import { NavigationTabBar } from './NavigationTabBar';
+import { colors } from '../../../styles';
 
 export const BottomAppBar = ({ descriptors, state, navigation }) => {
   const selectedRoute = state.routes[state.index];
@@ -13,13 +14,13 @@ export const BottomAppBar = ({ descriptors, state, navigation }) => {
   }
 
   return (
-    <View>
+    <SafeAreaView style={{ backgroundColor: colors.black }}>
       <PlaybackBar />
       <NavigationTabBar
         navigation={navigation}
         state={state}
         descriptors={descriptors}
       />
-    </View>
+    </SafeAreaView>
   );
 };

@@ -1,5 +1,6 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { getBottomSpace } from 'react-native-iphone-x-helper';
 import { colors } from '../../../styles';
 
@@ -14,7 +15,7 @@ import LoveSelectedIcon from '../../../../assets/images/icons/heart-fancy.svg';
 import ProfileIcon from '../../../../assets/images/icons/profile-simple.svg';
 import ProfileSelectedIcon from '../../../../assets/images/icons/profile-fancy.svg';
 
-export const TAB_BAR_HEIGHT = 50 + getBottomSpace();
+export const TAB_BAR_HEIGHT = 50;
 
 export const NavigationTabBar = ({ navigation, descriptors, state }) => {
   const renderItem = React.useCallback(
@@ -68,7 +69,7 @@ export const NavigationTabBar = ({ navigation, descriptors, state }) => {
   );
 
   return (
-    <SafeAreaView
+    <View
       style={{
         height: TAB_BAR_HEIGHT,
         flexDirection: 'row',
@@ -79,7 +80,7 @@ export const NavigationTabBar = ({ navigation, descriptors, state }) => {
       }}
     >
       {state.routes.map(renderItem)}
-    </SafeAreaView>
+    </View>
   );
 };
 

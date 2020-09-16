@@ -1,19 +1,11 @@
 import React, { useCallback, useRef } from 'react';
-import {
-  Animated,
-  ActivityIndicator,
-  FlatList,
-  Text,
-  View,
-  Button,
-} from 'react-native';
+import { Animated, ActivityIndicator, Text, View, Button } from 'react-native';
 import { SharedSong } from './SharedSong';
 import { colors } from '../../styles';
 import messaging from '@react-native-firebase/messaging';
 import { List } from 'immutable';
 import { ErrorView } from '../error/ErrorView';
 import { useApi } from '../api';
-import { useFocusEffect } from '@react-navigation/core';
 import { useProfile } from '../identity/useProfile';
 
 export const SharesFeed = ({
@@ -122,19 +114,16 @@ export const SharesFeed = ({
 
   const keyExtractor = useCallback((item) => item.id, []);
 
-  const ITEM_HEIGHT = 350;
-
   const renderItem = React.useCallback(
     ({ item }) => (
       <SharedSong
         key={keyExtractor(item)}
-        height={ITEM_HEIGHT}
-        song={item}
+        share={item}
         didUnshare={refresh}
         navigation={navigation}
       />
     ),
-    [ITEM_HEIGHT, navigation],
+    [navigation],
   );
 
   if (error) {
@@ -151,7 +140,7 @@ export const SharesFeed = ({
         </Text>
         <Button
           color={colors.turquoise}
-          title={'Get things started'}
+          title={'Share a song!'}
           onPress={() => navigation.navigate('Select a song')}
         />
       </View>

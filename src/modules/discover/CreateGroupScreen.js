@@ -1,25 +1,17 @@
-import {
-  ActionSheetIOS,
-  ActivityIndicator,
-  Button,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { ActivityIndicator, Button, Text, View } from 'react-native';
 import { colors } from '../../styles';
-import PlusIcon from '../../../assets/images/icons/plus-simple.svg';
 import React, { useEffect, useState } from 'react';
 import { TextInput } from '../../korui/TextInput';
 import { SectionHeader } from '../../korui/SectionHeader';
 import GroupsIcon from '../../../assets/images/icons/groups.svg';
 import { MultiselectList } from '../../korui/form/MultiselectList';
 import Image from 'react-native-fast-image';
-import { Set, Map } from 'immutable';
-import ImagePicker from 'react-native-image-picker';
-import { CircleView } from '../../korui/layout/CircleView';
+import { Set } from 'immutable';
 import { useApi } from '../api';
 import { getFallbackProfileImageSource } from '../activity/ActivityScreen';
 import { queryCache } from 'react-query';
+import { ProfilePicSelector } from '../../korui/image/ProfilePicSelector';
+import { useImagePicker } from '../../korui/image/useImagePicker';
 
 export const CreateGroupScreen = ({ navigation }) => {
   const api = useApi();
@@ -28,7 +20,6 @@ export const CreateGroupScreen = ({ navigation }) => {
   const [isLoading, setLoading] = useState(false);
 
   const [groupName, setGroupName] = useState('');
-  const [profilePicDataUri, setProfilePicDataUri] = useState();
   const [memberUserIds, setMemberUserIds] = useState(new Set());
 
   const createGroup = async () => {
@@ -47,16 +38,11 @@ export const CreateGroupScreen = ({ navigation }) => {
     navigation.pop();
   };
 
-  const selectProfilePic = () => {
-    ImagePicker.showImagePicker(
-      { mediaType: 'photo', maxWidth: 1024, maxHeight: 1024, quality: 0.2 },
-      (response) => {
-        if (response.data) {
-          setProfilePicDataUri(`data:image/jpeg;base64,${response.data}`);
-        }
-      },
-    );
-  };
+  const {
+    imageUri: profilePicDataUri,
+    selectImage: selectProfilePic,
+    clearImage: clearProfilePic,
+  } = useImagePicker();
 
   useEffect(() => {
     (async () => {
@@ -79,46 +65,12 @@ export const CreateGroupScreen = ({ navigation }) => {
           alignItems: 'center',
         }}
       >
-        {profilePicDataUri ? (
-          <TouchableOpacity
-            onPress={() => {
-              const options = ['Replace photo...', 'Remove photo', 'Cancel'];
-              ActionSheetIOS.showActionSheetWithOptions(
-                {
-                  options,
-                  cancelButtonIndex: options.indexOf('Cancel'),
-                  destructiveButtonIndex: options.indexOf('Remove photo'),
-                },
-                (selectedIndex) => {
-                  switch (selectedIndex) {
-                    case 0:
-                      selectProfilePic();
-                      break;
-                    case 1:
-                      setProfilePicDataUri(undefined);
-                      break;
-                  }
-                },
-              );
-            }}
-          >
-            <Image
-              style={{ width: 44, aspectRatio: 1 }}
-              source={{ uri: profilePicDataUri }}
-              borderRadius={44 / 2}
-            />
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            onPress={() => {
-              selectProfilePic();
-            }}
-          >
-            <CircleView fill={colors.gray} size={44}>
-              <PlusIcon width={20} height={20} fill={colors.darkGray} />
-            </CircleView>
-          </TouchableOpacity>
-        )}
+        <ProfilePicSelector
+          size={44}
+          profilePicUri={profilePicDataUri}
+          onSelectPhoto={selectProfilePic}
+          onRemovePhoto={clearProfilePic}
+        />
         <View style={{ flex: 1 }}>
           <TextInput
             error={error}

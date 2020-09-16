@@ -1,82 +1,46 @@
-import React from 'react';
-import LinearGradient from 'react-native-linear-gradient';
-import {
-  Text,
-  View,
-  ImageBackground,
-  FlatList,
-  TouchableOpacity,
-  ActivityIndicator,
-} from 'react-native';
+import React, { useState ,useLayoutEffect} from 'react';
+import { View, ActivityIndicator, Animated, FlatList } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { colors } from '../../styles';
-import FollowIcon from '../../../assets/images/icons/follow.svg';
-import ProfileIcon from '../../../assets/images/pages/profile.svg';
-import SelectedIcon from '../../../assets/images/icons/selected.svg';
 import LoveIcon from '../../../assets/images/icons/love.svg';
-import { useApi, useAuthN } from '../api';
-import { formatCount } from './formatCount';
+import { toQuery, useApi } from '../api';
 import { MiniShare } from './MiniShare';
 import { ErrorView } from '../error/ErrorView';
 import DiscoverIcon from '../../../assets/images/pages/discover.svg';
 import { LikedScreen } from '../liked/LikedScreen';
-import { ProfileTopNavBar } from './ProfileTopNavBar';
 import {
   optimisticFollow,
   optimisticUnfollow,
   useProfile,
 } from '../identity/useProfile';
+import { INIT_HEADER_HEIGHT, ProfileTopNavBar } from './ProfileTopNavBar';
+import { useQuery } from 'react-query';
 
 const Tab = createMaterialTopTabNavigator();
 
-export const MyProfileScreen = () => (
-  <Tab.Navigator
-    tabBar={(props) => <ProfileTopNavBar {...props} />}
-    tabBarOptions={{
-      showIcon: true,
-      activeTintColor: colors.black,
-      showLabel: false,
-    }}
-  >
-    <Tab.Screen
-      name="Profile"
-      component={ProfileScreen}
-      options={{
-        tabBarIcon: ({ color, focused }) => (
-          <DiscoverIcon width={25} height={25} fill={color} />
-        ),
-      }}
-    />
-    <Tab.Screen
-      name="Liked"
-      component={LikedScreen}
-      options={{
-        tabBarIcon: ({ color, focused }) => (
-          <LoveIcon width={25} height={25} fill={color} />
-        ),
-      }}
-    />
-  </Tab.Navigator>
-);
-
-export const ProfileScreen = ({ navigation, route }) => {
+export const MyProfileScreen = ({ navigation, route }) => {
   const api = useApi();
-  const { user } = useAuthN();
 
-  const { profile, error: profileError, reloadProfile } = useProfile(
+  const { profile, error: profileError, reloadProfile , isLoading} = useProfile(
     route.params?.id,
   );
-  const [playingSongId, setPlayingSongId] = React.useState();
+  const [playingSongId, setPlayingSongId] = useState();
 
-  React.useLayoutEffect(() => {
-    navigation.setOptions({ headerTitle: profile?.username ?? '' });
+  const [y, _] = useState(new Animated.Value(0));
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: profile?.username ? `${profile.username}'s profile` : '',
+    });
   }, [profile, navigation]);
 
-  const isMyProfile = user.displayName === profile?.username;
+  // massive hack
+  const hasNavigationHeader = !!route.params?.id;
 
-  if (!profile) {
+  if (isLoading) {
     return (
-      <View
+      <SafeAreaView
         style={{
           backgroundColor: colors.lightBlack,
           height: '100%',
@@ -85,7 +49,7 @@ export const ProfileScreen = ({ navigation, route }) => {
         }}
       >
         <ActivityIndicator />
-      </View>
+      </SafeAreaView>
     );
   }
 
@@ -93,134 +57,75 @@ export const ProfileScreen = ({ navigation, route }) => {
     return <ErrorView error={profileError} refresh={reloadProfile} />;
   }
 
-  const profileImgSize = 55;
   return (
-    <View style={{ backgroundColor: colors.lightBlack, height: '100%' }}>
-      <ImageBackground
-        style={{
-          height: 250,
-        }}
-        source={{
-          uri:
-            profile.coverPhotoUrl ??
-            'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
-          height: 250,
+    <Tab.Navigator
+      tabBar={(props) => (
+        <ProfileTopNavBar
+          {...props}
+          y={y}
+          hasNavigationHeader={hasNavigationHeader}
+        />
+      )}
+      tabBarOptions={{
+        showIcon: true,
+        activeTintColor: colors.black,
+        showLabel: false,
+      }}
+      screenOptions={{ profile }}
+    >
+      <Tab.Screen
+        name="Profile"
+        options={{
+          tabBarIcon: ({ color, focused }) => (
+            <DiscoverIcon width={25} height={25} fill={color} />
+          ),
         }}
       >
-        <LinearGradient
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: '100%',
-            height: '100%',
-          }}
-          colors={['#00000000', '#000']}
-        >
-          {/* <Image
-            style={{
-              width: profileImgSize,
-              height: profileImgSize,
-              overflow: 'hidden',
-              borderRadius: profileImgSize / 2,
-            }}
-            source={{
-              uri: profile.profilePicUrl,
-              width: profileImgSize,
-              height: profileImgSize,
-            }}
-          /> */}
-          <Text
-            style={{
-              color: colors.white,
-              fontWeight: 'bold',
-              fontSize: 28,
-              marginBottom: 5,
-            }}
-          >
-            {profile.username}
-          </Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <LoveIcon
-              style={{ marginRight: 3 }}
-              width={16}
-              height={16}
-              fill={colors.white}
-            />
-            <Text style={{ color: colors.white }}>
-              {formatCount(profile.totalLikes)}
-            </Text>
-            <View
-              style={{
-                marginHorizontal: 5,
-                alignSelf: 'stretch',
-                borderLeftColor: colors.white,
-                borderLeftWidth: 1,
-              }}
-            />
-            {isMyProfile ? (
-              <>
-                <ProfileIcon
-                  style={{ marginRight: 3 }}
-                  width={16}
-                  height={16}
-                  fill={colors.white}
-                />
-                <Text style={{ color: colors.white }}>
-                  {formatCount(profile.totalFollowers)}
-                </Text>
-              </>
-            ) : (
-              (() => {
-                const { IconComponent, onPress } = ((isFollowing) =>
-                  isFollowing
-                    ? {
-                        IconComponent: SelectedIcon,
-                        onPress: () => {
-                          optimisticUnfollow(profile.userId);
-                          api.unfollowUser(profile.userId);
-                        },
-                      }
-                    : {
-                        IconComponent: FollowIcon,
-                        onPress: () => {
-                          optimisticFollow(profile.userId);
-                          api.followUser(profile.userId);
-                        },
-                      })(profile.isFollowing);
+        {(props) => <ProfileScreen {...props} y={y} profile={profile} />}
+      </Tab.Screen>
+      <Tab.Screen
+        name="Liked"
+        options={{
+          tabBarIcon: ({ color, focused }) => (
+            <LoveIcon width={25} height={25} fill={color} />
+          ),
+        }}
+      >
+        {(props) => <LikedScreen {...props} profile={profile} />}
+      </Tab.Screen>
+    </Tab.Navigator>
+  );
+};
 
-                return (
-                  <TouchableOpacity
-                    style={{
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      width: 50,
-                      // height: 5,
-                      borderColor: colors.white,
-                      borderWidth: 1,
-                      paddingVertical: 3,
-                    }}
-                    onPress={onPress}
-                    hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
-                  >
-                    <IconComponent width={10} height={10} fill={colors.white} />
-                  </TouchableOpacity>
-                );
-              })()
-            )}
-          </View>
-        </LinearGradient>
-      </ImageBackground>
+export const ProfileScreen = ({ y, navigation, route, profile }) => {
+  // const startPositionY = y.interpolate({
+  //   inputRange: [0, 180],
+  //   outputRange: [0, -180],
+  //   extrapolate: 'clamp',
+  // });
+
+  return (
+    <View
+      style={{
+        // transform: [{ translateY: startPositionY }],
+        backgroundColor: colors.lightBlack,
+        flex: 1,
+      }}
+    >
       {(() => {
         const numColumns = 3;
         const songSize = 105;
         return (
           <FlatList
+            // onScroll={Animated.event(
+            //   [
+            //     {
+            //       nativeEvent: { contentOffset: { y } },
+            //     },
+            //   ],
+            //   { useNativeDriver: true },
+            // )}
+            // scrollEventThrottle={16}
             columnWrapperStyle={{
               flexDirection: 'row',
               margin: 13,
@@ -240,14 +145,16 @@ export const ProfileScreen = ({ navigation, route }) => {
                 <MiniShare
                   style={{ width: songSize, height: songSize }}
                   miniShareData={share}
-                  isPlaying={share.id === playingSongId}
-                  onPlay={() => setPlayingSongId(share.id)}
-                  onPause={() => setPlayingSongId(undefined)}
+                  onSelectSong={() =>
+                    navigation.navigate('User shares', {
+                      profile,
+                      scrollToShareId: share.id,
+                    })
+                  }
                 />
               )
             }
             numColumns={numColumns}
-            // stickyHeaderIndices={[0]}
           />
         );
       })()}

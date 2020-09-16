@@ -16,13 +16,9 @@ import { Song } from '../song/Song';
 import { usePlayer } from '../streaming-service/usePlayer';
 import { isSongPlaying, refreshLikedSongs } from '../liked/LikedScreen';
 
-export const SharedSong = ({
-  song: share,
-  height,
-  style,
-  didUnshare,
-  navigation,
-}) => {
+const SHARED_SONG_HEIGHT = 350;
+
+export const SharedSong = ({ share, style, didUnshare, navigation }) => {
   const api = useApi();
   const player = usePlayer();
   const [totalLikes, setTotalLikes] = React.useState(share.totalLikes);
@@ -61,14 +57,18 @@ export const SharedSong = ({
     <Song
       style={style}
       song={share}
-      height={height}
+      height={SHARED_SONG_HEIGHT}
       onDoubleTap={likeShare}
       description={share.caption}
       leftAction={{
         execute: () => {
-          navigation.navigate('Profile', {
-            id: share.sharerId,
-          });
+          if (isMine) {
+            navigation.navigate('MyProfile');
+          } else {
+            navigation.navigate('Profile', {
+              id: share.sharerId,
+            });
+          }
         },
         icon: (
           <ProfileIcon

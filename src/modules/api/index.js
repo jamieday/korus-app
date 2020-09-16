@@ -163,16 +163,21 @@ export const useApi = () => {
       }&limit=${limit}${olderThan ? `&olderThan=${olderThan}` : ''}`,
     );
 
-  const listLikedSongs = () => get('/song/list-liked');
+  const listLikedSongs = (userId) =>
+    get(`/song/${encodeURIComponent(userId)}/list-liked`);
   const listTopSongs = () => get('/song/top-songs/list');
+
+  const updateProfilePic = (profilePicUri) =>
+    post('/people/user/me/profile-pic-update', { profilePicUri });
+
+  const updateCoverPhoto = (coverPhotoUri) =>
+    post('/people/user/me/cover-photo-update', { coverPhotoUri });
 
   const listUsers = () => get('/people/users/all');
 
-  const viewProfile = (username) => {
-    if (username !== user.displayName) {
-      analytics().logEvent('view_profile', { username });
-    }
-    return get(`/people/user/${encodeURIComponent(username)}/profile`);
+  const viewProfile = (id) => {
+    analytics().logEvent('view_profile', { id });
+    return get(`/people/user/${encodeURIComponent(id)}/profile`);
   };
 
   const followUser = (id) => {
@@ -204,6 +209,8 @@ export const useApi = () => {
 
     listUsers,
 
+    updateProfilePic,
+    updateCoverPhoto,
     viewProfile,
     followUser,
     unfollowUser,

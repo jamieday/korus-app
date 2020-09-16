@@ -2,9 +2,10 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { MainAppNavigator } from './MainAppNavigator';
 import { colors } from '../../styles';
-import { ProfileScreen } from '../profile/ProfileScreen';
+import { MyProfileScreen, ProfileScreen } from '../profile/ProfileScreen';
 import { LogoHeader } from './LogoHeader';
 import { ShareSongScreen } from '../share/ShareSongScreen';
+import { UserSharesScreen } from '../discover/UserSharesScreen';
 
 const Stack = createStackNavigator();
 
@@ -25,7 +26,7 @@ export const RootStack = () => (
     />
     <Stack.Screen
       name="Profile"
-      component={ProfileScreen}
+      component={MyProfileScreen}
       options={{
         // 213c8fe5-5146-4e97-83d4-ddc63dcd7070
         headerBackTitleVisible: false,
@@ -36,6 +37,14 @@ export const RootStack = () => (
             height: 0,
           },
         },
+      }}
+    />
+
+    <Stack.Screen
+      name="User shares"
+      component={UserSharesScreen}
+      options={{
+        headerShown: false,
       }}
     />
 

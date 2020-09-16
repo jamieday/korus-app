@@ -11,21 +11,24 @@ import { NavigationProvider } from './src/modules/navigation/NavigationProvider'
 import { RootStack } from './src/modules/navigation/RootStack';
 import { PlaybackContextProvider } from './src/modules/streaming-service/PlaybackContext';
 import { PushNotificationProvider } from './src/modules/notification/PushNotificationProvider';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 export default () => (
-  <NavigationProvider>
-    <VersionGuard>
-      <AuthenticationProvider>
-        <SetUsernameGuard>
-          <PushNotificationProvider>
-            <StreamingServiceProvider>
-              <PlaybackContextProvider>
-                <RootStack />
-              </PlaybackContextProvider>
-            </StreamingServiceProvider>
-          </PushNotificationProvider>
-        </SetUsernameGuard>
-      </AuthenticationProvider>
-    </VersionGuard>
-  </NavigationProvider>
+  <SafeAreaProvider>
+    <NavigationProvider>
+      <VersionGuard>
+        <AuthenticationProvider>
+          <SetUsernameGuard>
+            <PushNotificationProvider>
+              <StreamingServiceProvider>
+                <PlaybackContextProvider>
+                  <RootStack />
+                </PlaybackContextProvider>
+              </StreamingServiceProvider>
+            </PushNotificationProvider>
+          </SetUsernameGuard>
+        </AuthenticationProvider>
+      </VersionGuard>
+    </NavigationProvider>
+  </SafeAreaProvider>
 );

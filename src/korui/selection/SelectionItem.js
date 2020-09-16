@@ -1,6 +1,6 @@
 import { View, TouchableOpacity, Text } from 'react-native';
 import React from 'react';
-import { Image } from '../Image';
+import { Image } from '../image/Image';
 import { colors } from '../../styles';
 
 export const SelectionItem = ({

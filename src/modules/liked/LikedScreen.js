@@ -18,14 +18,13 @@ export const refreshLikedSongs = () => {
   return queryCache.invalidateQueries(LIKED_SONGS_QUERY_KEY);
 };
 
-export const LikedScreen = () => {
+export const LikedScreen = ({ profile }) => {
   const api = useApi();
 
   const { data: likedSongsArray, error, status, refetch } = useQuery(
-    LIKED_SONGS_QUERY_KEY,
-    toQuery(api.listLikedSongs),
+    [LIKED_SONGS_QUERY_KEY, profile.userId],
+    toQuery(() => api.listLikedSongs(profile.userId)),
     {
-      retry: false,
       refetchOnWindowFocus: true,
     },
   );

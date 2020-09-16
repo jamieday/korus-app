@@ -24,6 +24,7 @@ export const colors = {
   black: 'black',
   lightBlack: '#0C0C0C',
   lighterBlack: '#131313',
+  lighterBlackTrans: '#131313a0',
   green: '#6DD0A3',
   yellow: '#ffc247',
 };
