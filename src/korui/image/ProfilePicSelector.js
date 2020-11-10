@@ -56,7 +56,7 @@ export const ProfilePicSelector = ({
           onSelectPhoto();
         }}
       >
-        <CircleView fill={colors.gray} size={size}>
+        <CircleView style={style} fill={colors.gray} size={size}>
           <PlusIcon width={size / 2} height={size / 2} fill={colors.darkGray} />
         </CircleView>
       </TouchableOpacity>

@@ -62,13 +62,9 @@ export const SharedSong = ({ share, style, didUnshare, navigation }) => {
       description={share.caption}
       leftAction={{
         execute: () => {
-          if (isMine) {
-            navigation.navigate('MyProfile');
-          } else {
-            navigation.navigate('Profile', {
-              id: share.sharerId,
-            });
-          }
+          navigation.navigate('Profile', {
+            id: share.sharerId,
+          });
         },
         icon: (
           <ProfileIcon

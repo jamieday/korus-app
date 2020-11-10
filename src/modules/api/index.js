@@ -167,8 +167,8 @@ export const useApi = () => {
     get(`/song/${encodeURIComponent(userId)}/list-liked`);
   const listTopSongs = () => get('/song/top-songs/list');
 
-  const updateProfilePic = (profilePicUri) =>
-    post('/people/user/me/profile-pic-update', { profilePicUri });
+  const updateProfile = (profileData) =>
+    post('/people/user/me/profile-update', profileData);
 
   const updateCoverPhoto = (coverPhotoUri) =>
     post('/people/user/me/cover-photo-update', { coverPhotoUri });
@@ -209,7 +209,7 @@ export const useApi = () => {
 
     listUsers,
 
-    updateProfilePic,
+    updateProfile,
     updateCoverPhoto,
     viewProfile,
     followUser,

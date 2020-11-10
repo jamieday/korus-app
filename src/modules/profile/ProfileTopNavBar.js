@@ -48,7 +48,9 @@ export const ProfileTopNavBar = (props) => {
 
   const selectProfilePic = async () => {
     const imageUri = await selectProfilePicImage();
-    const [_, error] = await api.updateProfilePic(imageUri);
+    const [_, error] = await api.updateProfile({
+      profilePicUri: { value: imageUri },
+    });
     if (error) {
       // TODO unhappy path... keep it simple
       // probably want loading indicators for this (blocking)
@@ -59,7 +61,9 @@ export const ProfileTopNavBar = (props) => {
 
   const clearProfilePic = async () => {
     clearProfilePicImage();
-    const [_, _error] = await api.updateProfilePic(undefined);
+    const [_, _error] = await api.updateProfile({
+      profilePicUri: { value: undefined },
+    });
   };
 
   const {

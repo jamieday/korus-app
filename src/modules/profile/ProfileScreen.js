@@ -38,6 +38,10 @@ export const MyProfileScreen = ({ navigation, route }) => {
   // massive hack
   const hasNavigationHeader = !!route.params?.id;
 
+  if (profileError) {
+    return <ErrorView error={profileError} refresh={reloadProfile} />;
+  }
+
   if (isLoading) {
     return (
       <SafeAreaView
@@ -51,10 +55,6 @@ export const MyProfileScreen = ({ navigation, route }) => {
         <ActivityIndicator />
       </SafeAreaView>
     );
-  }
-
-  if (profileError) {
-    return <ErrorView error={profileError} refresh={reloadProfile} />;
   }
 
   return (

@@ -109,7 +109,7 @@ export const SharesFeed = ({
       setReachedLastPage(true);
       return;
     }
-    setShares((shares ?? []).concat(additionalItems));
+    setShares(shares.concat(additionalItems));
   };
 
   const keyExtractor = useCallback((item) => item.id, []);

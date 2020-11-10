@@ -8,7 +8,7 @@ import { TextInput } from '../../korui/TextInput';
 import { colors } from '../../styles';
 import { useApi, useAuthN } from '../api';
 
-export const SetUsernameGuard = ({ children }) => {
+export const UserRegistrationGate = ({ children }) => {
   const { user, refreshToken } = useAuthN();
   const api = useApi();
   const [usernameQueued, setUsernameQueued] = useState(undefined);

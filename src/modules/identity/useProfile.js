@@ -29,7 +29,6 @@ const profileQueryKey = (userId) => ['view-profile', userId ?? 'me'];
 
 export const useProfile = (userId) => {
   const api = useApi();
-  console.log(profileQueryKey(userId));
 
   const { data: profile, error, refetch: reloadProfile, isLoading } = useQuery(
     profileQueryKey(userId),

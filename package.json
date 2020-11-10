@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "react-native start",
+    "restart": "configure-env && react-native start --reset-cache",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:update": "jest -u",
@@ -13,8 +14,7 @@
     "lint": "./node_modules/eslint/bin/eslint.js src",
     "lint:fix": "./node_modules/eslint/bin/eslint.js src --fix",
     "e2e:build": "detox build --configuration ios.sim.debug",
-    "e2e:test": "detox test --configuration ios.sim.debug",
-    "postinstall": "patch-package"
+    "e2e:test": "detox test --configuration ios.sim.debug"
   },
   "dependencies": {
     "@invertase/react-native-apple-authentication": "^2.1.2",
@@ -36,8 +36,6 @@
     "axios": "^0.21.1",
     "date-fns": "^2.14.0",
     "immutable": "^4.0.0-rc.12",
-    "patch-package": "^6.2.2",
-    "postinstall-postinstall": "^2.1.0",
     "react": "17.0.2",
     "react-native": "0.64.1",
     "react-native-elements": "2.2.1",

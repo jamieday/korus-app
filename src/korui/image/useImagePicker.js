@@ -1,5 +1,5 @@
 import {launchImageLibrary} from 'react-native-image-picker';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 // See https://github.com/zoontek/react-native-permissions
 // For a better permissions handling experience
@@ -9,6 +9,7 @@ export const useImagePicker = (
   options = undefined,
 ) => {
   const [imageUri, setImageUri] = useState(initialImageUri);
+  useEffect(() => setImageUri(initialImageUri), [initialImageUri]);
 
   return {
     imageUri,
