@@ -13,7 +13,8 @@
     "lint": "./node_modules/eslint/bin/eslint.js src",
     "lint:fix": "./node_modules/eslint/bin/eslint.js src --fix",
     "e2e:build": "detox build --configuration ios.sim.debug",
-    "e2e:test": "detox test --configuration ios.sim.debug"
+    "e2e:test": "detox test --configuration ios.sim.debug",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@invertase/react-native-apple-authentication": "^1.0.0",
@@ -38,6 +39,8 @@
     "axios": "^0.19.2",
     "date-fns": "^2.14.0",
     "immutable": "^4.0.0-rc.12",
+    "patch-package": "^6.2.2",
+    "postinstall-postinstall": "^2.1.0",
     "react": "16.11.0",
     "react-native": "0.62.2",
     "react-native-elements": "2.2.1",
