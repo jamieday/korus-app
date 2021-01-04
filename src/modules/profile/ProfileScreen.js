@@ -117,7 +117,9 @@ export const ProfileScreen = ({ navigation, route }) => {
           height: 250,
         }}
         source={{
-          uri: profile.coverPhotoUrl,
+          uri:
+            profile.coverPhotoUrl ??
+            'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
           height: 250,
         }}
       >
