@@ -13,6 +13,8 @@ import messaging from '@react-native-firebase/messaging';
 import { List } from 'immutable';
 import { ErrorView } from '../error/ErrorView';
 import { useApi } from '../api';
+import { useFocusEffect } from '@react-navigation/core';
+import { useProfile } from '../identity/useProfile';
 
 export const SharesFeed = ({
   style,
@@ -25,6 +27,7 @@ export const SharesFeed = ({
 }) => {
   const api = useApi();
   const [shares, setShares] = React.useState(List());
+  const { profile } = useProfile();
   const [isRefreshing, setRefreshing] = React.useState(true);
   const [isLoadingNextPage, setLoadingNextPage] = React.useState(false);
   const [didReachLastPage, setReachedLastPage] = React.useState(false);

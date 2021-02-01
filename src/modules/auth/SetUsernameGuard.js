@@ -35,7 +35,7 @@ export const SetUsernameGuard = ({ children }) => {
 
     setLoading(true);
     const [_, error] = await api.post(
-      `/user/${encodeURIComponent(user.uid)}/register`,
+      `/user/user_id_used_to_go_here/register`,
       {
         username: usernameQueued,
       },
@@ -70,7 +70,7 @@ export const SetUsernameGuard = ({ children }) => {
           textAlign: 'center',
         }}
       >
-        Let&apos;s see if you can figure out where to go from here.
+        Next step! Set a username.
       </Text>
       <View style={{ width: '100%', marginBottom: 50, paddingHorizontal: 40 }}>
         <TextInput

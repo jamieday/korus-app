@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, View, Text } from 'react-native';
+import { Button, View, Text, ActivityIndicator } from 'react-native';
 import { colors } from '../../styles';
 import { SharesFeed } from './SharesFeed';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -10,6 +10,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { GroupScreen } from './GroupScreen';
 import { useProfile } from '../identity/useProfile';
 import { TopNavBar } from '../navigation/TopNavBar';
+import { useAuthN } from '../api';
+import { StartupProgress } from '../StartupProgress';
 
 const Stack = createStackNavigator();
 const Tab = createMaterialTopTabNavigator();
@@ -53,7 +55,11 @@ export const DiscoverScreen = ({ navigation, route }) => (
 );
 
 const DiscoverGlobalScreen = ({ navigation, route }) => {
-  const profile = useProfile();
+  const { profile } = useProfile();
+
+  if (!profile) {
+    return <StartupProgress />;
+  }
 
   return (
     <View
@@ -62,7 +68,7 @@ const DiscoverGlobalScreen = ({ navigation, route }) => {
         backgroundColor: colors.lightBlack,
       }}
     >
-      {profile.followingCount === 0 ? (
+      {profile.totalFollowing === 0 ? (
         <View
           style={{
             justifyContent: 'center',

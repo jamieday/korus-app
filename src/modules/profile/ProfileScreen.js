@@ -20,8 +20,12 @@ import { MiniShare } from './MiniShare';
 import { ErrorView } from '../error/ErrorView';
 import DiscoverIcon from '../../../assets/images/pages/discover.svg';
 import { LikedScreen } from '../liked/LikedScreen';
-import { TopNavBar } from '../navigation/TopNavBar';
 import { ProfileTopNavBar } from './ProfileTopNavBar';
+import {
+  optimisticFollow,
+  optimisticUnfollow,
+  useProfile,
+} from '../identity/useProfile';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -59,38 +63,18 @@ export const ProfileScreen = ({ navigation, route }) => {
   const api = useApi();
   const { user } = useAuthN();
 
-  const [profile, setProfile] = React.useState('LOADING');
-  const [isFollowing, setFollowing] = React.useState();
+  const { profile, error: profileError, reloadProfile } = useProfile(
+    route.params?.id,
+  );
   const [playingSongId, setPlayingSongId] = React.useState();
-
-  React.useEffect(() => {
-    setFollowing(profile.isFollowing);
-  }, [profile]);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({ headerTitle: profile?.username ?? '' });
   }, [profile, navigation]);
 
-  const isMyProfile = user.displayName === profile.username;
+  const isMyProfile = user.displayName === profile?.username;
 
-  const loadProfile = async () => {
-    const [profile, error] = await api.viewProfile(
-      route.params?.id ??
-        // weird "me" thing {F4355E59-9F78-400B-BA86-5517B5CF2116}
-        'me',
-    );
-    if (error) {
-      setProfile({ error });
-      return;
-    }
-    setProfile(profile);
-  };
-
-  React.useEffect(() => {
-    loadProfile();
-  }, []);
-
-  if (profile === 'LOADING') {
+  if (!profile) {
     return (
       <View
         style={{
@@ -105,8 +89,8 @@ export const ProfileScreen = ({ navigation, route }) => {
     );
   }
 
-  if (typeof profile.error !== 'undefined') {
-    return <ErrorView error={profile.error} refresh={loadProfile} />;
+  if (profileError) {
+    return <ErrorView error={profileError} refresh={reloadProfile} />;
   }
 
   const profileImgSize = 55;
@@ -198,17 +182,17 @@ export const ProfileScreen = ({ navigation, route }) => {
                     ? {
                         IconComponent: SelectedIcon,
                         onPress: () => {
-                          setFollowing(false);
+                          optimisticUnfollow(profile.userId);
                           api.unfollowUser(profile.userId);
                         },
                       }
                     : {
                         IconComponent: FollowIcon,
                         onPress: () => {
-                          setFollowing(true);
+                          optimisticFollow(profile.userId);
                           api.followUser(profile.userId);
                         },
-                      })(isFollowing);
+                      })(profile.isFollowing);
 
                 return (
                   <TouchableOpacity

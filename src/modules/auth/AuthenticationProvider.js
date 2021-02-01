@@ -79,7 +79,7 @@ export const AuthenticationProvider = ({ children }) => {
             textAlign: 'center',
           }}
         >
-          Try to figure out how to sign up.
+          Let's get started.
         </Text>
 
         {appleAuth.isSupported ? (
