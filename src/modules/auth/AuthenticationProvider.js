@@ -10,6 +10,7 @@ import { signInWithApple } from '../navigation/packages/AppleSignIn';
 import { colors } from '../../styles';
 
 import { AuthNContext } from '.';
+import { PhoneSignIn } from './PhoneAuth';
 
 if (__DEV__) {
   DevSettings.addMenuItem('Korus: Sign out', () => {
@@ -100,6 +101,8 @@ export const AuthenticationProvider = ({ children }) => {
             dealbreaker for you, let us know.
           </Text>
         )}
+
+        <PhoneSignIn />
       </View>
     );
   }
