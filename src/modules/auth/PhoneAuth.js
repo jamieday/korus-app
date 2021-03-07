@@ -1,45 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, View } from 'react-native';
 import auth from '@react-native-firebase/auth';
-import { TextInput } from '../../korui/TextInput';
 
-export function PhoneSignIn() {
+export function DevSignIn() {
   if (!__DEV__) {
     return null;
   }
 
-  // If null, no SMS has been sent
-  const [confirm, setConfirm] = useState(null);
-
-  const [code, setCode] = useState('');
-
-  // Handle the button press
-  async function signInWithPhoneNumber(phoneNumber) {
-    const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
-    setConfirm(confirmation);
-  }
-
-  async function confirmCode() {
-    try {
-      await confirm.confirm(code);
-    } catch (error) {
-      console.log('Invalid code.');
-    }
-  }
-
-  if (!confirm) {
-    return (
-      <Button
-        title="Phone Number Sign In"
-        onPress={() => signInWithPhoneNumber('+1 555-555-5555')}
-      />
-    );
-  }
+  const signIn = async () => {
+    const confirmation = await auth().signInWithPhoneNumber('+1 555-555-5555');
+    await confirmation.confirm('123456');
+  };
 
   return (
-    <>
-      <TextInput value={code} onChangeText={(text) => setCode(text)} />
-      <Button title="Confirm Code" onPress={() => confirmCode()} />
-    </>
+    <View style={{ position: 'absolute', top: -215, left: 121 }}>
+      <Button title="." onPress={() => signIn()} />
+    </View>
   );
 }
