@@ -40,9 +40,11 @@ export const SharesFeed = ({
     }
   };
 
-  const refresh = async () => {
+  const refresh = async (silent) => {
     try {
-      setRefreshing(true);
+      if (!silent) {
+        setRefreshing(true);
+      }
       setReachedLastPage(false);
       setShares(await listShares(undefined));
     } finally {
@@ -71,6 +73,15 @@ export const SharesFeed = ({
       navigation.setParams({ refresh: false });
     }
   }, [route.params?.refresh]);
+
+  React.useEffect(() => {
+    const handle = setInterval(() => {
+      if (!isRefreshing && shares.size === 0) {
+        refresh(true);
+      }
+    }, 1500);
+    return () => clearInterval(handle);
+  }, [shares, isRefreshing, refresh]);
 
   const listShares = useCallback(
     async (oldestSharedAt = undefined) => {
@@ -183,6 +194,7 @@ export const SharesFeed = ({
           <ActivityIndicator style={{ marginTop: 15, marginBottom: 40 }} />
         ) : (
           didReachLastPage &&
+          shares.size > 8 &&
           scope.type === 'global' && (
             <View style={{ marginBottom: 30 }}>
               <Text style={{ color: colors.white, textAlign: 'center' }}>

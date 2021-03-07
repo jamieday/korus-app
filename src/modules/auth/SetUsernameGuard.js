@@ -9,7 +9,7 @@ import { colors } from '../../styles';
 import { useApi, useAuthN } from '../api';
 
 export const SetUsernameGuard = ({ children }) => {
-  const { user } = useAuthN();
+  const { user, refreshToken } = useAuthN();
   const api = useApi();
   const [usernameQueued, setUsernameQueued] = useState(undefined);
   const [enterUsernameMsg, setEnterUsernameMsg] = useState('Enter a username');
@@ -40,12 +40,15 @@ export const SetUsernameGuard = ({ children }) => {
         username: usernameQueued,
       },
     );
+
     setLoading(false);
     if (error) {
       setError(error);
       return;
     }
     setError(undefined);
+
+    await refreshToken();
     await user.reload();
   };
 
