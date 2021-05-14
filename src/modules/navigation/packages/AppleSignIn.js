@@ -1,5 +1,6 @@
 import auth from '@react-native-firebase/auth';
-import appleAuth, {
+import {
+  appleAuth,
   AppleAuthRequestScope,
   AppleAuthRequestOperation,
 } from '@invertase/react-native-apple-authentication';

@@ -31,7 +31,7 @@ export const useProfile = (userId) => {
   const api = useApi();
   console.log(profileQueryKey(userId));
 
-  const { data: profile, error, refetch: reloadProfile } = useQuery(
+  const { data: profile, error, refetch: reloadProfile, isLoading } = useQuery(
     profileQueryKey(userId),
     toQuery(() =>
       api.viewProfile(
@@ -46,5 +46,6 @@ export const useProfile = (userId) => {
     profile,
     error,
     reloadProfile,
+    isLoading,
   };
 };

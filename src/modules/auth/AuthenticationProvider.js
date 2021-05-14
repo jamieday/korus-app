@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, DevSettings } from 'react-native';
 import auth from '@react-native-firebase/auth';
-import appleAuth, {
+import {
+  appleAuth,
   AppleButton,
 } from '@invertase/react-native-apple-authentication';
 import analytics from '@react-native-firebase/analytics';
