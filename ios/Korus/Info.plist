@@ -64,6 +64,8 @@
 	<string>Unlock music discovery &amp; sharing features</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Customize your experience</string>
+	<key>NSCameraUsageDescription</key>
+	<string>For setting a profile picture</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Lato-Bold.ttf</string>
