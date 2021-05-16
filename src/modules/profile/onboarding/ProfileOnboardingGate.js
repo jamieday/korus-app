@@ -16,13 +16,18 @@ export const ProfileOnboardingGate = ({ children }) => {
   const [lastName, setLastName] = useState('');
   const [isLoading, setLoading] = useState(false);
 
-const { profile, error:profileError, isLoading:profileLoading,reloadProfile } = useProfile();
+  const {
+    profile,
+    error: profileError,
+    isLoading: profileLoading,
+    reloadProfile,
+  } = useProfile();
 
   const {
     imageUri: profilePicUri,
     selectImage: selectProfilePic,
     clearImage: clearProfilePic,
-  } = useImagePicker(profile ? profile.profilePicUrl: undefined);
+  } = useImagePicker(profile ? profile.profilePicUrl : undefined);
 
   const lastNameRef = useRef();
 
@@ -37,28 +42,36 @@ const { profile, error:profileError, isLoading:profileLoading,reloadProfile } = 
     await reloadProfile();
   };
 
-  if (profileError) {
-    return <ErrorView error={profileError} refresh={reloadProfile}   isRefreshing={profileLoading}></ErrorView>
-  }
-
-  if (profileLoading) {
-    return (<SafeAreaView
-    style={{
-      backgroundColor: colors.lightBlack,
-      height: '100%',
-      paddingTop: 15,
-        alignItems: 'center',
-      justifyContent:'center'
-    }}
-  >
-    <ActivityIndicator />
-  </SafeAreaView>)
-  }
-
   if (!user) {
     throw new Error('Must have a user account to reach this view.');
   }
- 
+
+  if (profileError) {
+    return (
+      <ErrorView
+        error={profileError}
+        refresh={reloadProfile}
+        isRefreshing={profileLoading}
+      />
+    );
+  }
+
+  if (profileLoading) {
+    return (
+      <SafeAreaView
+        style={{
+          backgroundColor: colors.lightBlack,
+          height: '100%',
+          paddingTop: 15,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <ActivityIndicator />
+      </SafeAreaView>
+    );
+  }
+
   return profile.isSetup ? (
     children
   ) : (

@@ -12,53 +12,63 @@ import { useProfile } from '../identity/useProfile';
 import { TopNavBar } from '../navigation/TopNavBar';
 import { StartupProgress } from '../StartupProgress';
 import { LogoHeader } from '../navigation/LogoHeader';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Stack = createStackNavigator();
 const Tab = createMaterialTopTabNavigator();
 
-export const DiscoverScreen = ({ navigation, route }) => (
-  <Stack.Navigator>
-    <Stack.Screen name="Discover" options={{ header: LogoHeader }}>
-      {() => (
-        <Tab.Navigator
-          tabBar={(props) => <TopNavBar {...props} />}
-          tabBarOptions={{
-            showIcon: true,
-            activeTintColor: colors.black,
-            showLabel: false,
-          }}
-        >
-          <Tab.Screen
-            name="Global"
-            component={DiscoverGlobalScreen}
-            options={{
-              tabBarIcon: ({ color, focused }) => (
-                <GlobeIcon width={25} height={25} fill={color} />
-              ),
-            }}
-          />
-          <Tab.Screen
-            name="Groups"
-            component={MyGroupsScreen}
-            options={{
-              tabBarIcon: ({ color, focused }) => (
-                <GroupsIcon width={25} height={25} fill={color} />
-              ),
-            }}
-          />
-        </Tab.Navigator>
-      )}
-    </Stack.Screen>
+const isGroupsEnabled = false;
 
-    <Stack.Screen
-      name="Group"
-      component={GroupScreen}
-      options={{
-        header: LogoHeader,
-      }}
-    />
-  </Stack.Navigator>
-);
+export const DiscoverScreen = ({ navigation, route }) =>
+  !isGroupsEnabled ? (
+    <>
+      <SafeAreaView edges={['top']} style={{flex:1, backgroundColor: colors.lightBlack }}>
+        <DiscoverGlobalScreen navigation={navigation} route={route} />
+      </SafeAreaView>
+      </>
+  ) : (
+    <Stack.Navigator>
+      <Stack.Screen name="Discover" options={{ header: LogoHeader }}>
+        {() => (
+          <Tab.Navigator
+            tabBar={(props) => <TopNavBar {...props} />}
+            tabBarOptions={{
+              showIcon: true,
+              activeTintColor: colors.black,
+              showLabel: false,
+            }}
+          >
+            <Tab.Screen
+              name="Global"
+              component={DiscoverGlobalScreen}
+              options={{
+                tabBarIcon: ({ color, focused }) => (
+                  <GlobeIcon width={25} height={25} fill={color} />
+                ),
+              }}
+            />
+            <Tab.Screen
+              name="Groups"
+              component={MyGroupsScreen}
+              options={{
+                tabBarIcon: ({ color, focused }) => (
+                  <GroupsIcon width={25} height={25} fill={color} />
+                ),
+              }}
+            />
+          </Tab.Navigator>
+        )}
+      </Stack.Screen>
+
+      <Stack.Screen
+        name="Group"
+        component={GroupScreen}
+        options={{
+          header: LogoHeader,
+        }}
+      />
+    </Stack.Navigator>
+  );
 
 const DiscoverGlobalScreen = ({ navigation, route }) => {
   const { profile } = useProfile();
