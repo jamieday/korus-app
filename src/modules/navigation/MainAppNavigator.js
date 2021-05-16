@@ -78,12 +78,13 @@ const ModalNavigator = () => (
   </ModalStack.Navigator>
 );
 
-const withLogoHeader = (Component) => (props) => (
-  <>
-    <LogoHeader />
-    <Component {...props} />
-  </>
-);
+const withLogoHeader = (Component) => (props) =>
+  (
+    <>
+      <LogoHeader />
+      <Component {...props} />
+    </>
+  );
 
 export const TabNavigator = () => (
   <Tab.Navigator

@@ -37,10 +37,11 @@ export const ShareSongScreen = ({ navigation, route }) => {
 
   const [recipients, setRecipients] = useState(List());
   // Groups
-  const { data: groups, error: groupsError, status: groupsStatus } = useQuery(
-    'my-groups',
-    toQuery(api.listMyGroups),
-  );
+  const {
+    data: groups,
+    error: groupsError,
+    status: groupsStatus,
+  } = useQuery('my-groups', toQuery(api.listMyGroups));
 
   const globalCaptionInputRef = useRef();
 

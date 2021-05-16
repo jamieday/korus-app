@@ -85,7 +85,11 @@ export const NavigationTabBar = ({ navigation, descriptors, state }) => {
 };
 
 const TabIcon = ({ focused, screen }) => {
-  const { Icon, size = 22, extraStyle } = (() => {
+  const {
+    Icon,
+    size = 22,
+    extraStyle,
+  } = (() => {
     switch (screen) {
       case 'Discover':
         return {

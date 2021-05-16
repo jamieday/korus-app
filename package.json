@@ -13,7 +13,7 @@
     "run:android": "react-native run-android",
     "lint": "./node_modules/eslint/bin/eslint.js src",
     "lint:fix": "./node_modules/eslint/bin/eslint.js src --fix",
-    "prettier": "prettier --config .prettierrc --write .",
+    "prettier": "prettier --config .prettierrc --write \"**/*.{js,jsx,ts,tsx}\"",
     "e2e:build": "detox build --configuration ios.sim.debug",
     "e2e:test": "detox test --configuration ios.sim.debug"
   },

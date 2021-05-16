@@ -8,7 +8,12 @@ import { SharesScreen } from './SharesScreen';
 
 const useGroupDetails = (groupId) => {
   const api = useApi();
-  const { data: group, error, status, refetch } = useQuery(
+  const {
+    data: group,
+    error,
+    status,
+    refetch,
+  } = useQuery(
     ['group-summary', groupId],
     toQuery(() => api.getGroupSummary(groupId)),
   );

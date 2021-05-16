@@ -38,7 +38,10 @@ export const NavigationProvider = ({ children }) => {
         const currentRouteName = getActiveRouteName(state);
 
         if (previousRouteName !== currentRouteName) {
-          analytics().logScreenView({screen_name:currentRouteName, screen_class:currentRouteName});
+          analytics().logScreenView({
+            screen_name: currentRouteName,
+            screen_class: currentRouteName,
+          });
         }
 
         // Save the current route name for later comparision

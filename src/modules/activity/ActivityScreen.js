@@ -42,15 +42,16 @@ const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 export const ActivityScreen = ({ navigation }) => {
   const api = useApi();
 
-  const { data: activity, error, status, refetch } = useQuery(
-    'my-activity',
-    toQuery(api.getMyActivity),
-    {
-      // can use firebase messaging on reception of notifications rather than polling
-      refetchInterval: 10000,
-      refetchOnWindowFocus: true,
-    },
-  );
+  const {
+    data: activity,
+    error,
+    status,
+    refetch,
+  } = useQuery('my-activity', toQuery(api.getMyActivity), {
+    // can use firebase messaging on reception of notifications rather than polling
+    refetchInterval: 10000,
+    refetchOnWindowFocus: true,
+  });
 
   // 1B41B39B-3379-4399-B95C-F70FC7D113B5
   const [isRefreshing, setRefreshing] = useState(false);

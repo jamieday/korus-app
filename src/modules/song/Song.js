@@ -204,9 +204,8 @@ export const Song = ({
                           options: actionOptions,
                           cancelButtonIndex: actionOptions.indexOf('Cancel'),
                           // TODO breaks encapsulation
-                          destructiveButtonIndex: actionOptions.indexOf(
-                            'Unshare',
-                          ),
+                          destructiveButtonIndex:
+                            actionOptions.indexOf('Unshare'),
                         },
                         (selectedIndex) => {
                           const action = fullOptions.filter(

@@ -21,7 +21,12 @@ export const refreshLikedSongs = () => {
 export const LikedScreen = ({ profile }) => {
   const api = useApi();
 
-  const { data: likedSongsArray, error, status, refetch } = useQuery(
+  const {
+    data: likedSongsArray,
+    error,
+    status,
+    refetch,
+  } = useQuery(
     [LIKED_SONGS_QUERY_KEY, profile.userId],
     toQuery(() => api.listLikedSongs(profile.userId)),
     {

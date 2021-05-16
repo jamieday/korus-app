@@ -22,10 +22,13 @@ const isGroupsEnabled = false;
 export const DiscoverScreen = ({ navigation, route }) =>
   !isGroupsEnabled ? (
     <>
-      <SafeAreaView edges={['top']} style={{flex:1, backgroundColor: colors.lightBlack }}>
+      <SafeAreaView
+        edges={['top']}
+        style={{ flex: 1, backgroundColor: colors.lightBlack }}
+      >
         <DiscoverGlobalScreen navigation={navigation} route={route} />
       </SafeAreaView>
-      </>
+    </>
   ) : (
     <Stack.Navigator>
       <Stack.Screen name="Discover" options={{ header: LogoHeader }}>

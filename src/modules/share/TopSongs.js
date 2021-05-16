@@ -9,11 +9,11 @@ import NextIcon from '../../../assets/images/icons/next.svg';
 export const TopSongs = ({ onSelectSong }) => {
   const api = useApi();
 
-  const { data: topSongs, error, status } = useQuery(
-    'top-songs',
-    toQuery(api.listTopSongs),
-    { retry: false },
-  );
+  const {
+    data: topSongs,
+    error,
+    status,
+  } = useQuery('top-songs', toQuery(api.listTopSongs), { retry: false });
 
   if (status === 'loading') {
     return <ActivityIndicator />;

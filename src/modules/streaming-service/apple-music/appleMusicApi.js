@@ -1,11 +1,7 @@
 import { NativeModules } from 'react-native';
 
-const {
-  requestPermission,
-  requestUserToken,
-  playSong,
-  pauseSong,
-} = NativeModules.AppleMusic;
+const { requestPermission, requestUserToken, playSong, pauseSong } =
+  NativeModules.AppleMusic;
 
 export class AppleMusicApi {
   config;

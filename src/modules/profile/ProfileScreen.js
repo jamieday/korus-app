@@ -1,4 +1,4 @@
-import React, { useState ,useLayoutEffect} from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import { View, ActivityIndicator, Animated, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -22,9 +22,12 @@ const Tab = createMaterialTopTabNavigator();
 export const MyProfileScreen = ({ navigation, route }) => {
   const api = useApi();
 
-  const { profile, error: profileError, reloadProfile , isLoading} = useProfile(
-    route.params?.id,
-  );
+  const {
+    profile,
+    error: profileError,
+    reloadProfile,
+    isLoading,
+  } = useProfile(route.params?.id);
   const [playingSongId, setPlayingSongId] = useState();
 
   const [y, _] = useState(new Animated.Value(0));

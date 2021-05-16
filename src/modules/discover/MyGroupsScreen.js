@@ -24,10 +24,12 @@ const Container = ({ children }) => (
 );
 export const MyGroupsScreen = ({ navigation }) => {
   const api = useApi();
-  const { data: groups, error, status, refetch } = useQuery(
-    'my-groups',
-    toQuery(api.listMyGroups),
-  );
+  const {
+    data: groups,
+    error,
+    status,
+    refetch,
+  } = useQuery('my-groups', toQuery(api.listMyGroups));
 
   // very duplicated with activity view 1B41B39B-3379-4399-B95C-F70FC7D113B5
   const sleep = useCallback(

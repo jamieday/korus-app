@@ -66,12 +66,10 @@ export const ProfileTopNavBar = (props) => {
     });
   };
 
-  const {
-    imageUri: coverPhotoUri,
-    selectImage: selectCoverPhotoImage,
-  } = useImagePicker(profile.coverPhotoUrl, {
-    title: 'choose a cover photo ヾ(⌐■_■)ノ♪',
-  });
+  const { imageUri: coverPhotoUri, selectImage: selectCoverPhotoImage } =
+    useImagePicker(profile.coverPhotoUrl, {
+      title: 'choose a cover photo ヾ(⌐■_■)ノ♪',
+    });
 
   const selectCoverPhoto = async () => {
     const imageUri = await selectCoverPhotoImage();

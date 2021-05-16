@@ -1,4 +1,4 @@
-import {launchImageLibrary} from 'react-native-image-picker';
+import { launchImageLibrary } from 'react-native-image-picker';
 import { useState, useEffect } from 'react';
 
 // See https://github.com/zoontek/react-native-permissions
@@ -23,7 +23,7 @@ export const useImagePicker = (
             quality: 0.2,
             title: options?.title,
             cameraType: 'front',
-            includeBase64:true,
+            includeBase64: true,
           },
           (response) => {
             if (response.base64) {
