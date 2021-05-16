@@ -1,5 +1,8 @@
-import ImagePicker from 'react-native-image-picker';
+import {launchImageLibrary} from 'react-native-image-picker';
 import { useState } from 'react';
+
+// See https://github.com/zoontek/react-native-permissions
+// For a better permissions handling experience
 
 export const useImagePicker = (
   initialImageUri = undefined,
@@ -11,17 +14,19 @@ export const useImagePicker = (
     imageUri,
     selectImage: () =>
       new Promise((resolve) =>
-        ImagePicker.showImagePicker(
+        launchImageLibrary(
           {
             mediaType: 'photo',
             maxWidth: 1024,
             maxHeight: 1024,
             quality: 0.2,
             title: options?.title,
+            cameraType: 'front',
+            includeBase64:true,
           },
           (response) => {
-            if (response.data) {
-              const imageUri = `data:image/jpeg;base64,${response.data}`;
+            if (response.base64) {
+              const imageUri = `data:image/jpeg;base64,${response.base64}`;
               setImageUri(imageUri);
               resolve(imageUri);
             }
