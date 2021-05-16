@@ -5,11 +5,25 @@ import { colors } from '../../styles';
 import { SelectionList } from '../../korui/selection/SelectionList';
 import NextIcon from '../../../assets/images/icons/next.svg';
 import { useApi } from '../api';
+import { TextInput } from '../../korui/TextInput';
 
 export const PeopleScreen = ({ navigation }) => {
   const api = useApi();
   const [isLoading, setLoading] = React.useState(false);
   const [users, setUsers] = React.useState(List());
+  const [listedUsers, setListedUsers] = React.useState(List());
+
+  const [searchQuery, setSearchQuery] = React.useState('');
+  React.useEffect(() => {
+    setListedUsers(
+      users.filter(
+        (user) =>
+          user.username
+            .toLowerCase()
+            .indexOf(searchQuery.trim().toLowerCase()) !== -1,
+      ),
+    );
+  }, [users, searchQuery]);
 
   const refresh = async () => {
     console.debug('Fetch users to follow...');
@@ -33,6 +47,17 @@ export const PeopleScreen = ({ navigation }) => {
       }}
     >
       <View>
+        <TextInput
+          style={{
+            margin: 12,
+          }}
+          autoFocus
+          autoCorrect={false}
+          placeholder="Search for ppl.."
+          onChangeText={setSearchQuery}
+          value={searchQuery}
+          clearButtonMode={'always'}
+        />
         <SelectionList
           style={{
             paddingHorizontal: 30,
@@ -40,20 +65,12 @@ export const PeopleScreen = ({ navigation }) => {
           refreshing={isLoading}
           onRefresh={refresh}
           keyExtractor={(user) => user.id}
-          items={users.toArray()}
+          items={listedUsers.toArray()}
           getItemDetail={(user) => ({ title: user.username })}
-          actionIcon={(user) => (
+          actionIcon={() => (
             <NextIcon width={20} height={20} fill={colors.white} />
           )}
           onItemPressed={async (targetUser) => {
-            setUsers(
-              users.map((user) =>
-                user.username === targetUser.username
-                  ? { ...targetUser, isFollowed: !targetUser.isFollowed }
-                  : user,
-              ),
-            );
-
             navigation.navigate('Profile', {
               id: targetUser.id,
             });

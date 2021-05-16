@@ -13,25 +13,30 @@ import { PlaybackContextProvider } from './src/modules/streaming-service/Playbac
 import { PushNotificationProvider } from './src/modules/notification/PushNotificationProvider';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ProfileOnboardingGate } from './src/modules/profile/onboarding/ProfileOnboardingGate';
+import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
+
+const queryClient = new QueryClient();
 
 export default () => (
-  <SafeAreaProvider>
-    <NavigationProvider>
-      <VersionGuard>
-        <AuthenticationProvider>
-          <UserRegistrationGate>
-            <ProfileOnboardingGate>
-              <PushNotificationProvider>
-                <StreamingServiceProvider>
-                  <PlaybackContextProvider>
-                    <RootStack />
-                  </PlaybackContextProvider>
-                </StreamingServiceProvider>
-              </PushNotificationProvider>
-            </ProfileOnboardingGate>
-          </UserRegistrationGate>
-        </AuthenticationProvider>
-      </VersionGuard>
-    </NavigationProvider>
-  </SafeAreaProvider>
+  <QueryClientProvider client={queryClient}>
+    <SafeAreaProvider>
+      <NavigationProvider>
+        <VersionGuard>
+          <AuthenticationProvider>
+            <UserRegistrationGate>
+              <ProfileOnboardingGate>
+                <PushNotificationProvider>
+                  <StreamingServiceProvider>
+                    <PlaybackContextProvider>
+                      <RootStack />
+                    </PlaybackContextProvider>
+                  </StreamingServiceProvider>
+                </PushNotificationProvider>
+              </ProfileOnboardingGate>
+            </UserRegistrationGate>
+          </AuthenticationProvider>
+        </VersionGuard>
+      </NavigationProvider>
+    </SafeAreaProvider>
+  </QueryClientProvider>
 );

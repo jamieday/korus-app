@@ -85,7 +85,7 @@ export const SharesFeed = ({
 
       if (errorR) {
         setError(errorR);
-        return undefined;
+        return List();
       }
 
       if (error) {

@@ -49,7 +49,7 @@ export const ProfileOnboardingGate = ({ children }) => {
   if (profileError) {
     return (
       <ErrorView
-        error={profileError}
+        error={profileError.message}
         refresh={reloadProfile}
         isRefreshing={profileLoading}
       />

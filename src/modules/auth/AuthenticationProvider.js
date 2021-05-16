@@ -103,9 +103,7 @@ export const AuthenticationProvider = ({ children }) => {
           </Text>
         )}
 
-        <View style={{ marginTop: 20 }}>
-          <DevSignIn />
-        </View>
+        <DevSignIn />
       </View>
     );
   }

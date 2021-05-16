@@ -13,8 +13,10 @@ export function DevSignIn() {
   };
 
   return (
-    <View style={{ position: 'absolute', top: -215, left: 121 }}>
-      <Button title="." onPress={() => signIn()} />
+    <View>
+      <View style={{ position: 'absolute', top: -215, left: 121 }}>
+        <Button title="dev" onPress={() => signIn()} />
+      </View>
     </View>
   );
 }

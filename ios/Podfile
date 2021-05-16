@@ -11,17 +11,19 @@ target 'Korus' do
   use_react_native!(
     :path => config[:reactNativePath],
     # to enable hermes on iOS, change `false` to `true` and then install pods
-    :hermes_enabled => false
+    :hermes_enabled => true
   )
 
   pod 'RNEventEmitter', :path => "../node_modules/react-native-events"
-  pod 'react-native-version-number', :path => '../node_modules/react-native-version-number'
 
   # Enables Flipper.
   #
   # Note that if you have use_frameworks! enabled, Flipper will not work and
-  # you should disable thes next line.
+  # you should disable this next line.
   use_flipper!()
+
+
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
   post_install do |installer|
     react_native_post_install(installer)

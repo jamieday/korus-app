@@ -2,6 +2,9 @@
 - See gdoc for next steps https://docs.google.com/document/d/15mdps0KFU8DyEG1QuMT_uammV-uZHdzcGIxbT_TvlDA
 
 
+- FIX FIREBASE ANALYTICS (had to disable in info.plist)
+    - maybe something to do with the pod setting (without ad id support)
+
 
 - Share to individual
 - Comments
