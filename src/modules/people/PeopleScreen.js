@@ -52,6 +52,7 @@ export const PeopleScreen = ({ navigation }) => {
             margin: 12,
           }}
           autoFocus
+          autoCapitalize={'none'}
           autoCorrect={false}
           placeholder="Search for ppl.."
           onChangeText={setSearchQuery}

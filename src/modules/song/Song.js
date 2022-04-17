@@ -21,6 +21,7 @@ import MoreOptions from '../../../assets/images/icons/more-options.svg';
 
 import { usePlayer } from '../streaming-service/usePlayer';
 import { isSongPlaying } from '../liked/LikedScreen';
+import { SongTextOverlay } from './SongTextOverlay';
 
 const log = (message) => {
   console.debug(message);
@@ -140,25 +141,7 @@ export const Song = ({
                   })()}
                 </TouchableOpacity>
               ) : (
-                <View
-                  style={{
-                    backgroundColor: '#000000a0',
-                    borderRadius: 5,
-                    padding: 5,
-                  }}
-                >
-                  <Text
-                    style={{
-                      color: colors.white,
-                      fontSize: 14,
-                      textShadowColor: 'black',
-                      textShadowOffset: { width: 0, height: 0 },
-                      textShadowRadius: 2,
-                    }}
-                  >
-                    Playback not available
-                  </Text>
-                </View>
+                <SongTextOverlay>Playback not available</SongTextOverlay>
               )}
             </View>
           </View>
