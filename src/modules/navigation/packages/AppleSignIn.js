@@ -1,8 +1,8 @@
 import auth from '@react-native-firebase/auth';
 import {
   appleAuth,
-  AppleAuthRequestScope,
-  AppleAuthRequestOperation,
+  AppleRequestScope,
+  AppleRequestOperation,
 } from '@invertase/react-native-apple-authentication';
 import analytics from '@react-native-firebase/analytics';
 
@@ -10,11 +10,8 @@ export const signInWithApple = async () => {
   // Start the sign-in request
   analytics().logLogin({ method: 'Apple' });
   const appleAuthRequestResponse = await appleAuth.performRequest({
-    requestedOperation: AppleAuthRequestOperation.LOGIN,
-    requestedScopes: [
-      AppleAuthRequestScope.EMAIL,
-      AppleAuthRequestScope.FULL_NAME,
-    ],
+    requestedOperation: AppleRequestOperation.LOGIN,
+    requestedScopes: [AppleRequestScope.EMAIL, AppleRequestScope.FULL_NAME],
   });
 
   // Ensure Apple returned a user identityToken
