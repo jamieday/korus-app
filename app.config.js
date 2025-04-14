@@ -1,3 +1,5 @@
+const { withSpotifyRemote } = require('./plugins/withSpotifyRemote');
+
 const IS_DEV = process.env.APP_VARIANT === 'development';
 const IS_PREVIEW = process.env.APP_VARIANT === 'preview';
 

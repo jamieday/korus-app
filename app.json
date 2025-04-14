@@ -13,13 +13,12 @@
       "bundleIdentifier": "app.korus",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
-      }
+      },
+      "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "package": "app.korus"
     },
     "web": {
       "bundler": "metro",
@@ -36,7 +35,29 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ]
+      ],
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static",
+            "podfileProperties": {
+              "use_modular_headers!": true
+            },
+            "pods": {
+              "RNEventEmitter": {
+                "path": "../node_modules/react-native-events"
+              },
+              "RNSpotifyRemote": {
+                "path": "../node_modules/react-native-spotify-remote"
+              }
+            }
+          }
+        }
+      ],
+      "./plugins/withSpotifyRemote",
+      "@react-native-firebase/app",
+      "@react-native-firebase/auth"
     ],
     "experiments": {
       "typedRoutes": true
