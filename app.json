@@ -35,29 +35,7 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ],
-      [
-        "expo-build-properties",
-        {
-          "ios": {
-            "useFrameworks": "static",
-            "podfileProperties": {
-              "use_modular_headers!": true
-            },
-            "pods": {
-              "RNEventEmitter": {
-                "path": "../node_modules/react-native-events"
-              },
-              "RNSpotifyRemote": {
-                "path": "../node_modules/react-native-spotify-remote"
-              }
-            }
-          }
-        }
-      ],
-      "./plugins/withSpotifyRemote",
-      "@react-native-firebase/app",
-      "@react-native-firebase/auth"
+      ]
     ],
     "experiments": {
       "typedRoutes": true
