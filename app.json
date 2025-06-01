@@ -14,7 +14,8 @@
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       },
-      "googleServicesFile": "./GoogleService-Info.plist"
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "usesAppleSignIn": true
     },
     "android": {
       "googleServicesFile": "./GoogleService-Info.plist",
@@ -26,6 +27,7 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
+      "expo-build-properties",
       "expo-router",
       [
         "expo-splash-screen",

@@ -1,8 +1,11 @@
 import React from 'react';
 import { Button, View, Alert } from 'react-native';
-import { getAuth, signInWithPhoneNumber } from '@react-native-firebase/auth';
-
-const auth = getAuth();
+import { auth } from '@/firebase.config.js';
+import {
+  signInWithPhoneNumber,
+  ApplicationVerifier,
+  signInAnonymously
+} from 'firebase/auth';
 
 export function DevSignIn() {
   if (!__DEV__) {
@@ -16,11 +19,12 @@ export function DevSignIn() {
 
       console.log('Attempting to send verification code...');
       const phoneNumber = '+15555555555'; // Remove spaces for consistency
-      const confirmation = await signInWithPhoneNumber(auth, phoneNumber);
-      console.log('Verification code sent successfully');
+      // const confirmation = await signInWithPhoneNumber(auth, phoneNumber)
+      const credential = await signInAnonymously(auth);
+      // console.log('Verification code sent successfully');
 
-      console.log('Attempting to confirm code...');
-      await confirmation.confirm('123456');
+      // console.log('Attempting to confirm code...');
+      // await confirmation.confirm('123456');
       console.log('Dev sign in successful');
     } catch (error: any) {
       console.error('Dev sign in error:', error);
@@ -30,7 +34,7 @@ export function DevSignIn() {
 
       Alert.alert(
         'Dev Sign In Error',
-        `${error.code}: ${error.message}\n\nCheck console for details.`,
+        `${error.code}: ${error.message}\n\nCheck console for details.`
       );
     }
   };

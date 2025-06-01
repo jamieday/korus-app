@@ -14,23 +14,23 @@ export default ({ config }) => ({
   },
   plugins: [
     ...config.plugins,
-    [
-      '../expo-spotify/app.plugin.js',
-      {
-        clientId: '478eb84f217c4dd79145a565bffd07ee',
-        redirectUrl: 'korus://spotify-login-callback',
-        tokenSwapUrl: `${process.env.EXPO_PUBLIC_API_HOST}/spotify/swap`,
-        tokenRefreshUrl: `${process.env.EXPO_PUBLIC_API_HOST}/spotify/refresh`,
-        bundleIdentifier: 'app.korus',
-        scopes: [
-          'streaming',
-          'user-read-email',
-          'user-read-private',
-          'user-read-playback-state',
-          'user-modify-playback-state'
-        ]
-      }
-    ]
+    // [
+    //   '../expo-spotify/app.plugin.js',
+    //   {
+    //     clientId: '478eb84f217c4dd79145a565bffd07ee',
+    //     redirectUrl: 'korus://spotify-login-callback',
+    //     tokenSwapUrl: `${process.env.EXPO_PUBLIC_API_HOST}/spotify/swap`,
+    //     tokenRefreshUrl: `${process.env.EXPO_PUBLIC_API_HOST}/spotify/refresh`,
+    //     bundleIdentifier: 'app.korus',
+    //     scopes: [
+    //       'streaming',
+    //       'user-read-email',
+    //       'user-read-private',
+    //       'user-read-playback-state',
+    //       'user-modify-playback-state'
+    //     ]
+    //   }
+    // ]
   ]
 });
 

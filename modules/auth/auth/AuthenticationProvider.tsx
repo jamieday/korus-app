@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, DevSettings } from 'react-native';
-import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import { getAuth, User } from 'firebase/auth';
 import {
   appleAuth,
-  AppleButton,
+  AppleButton
 } from '@invertase/react-native-apple-authentication';
 import { StartupProgress } from '@/components/StartupProgress';
 import { signInWithApple } from './AppleSignin';
@@ -14,17 +14,17 @@ import { DevSignIn } from './PhoneAuth';
 
 if (__DEV__) {
   DevSettings.addMenuItem('Korus: Sign out', () => {
-    auth().signOut();
+    getAuth().signOut();
   });
 }
 
 export default function AuthenticationProvider({
-  children,
+  children
 }: {
-  children: React.ReactNode,
+  children: React.ReactNode
 }) {
   const [initializing, setInitializing] = useState(true);
-  const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [userToken, setUserToken] = useState<string | null>(null);
 
   const refreshToken = async () => {
@@ -39,7 +39,7 @@ export default function AuthenticationProvider({
   };
 
   // Handle user state changes
-  const onStateChanged = async (user: FirebaseAuthTypes.User | null) => {
+  const onStateChanged = async (user: User | null) => {
     setUser(user);
 
     if (user) {
@@ -53,7 +53,7 @@ export default function AuthenticationProvider({
   };
 
   useEffect(() => {
-    const subscriber = auth().onUserChanged((user) => {
+    const subscriber = getAuth().onAuthStateChanged((user) => {
       onStateChanged(user);
     });
     return subscriber; // unsubscribe on unmount
@@ -70,7 +70,7 @@ export default function AuthenticationProvider({
           alignItems: 'center',
           paddingTop: 80,
           height: '100%',
-          backgroundColor: colors.black,
+          backgroundColor: colors.black
         }}
       >
         <Text
@@ -80,7 +80,7 @@ export default function AuthenticationProvider({
             marginHorizontal: 'auto',
             fontWeight: '600',
             fontSize: 30,
-            textAlign: 'center',
+            textAlign: 'center'
           }}
         >
           Let's get started.
@@ -92,7 +92,7 @@ export default function AuthenticationProvider({
             buttonType={AppleButton.Type.SIGN_IN}
             style={{
               width: 160 * 1.3,
-              height: 45 * 1.3,
+              height: 45 * 1.3
             }}
             onPress={signInWithApple}
           />
@@ -109,6 +109,8 @@ export default function AuthenticationProvider({
       </View>
     );
   }
+
+  console.debug('AuthenticationProvider render');
 
   return (
     <AuthNContext.Provider value={{ user, userToken, refreshToken }}>

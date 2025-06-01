@@ -1,27 +1,30 @@
 import {
-  appleAuth,
-  AppleRequestScope,
-  AppleRequestOperation
-} from '@invertase/react-native-apple-authentication';
+  signInWithCredential,
+  OAuthProvider,
+  signInWithPopup
+} from 'firebase/auth';
+import { auth } from '@/firebase.config.js';
 
-import { auth } from '@/firebase.config';
+const provider = new OAuthProvider('apple.com');
+
+provider.addScope('email');
+provider.addScope('name');
 
 export const signInWithApple = async () => {
-  // // Start the sign-in request
-  // const appleAuthRequestResponse = await appleAuth.performRequest({
-  //   requestedOperation: AppleRequestOperation.LOGIN,
-  //   requestedScopes: [AppleRequestScope.EMAIL, AppleRequestScope.FULL_NAME]
-  // });
-  // // Ensure Apple returned a user identityToken
-  // if (!appleAuthRequestResponse.identityToken) {
-  //   throw 'auth/failed';
-  // }
-  // // Create a Firebase credential from the response
-  // const { identityToken, nonce } = appleAuthRequestResponse;
-  // const appleCredential = auth.credential(
-  //   identityToken,
-  //   nonce
-  // );
-  // // Sign the user in with the credential
-  // return auth.signInWithCredential(appleCredential);
+  try {
+    const result = await signInWithPopup(auth, provider);
+
+    // Apple credential
+    const credential = OAuthProvider.credentialFromResult(result);
+
+    if (!credential) {
+      throw 'auth/failed';
+    }
+
+    return signInWithCredential(auth, credential);
+  } catch (error: any) {
+    // Ensure Apple returned a user identityToken
+    console.error(error.message);
+    throw 'auth/failed';
+  }
 };

@@ -6,13 +6,24 @@ import { StartupProgress } from '@/components/StartupProgress';
 import { useRouter } from 'expo-router';
 import { SharesFeed } from '@/components/discover/SharesFeed';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { ErrorView } from '@/components/error/ErrorView';
 
 export default function DiscoverScreen() {
-  const { profile, isLoading } = useProfile();
+  const { profile, error, reloadProfile, isLoading } = useProfile();
   const router = useRouter();
 
   if (isLoading || !profile) {
     return <StartupProgress />;
+  }
+
+  if (error) {
+    return (
+      <ErrorView
+        error={error.message}
+        refresh={reloadProfile}
+        isRefreshing={isLoading}
+      />
+    );
   }
 
   return (
@@ -23,15 +34,15 @@ export default function DiscoverScreen() {
       <View
         style={{
           flex: 1,
-          backgroundColor: colors.lightBlack,
+          backgroundColor: colors.lightBlack
         }}
       >
-        {profile.totalFollowing === 0 ? (
+        {profile.totalFollowing !== 0 ? (
           <View
             style={{
               justifyContent: 'center',
               height: '100%',
-              alignItems: 'center',
+              alignItems: 'center'
             }}
           >
             <Text
@@ -39,7 +50,7 @@ export default function DiscoverScreen() {
                 color: colors.white,
                 marginBottom: 20,
                 textAlign: 'center',
-                padding: 20,
+                padding: 20
               }}
             >
               Um, this only really works with friends. And as far as we can
@@ -48,7 +59,7 @@ export default function DiscoverScreen() {
 
             <Button
               onPress={() => {
-                // router.navigate('/people');
+                router.navigate('/people');
               }}
               title="Find some friends"
             />

@@ -25,12 +25,13 @@ export const useApi = () => {
     endpoint: string,
     method: string,
     body: any = undefined,
-    isRetry = false,
+    isRetry = false
   ): Promise<[T | undefined, string | undefined]> => {
     try {
-      const host = process.env.EXPO_PUBLIC_API_HOST;
+      const host = 'http://192.168.1.68:8080';
       const path = `/api${endpoint}`;
       const url = host + path;
+      console.debug('[API Call]');
       console.debug(`[${method}] ${url}`);
       const response = await axios(url, {
         method,
@@ -40,14 +41,16 @@ export const useApi = () => {
           [USER_TOKEN_HEADER]: userToken,
           [API_VERSION_HEADER]: API_VERSION,
           ...(type === 'connected' && {
-            [service.header]: context.accessToken,
-          }),
+            [service.header]: context.accessToken
+          })
         },
-        data: body,
+        data: body
         // metadata: { userId: user?.uid },
       });
+      console.debug('[API Success]');
       return [response.data, undefined];
     } catch (e: any) {
+      console.debug('[API Error]');
       if (typeof e.response?.data?.message !== 'undefined') {
         console.error('API Error:', e.response.data.message);
         return [undefined, e.response.data.message];
@@ -65,19 +68,20 @@ export const useApi = () => {
           }
           return [
             undefined,
-            'It seems your session has expired. Try restarting the app and if you continue to experience problems contact support.',
+            'It seems your session has expired. Try restarting the app and if you continue to experience problems contact support.'
           ];
         case 503: // Service Unavailable
           return [
             undefined,
-            "Wow we're popular and our servers are down. Check back in a bit?",
+            "Wow we're popular and our servers are down. Check back in a bit?"
           ];
         case 504:
           return [
             undefined,
-            'Oh... our servers are slow right now. Check back in a bit?',
+            'Oh... our servers are slow right now. Check back in a bit?'
           ];
         default:
+          console.error('HTTP Error:', e);
           return [undefined, 'Having trouble connecting right now.'];
       }
     }
@@ -96,12 +100,12 @@ export const useApi = () => {
   const listShares = (
     scope: any,
     olderThan: any,
-    limit: number | undefined = undefined,
+    limit: number | undefined = undefined
   ) =>
     get<Share[]>(
       `/share/list?scopeType=${scope.type}${
         scope.id ? `&scopeId=${scope.id}` : ''
-      }${limit ? `&limit=${limit}` : ''}${olderThan ? `&olderThan=${olderThan}` : ''}`,
+      }${limit ? `&limit=${limit}` : ''}${olderThan ? `&olderThan=${olderThan}` : ''}`
     );
 
   const listLikedSongs = (userId: string) =>
@@ -156,7 +160,7 @@ export const useApi = () => {
     followUser,
     unfollowUser,
 
-    getMyActivity,
+    getMyActivity
   };
 };
 

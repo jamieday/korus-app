@@ -1,5 +1,5 @@
 import React from 'react';
-import { remote } from 'react-native-spotify-remote';
+// import { remote } from 'react-native-spotify-remote';
 import { StreamingServiceContext } from '../../StreamingServiceContext';
 import { PlaybackContext } from '../../PlaybackContext';
 import { PlaybackState } from '../../types';

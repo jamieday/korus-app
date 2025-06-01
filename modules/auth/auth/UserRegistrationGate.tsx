@@ -4,17 +4,21 @@
 /* eslint-disable import/prefer-default-export */
 import React, { useState } from 'react';
 import { View, Text, Button, ActivityIndicator } from 'react-native';
-import { TextInput } from '../../korui/TextInput';
-import { colors } from '../../styles';
-import { useApi, useAuthN } from '../api';
+import { TextInput } from '@/components/korui/TextInput';
+import { colors } from '@/styles';
+import { useApi, useAuthN } from '@/api/useApi';
 
-export const UserRegistrationGate = ({ children }) => {
+export const UserRegistrationGate: React.FunctionComponent<{
+  children: React.ReactNode
+}> = ({ children }) => {
   const { user, refreshToken } = useAuthN();
   const api = useApi();
-  const [usernameQueued, setUsernameQueued] = useState(undefined);
+  const [usernameQueued, setUsernameQueued] = useState<string | undefined>(
+    undefined
+  );
   const [enterUsernameMsg, setEnterUsernameMsg] = useState('Enter a username');
   const [isLoading, setLoading] = useState(false);
-  const [error, setError] = useState();
+  const [error, setError] = useState<string>();
 
   if (!user) {
     throw new Error('Must have a user account to reach this view.');
@@ -28,7 +32,7 @@ export const UserRegistrationGate = ({ children }) => {
     if (!usernameQueued) {
       setError(enterUsernameMsg);
       setEnterUsernameMsg(
-        'Seriously, just type in the box and put some letters in.',
+        'Seriously, just type in the box and put some letters in.'
       );
       return;
     }
@@ -37,8 +41,8 @@ export const UserRegistrationGate = ({ children }) => {
     const [_, error] = await api.post(
       `/user/user_id_used_to_go_here/register`,
       {
-        username: usernameQueued,
-      },
+        username: usernameQueued
+      }
     );
 
     setLoading(false);
@@ -60,7 +64,7 @@ export const UserRegistrationGate = ({ children }) => {
         alignItems: 'center',
         paddingTop: 80,
         height: '100%',
-        backgroundColor: colors.black,
+        backgroundColor: colors.black
       }}
     >
       <Text
@@ -70,7 +74,7 @@ export const UserRegistrationGate = ({ children }) => {
           marginHorizontal: 'auto',
           fontWeight: '600',
           fontSize: 22,
-          textAlign: 'center',
+          textAlign: 'center'
         }}
       >
         Next step! Set a username.
@@ -78,11 +82,11 @@ export const UserRegistrationGate = ({ children }) => {
       <View style={{ width: '100%', marginBottom: 50, paddingHorizontal: 40 }}>
         <TextInput
           autoFocus
-          disabled={isLoading}
+          editable={!isLoading}
           error={error}
           autoCapitalize="none"
           autoCorrect={false}
-          autoCompleteType="username"
+          autoComplete="username"
           returnKeyType="go"
           onChangeText={setUsernameQueued}
           value={usernameQueued}
