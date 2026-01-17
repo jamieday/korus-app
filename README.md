@@ -50,3 +50,6 @@ I liked sprinkling little details like this
 
 https://github.com/user-attachments/assets/13d7b161-5203-4a72-ba6c-d27215f694d2
 
+# Thanks
+
+Thanks for learning about a project I made that is close to my heart!
