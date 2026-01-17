@@ -1,50 +1,52 @@
-# Welcome to your Expo app 👋
+# Korus is no longer operational 💔
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Here is a little page explaining what it was about!
 
-## Get started
+# What was Korus?
 
-1. Install dependencies
+Korus was a music social media app for human-centric discovery.  
 
-   ```bash
-   npm install
-   ```
+It was a side project / startup idea I developed in 2019. My brother Alex provided a lot of design inspo, and my brother Andrew gave killer feature suggestions.
 
-2. Start the app
+The goal was to enable human-centred discovery, for those who believe music is best discovered and shared through friends.
 
-   ```bash
-    npx expo start
-   ```
+It had some interesting technical components such as a bridge layer that reconciled Spotify & Apple Music. You could post on Spotify, and listen on Apple Music.
 
-In the output, you'll find options to open the app in a
+One of the more challenging items was creating the bridge layer not just in backend APIs, reconciling records, but at the mobile level as well. I needed to build a unified music SDK where you could call player.play(songId) and it would trigger the appropriate underlying APIs in Spotify or Apple Music for both iOS and Android. To post songs, I needed a unified SDK for things like "recently played" or "liked songs". Liking a song itself would also add the song to a "Korus - Liked" playlist on both music platforms. I used React Native (without Expo, originally).
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+# Screenshots / videos
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Listening to posts in a group
 
-## Get a fresh project
+I hope some people can appreciate how this app felt, I built it with care!
 
-When you're ready, run:
+https://github.com/user-attachments/assets/2ac04b5c-b65b-472f-8a20-2eb36fcf154e
 
-```bash
-npm run reset-project
-```
+## Basic look and feel
+<img width="375" height="812" alt="IMG_1659" src="https://github.com/user-attachments/assets/74a45a1b-0000-47d6-a317-1458ab5990e4" />
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Profile
 
-## Learn more
+<img width="375" height="812" alt="IMG_2023" src="https://github.com/user-attachments/assets/6663bf13-ea20-492f-9d49-b4f7fae87fc2" />  
 
-To learn more about developing your project with Expo, look at the following resources:
+# Cheeky onboarding
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+This bill gates joke makes no sense
 
-## Join the community
+<img width="375" height="812" alt="IMG_2171" src="https://github.com/user-attachments/assets/e0357143-08db-4ba4-85de-f8144d824488" />  
 
-Join our community of developers creating universal apps.
+<img width="375" height="812" alt="IMG_1837" src="https://github.com/user-attachments/assets/3f33616b-dcd1-44f5-b888-c45e6b23dc1a" />  <-- i liked being lazy with my beta testers
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+# Notifications
+
+<img width="375" height="812" alt="IMG_2171" src="https://github.com/user-attachments/assets/92214e93-ef3a-40df-9a06-f599ddb20504" />  
+<img width="375" height="812" alt="IMG_2171" src="https://github.com/user-attachments/assets/97659c47-76d8-4fa8-b787-6de4ac82e7df" />  
+
+For users that joined before i had the profile pictures feature, I seeded them with the weirdest profile pics I could find
+
+# Animations
+
+I liked sprinkling little details like this
+
+https://github.com/user-attachments/assets/13d7b161-5203-4a72-ba6c-d27215f694d2
+
