@@ -12,7 +12,7 @@ The goal was to enable human-centred discovery, for those who believe music is b
 
 It had some interesting technical components such as a bridge layer that reconciled Spotify & Apple Music. You could post on Spotify, and listen on Apple Music.
 
-One of the more challenging items was creating the bridge layer not just in backend APIs, reconciling records, but at the mobile level as well. I needed to build a unified music SDK where you could call player.play(songId) and it would trigger the appropriate underlying APIs in Spotify or Apple Music for both iOS and Android. To post songs, I needed a unified SDK for things like "recently played" or "liked songs". Liking a song itself would also add the song to a "Korus - Liked" playlist on both music platforms. I used React Native (without Expo, originally).
+One of the more challenging items was creating the bridge layer not just in backend APIs, reconciling records, but at the mobile level as well. I needed to build a unified music SDK where you could call player.play(songId) and it would trigger the appropriate underlying APIs in Spotify or Apple Music for both iOS and Android. To post songs, I needed a unified SDK for things like "recently played" or "liked songs". Liking a song itself would also add the song to a "Korus - Liked" playlist on both music platforms. I used React Native (without Expo, originally), though I needed to get into the weeds of native iOS / Android code at times.
 
 # Screenshots / videos
 
