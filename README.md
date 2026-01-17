@@ -14,11 +14,35 @@ It had some interesting technical components such as a bridge layer that reconci
 
 One of the more challenging items was creating the bridge layer not just in backend APIs, reconciling records, but at the mobile level as well. I needed to build a unified music SDK where you could call player.play(songId) and it would trigger the appropriate underlying APIs in Spotify or Apple Music for both iOS and Android. To post songs, I needed a unified SDK for things like "recently played" or "liked songs". Liking a song itself would also add the song to a "Korus - Liked" playlist on both music platforms. I used React Native (without Expo, originally), though I needed to get into the weeds of native iOS / Android code at times.
 
+# History
+
+It started because my brother Andrew has great taste in music. I thought, even an app just to get quick access to his suggestions would be cool. And he uses Spotify, I'm on Apple Music. A bridge would be cool.
+
+So, I made Andrew's tunes:
+
+<img width="375" height="812" alt="IMG_1455" src="https://github.com/user-attachments/assets/cac430e1-cff5-4a2d-b003-1b8861cfaa4c" />
+
+I built this whole thing MVP style. Actually before this, there wasn't even a play or like button or album image. It was just an ordered list of songs.
+
+Then, I created a web interface to input songs Andrew likes and have them show up in the app via API.
+
+Then, I added play functionality, then like, and so on.
+
+Actually, for a while I didn't have authentication, because my brothers and I used the app, so we had an identity selector:
+
+<img width="375" height="812" alt="IMG_1455" src="https://github.com/user-attachments/assets/e400c2b9-23e4-42e2-a868-9649439ff389" />
+
+Honestly, it was a blast building this up step by step, incrementally adding and expanding and refactoring towards an actually usable Firebase-based mobile app with auth, logs, crash reporting, all that jazz.
+
+I loved that I could dream up a new feature and then bring it to life. That's the beauty of software, to me.
+
 # Screenshots / videos
 
 ## Listening to posts in a group
 
 I hope some people can appreciate how this app felt, I built it with care!
+
+(Unmute and you can hear the song play)
 
 https://github.com/user-attachments/assets/2ac04b5c-b65b-472f-8a20-2eb36fcf154e
 
@@ -31,7 +55,7 @@ https://github.com/user-attachments/assets/2ac04b5c-b65b-472f-8a20-2eb36fcf154e
 
 # Cheeky onboarding
 
-This bill gates joke makes no sense
+This bill gates joke would make more sense if I wasn't on Google cloud
 
 <img width="375" height="812" alt="IMG_2171" src="https://github.com/user-attachments/assets/e0357143-08db-4ba4-85de-f8144d824488" />  
 
